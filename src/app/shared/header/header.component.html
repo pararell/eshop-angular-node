@@ -1,0 +1,12 @@
+<nav>
+  <div class="nav-wrapper light-blue darken-2">
+    <a href="" class="left brand-logo">Eshop</a>
+
+    <ul class="right">
+      <li *ngIf="!(user$ | async)"><a href="/auth/google">Login with Google</a></li>
+      <li> <a class="cart-wrap" href="/cart"> {{(cart$ | async)?.totalQty}} items <i class="material-icons">shopping_cart</i></a></li>
+      <li *ngIf="(user$ | async) as user"> <a href="/api/logout">   Logout</a></li>
+    </ul>
+
+  </div>
+</nav>

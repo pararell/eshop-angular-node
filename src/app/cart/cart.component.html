@@ -1,0 +1,51 @@
+<app-header> </app-header>
+
+<div class="progress" *ngIf="!(cart$ | async)">
+    <div class="indeterminate"></div>
+  </div>
+
+<ng-container *ngIf="(cart$ | async) as cart">
+  <div class="container">
+
+      <div (click)="goBack()">
+        <a class="waves-effect waves-light btn"><i class="material-icons left">arrow_back</i>BACK</a>
+      </div>
+
+    <ul class="collection">
+      <li class="collection-item cart-items" *ngFor="let key of cart?.keys">
+        <div class="cart-image">
+          <img src="{{cart?.products[key]?.item?.mainImage?.url}}">
+          <div class="cart-title">
+            {{cart?.products[key]?.item?.title}}
+          </div>
+        </div>
+        <div>
+          {{cart?.products[key]?.qty}} ks
+        </div>
+        <div>
+          {{cart?.products[key]?.price}} €
+        </div>
+      </li>
+
+      <li class="collection-item cart-items">
+        <div class="cart-image">
+          <b>Spolu</b>
+        </div>
+
+        <div>
+            <b> {{cart?.totalQty}} ks </b>
+        </div>
+
+        <div>
+            <b> {{cart?.totalPrice}} € </b>
+          </div>
+
+      </li>
+    </ul>
+    <div class="card-pay-wrapp">
+    <app-card [price]="cart?.totalPrice"> </app-card>
+  </div>
+  </div>
+</ng-container>
+
+<app-footer *ngIf="(cart$ | async)"> </app-footer>

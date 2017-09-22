@@ -1,0 +1,47 @@
+<app-header> </app-header>
+
+
+<div class="container">
+  <div routerLink="/products">
+    <a class="waves-effect waves-light btn"><i class="material-icons left">arrow_back</i>BACK</a>
+  </div>
+
+  <div class="progress" *ngIf="!(product$ | async) || (productLoading$ | async)">
+    <div class="indeterminate"></div>
+  </div>
+
+  <ng-container *ngIf="(product$ | async) as product">
+    <div class="card" *ngIf="!(productLoading$ | async)">
+      <div class="card-content">
+        <div>
+          <h3>{{product?.title}}</h3>
+          <h4>{{product?.description}}</h4>
+          <div class="product-info">
+            <div class="stock">{{product?.stock}}</div>
+            <div class="price">{{product?.salePrice}}€</div>
+          </div>
+          <div class="tags">
+            <div class="chip" *ngFor="let tag of product?.tags">
+              {{tag}}
+            </div>
+          </div>
+        </div>
+        <div class='image-wrap' [ngStyle]="{'background': 'url(' + product?.mainImage?.url + ') no-repeat'}"></div>
+      </div>
+      <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width">
+          <li class="tab"><a (click)="activeTab = 'first'" [class.active]="activeTab == 'first'">Description</a></li>
+          <li class="tab"><a (click)="activeTab = 'second'" [class.active]="activeTab == 'second'">Obrazky</a></li>
+        </ul>
+      </div>
+      <div class="card-content grey lighten-4">
+        <div *ngIf="activeTab == 'first'" [innerHTML]="product?.descriptionFull"></div>
+        <div *ngIf="activeTab == 'second'">Images</div>
+      </div>
+    </div>
+  </ng-container>
+
+</div>
+
+
+<app-footer *ngIf="(product$ | async)"> </app-footer>
