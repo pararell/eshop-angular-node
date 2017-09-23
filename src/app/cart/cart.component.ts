@@ -13,23 +13,21 @@ import { Location } from '@angular/common';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-export class CartComponent implements OnInit {
+export class CartComponent  {
   cart$: Observable<any>;
 
 
   constructor(private _route: ActivatedRoute,  private store: Store<State>, private location: Location) {
-    this.cart$ = this.store.select(fromRoot.getCart)
-      .filter(products => products)
-      .map(products =>
-        ({products: products.items, keys: Object.keys(products.items), totalPrice: products.totalPrice, totalQty: products.totalQty }));
-   }
-
-  ngOnInit() {
+    this.cart$ = this.store.select(fromRoot.getCart);
 
   }
 
   goBack() {
     this.location.back();
+  }
+
+  removeFromCart(id) {
+    this.store.dispatch(new actions.RemoveFromCart(id));
   }
 
 }

@@ -52,9 +52,10 @@ module.exports = (app) => {
 
 
   app.get('/prod/removefromcart/:id', (req, res) => {
-
     const productId = req.params.id;
-    const cart = new Cart(req.session.cart);
+    const storeCart = req.session.cart ? req.session.cart : new Cart({});
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    const cart = new Cart(storeCart);
 
     Product.findById(productId, (err, product) => {
       if (err) {
@@ -71,6 +72,7 @@ module.exports = (app) => {
 
   app.get('/prod/cart', (req, res) => {
     const cart = req.session.cart ? req.session.cart : new Cart({});
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     req.session.cart = cart;
     res.send(cart);
 

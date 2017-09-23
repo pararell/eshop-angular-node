@@ -70,6 +70,8 @@ require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
 
+
+
 app.get('/', angularRouter);
 
 // routes
@@ -83,6 +85,7 @@ app.use(express.static(`${__dirname}/dist`));
 
 // compress files
 app.use(compression());
+
 
 app.get('*', angularRouter);
 

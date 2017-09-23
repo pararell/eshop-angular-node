@@ -1,9 +1,6 @@
 <app-header> </app-header>
 
 <div class="container">
-  <!-- <div class="card-button-wrapper">
-   
-  </div> -->
 
   <div class="progress" *ngIf="!(products$ | async)">
     <div class="indeterminate"></div>
@@ -23,10 +20,10 @@
           <div class="card-action">
             <h2> {{product?.title}} </h2>
             <div class="action-wrap">
-              <a routerLink="/products/{{product?.titleUrl}}">Detail produktu</a>
+              <a routerLink="/products/{{product?.titleUrl}}">Detail</a>
               <p>{{product?.stock}}</p>
               <i class="material-icons cart-icon" (click)="addToCart(product._id)">add_shopping_cart</i>
-              <i *ngIf="(cart$ | async)?.items[product._id]" class="material-icons cart-icon" (click)="removeFromCart(product._id)">remove_shopping_cart</i>
+              <i *ngIf="(cart$ | async)?.ids.includes(product._id)" class="material-icons cart-icon" (click)="removeFromCart(product._id)">remove_shopping_cart</i>
             </div>
             <!-- <app-card [price]="product?.salePrice"> </app-card> -->
             <p>{{product?.description}}</p>

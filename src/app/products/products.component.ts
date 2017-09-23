@@ -29,7 +29,14 @@ ngOnInit() {
 
   this.store.dispatch(new actions.LoadProducts());
   this.products$ = this.store.select(fromRoot.getProducts);
-  this.cart$ = this.store.select(fromRoot.getCart);
+  this.cart$ = this.store.select(fromRoot.getCart)
+        .filter(Boolean)
+        .map(cart => {
+          return {
+            ...cart,
+            ids: cart.items.map(item => item.id)
+          }
+        })
 }
 
 
@@ -37,8 +44,8 @@ addToCart(product) {
   this.store.dispatch(new actions.AddToCart(product));
 }
 
-removeFromCart(product) {
-  this.store.dispatch(new actions.RemoveFromCart(product));
+removeFromCart(id) {
+  this.store.dispatch(new actions.RemoveFromCart(id));
 }
 
 

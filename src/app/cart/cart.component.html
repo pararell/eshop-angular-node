@@ -12,24 +12,27 @@
       </div>
 
     <ul class="collection">
-      <li class="collection-item cart-items" *ngFor="let key of cart?.keys">
+      <li class="collection-item cart-items" *ngFor="let cartItem of cart?.items">
         <div class="cart-image">
-          <img src="{{cart?.products[key]?.item?.mainImage?.url}}">
+          <img src="{{cartItem?.item?.mainImage?.url}}">
           <div class="cart-title">
-            {{cart?.products[key]?.item?.title}}
+            {{cartItem?.item.title}}
           </div>
         </div>
         <div>
-          {{cart?.products[key]?.qty}} ks
+          {{cartItem.qty}} ks
         </div>
         <div>
-          {{cart?.products[key]?.price}} €
+          {{cartItem.price}} €
+        </div>
+        <div class="remove-from-cart" (click)="removeFromCart(cartItem?.item._id)">
+          <i class="material-icons cart-icon">remove</i>
         </div>
       </li>
 
       <li class="collection-item cart-items">
         <div class="cart-image">
-          <b>Spolu</b>
+          <b>Summary</b>
         </div>
 
         <div>

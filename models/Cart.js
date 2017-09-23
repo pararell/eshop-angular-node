@@ -1,60 +1,46 @@
 module.exports = function Cart(oldCart) {
-  this.items = oldCart.items || {};
-  this.item = {};
+  this.items = oldCart.items || [];
   this.totalQty = oldCart.totalQty || 0;
   this.totalPrice = oldCart.totalPrice || 0;
 
   this.add = function (item, id) {
+    const itemExist = this.items.filter(cartItem => cartItem.id == id).length ? true : false;
 
-    const prepareItem = {
-      item: 
-      {
-        _id: item._id, 
-        salePrice: item._salePrice, 
-        regularPrice: item.regularPrice, 
-        mainImage: item.mainImage, 
-        shiping: item.shiping, 
-        title: item.title, 
-        titleUrl: item.titleUrl, 
-        tags: item.tags, 
-        qty: item.qty 
-    },
-      qty: 0,
-      price: 0
-    };
-
-    this.items[id] = this.items[id] ? this.items[id] : prepareItem;
-    const storedItem = this.items[id];
-    this.item = item;
-    storedItem.qty++;
-    storedItem.price = storedItem.item.salePrice * storedItem.qty;
+    if(!itemExist) {
+        this.items.push({item, id, price : item.salePrice, qty: 1});
+    } else {
+        this.items.forEach(cartItem => {
+            if(cartItem.id == id) {
+                cartItem.qty++;
+                cartItem.price = item.salePrice + cartItem.price;
+              }
+          })
+    }
 
     this.totalQty++;
-    this.totalPrice += storedItem.item.salePrice;
+    this.totalPrice += item.salePrice; 
+
   };
 
-  this.remove = function (item, id) {
-    const storedItem = this.items[id];
+  this.remove = function(item, id) {
+    this.items = this.items.map(cartItem => {
 
-    if (this.items[id].qty == 1) {
-      delete this.items[id];
-    } else if (this.items[id].qty > 1) {
-      this.items[id].qty--;
-      this.items[id].price -= item.price;
-    }
+        if(cartItem.id == id && cartItem.qty > 1) {
+            cartItem.qty--;
+            cartItem.price = cartItem.price - item.salePrice;
+        } else if(cartItem.id == id && cartItem.qty == 1) {
+            cartItem = {};
+        }
+        return cartItem;
+    }).filter(cartItem => cartItem.id);
 
+    
+
+//    this.items = this.items.filter(cartItem => cartItem.qty == 1 && cartItem.id != id);
 
     this.totalQty--;
-    this.totalPrice -= storedItem.item.salePrice;
+    this.totalPrice -= item.salePrice;
   };
 
 
-  this.generateArray = function () {
-    var arr = [];
-    for (var id in this.items) {
-      arr.push(this.items[id]);
-    }
-
-    return arr;
-  }
 }
