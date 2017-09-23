@@ -1,5 +1,6 @@
 module.exports = function Cart(oldCart) {
   this.items = oldCart.items || [];
+  this.item = {};
   this.totalQty = oldCart.totalQty || 0;
   this.totalPrice = oldCart.totalPrice || 0;
 
@@ -24,7 +25,7 @@ module.exports = function Cart(oldCart) {
 
     this.items[id] = this.items[id] ? this.items[id] : prepareItem;
     const storedItem = this.items[id];
-
+    this.item = item;
     storedItem.qty++;
     storedItem.price = storedItem.item.salePrice * storedItem.qty;
 
