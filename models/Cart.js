@@ -6,11 +6,22 @@ module.exports = function Cart(oldCart) {
   this.add = function (item, id) {
 
     const prepareItem = {
-      item,
+      item: 
+      {
+        _id: item._id, 
+        salePrice: item._salePrice, 
+        regularPrice: item.regularPrice, 
+        mainImage: item.mainImage, 
+        shiping: item.shiping, 
+        title: item.title, 
+        titleUrl: item.titleUrl, 
+        tags: item.tags, 
+        qty: item.qty 
+    },
       qty: 0,
       price: 0
     };
-    
+
     this.items[id] = this.items[id] ? this.items[id] : prepareItem;
     const storedItem = this.items[id];
 
