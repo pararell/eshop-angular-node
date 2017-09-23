@@ -1,5 +1,7 @@
 :host {
-  display: block;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 
   .card-pay-wrapp {
     padding: 10px;

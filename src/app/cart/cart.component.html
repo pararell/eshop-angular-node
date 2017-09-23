@@ -1,54 +1,58 @@
 <app-header> </app-header>
 
-<div class="progress" *ngIf="!(cart$ | async)">
+<div class="main">
+
+  <div class="progress" *ngIf="!(cart$ | async)">
     <div class="indeterminate"></div>
   </div>
 
-<ng-container *ngIf="(cart$ | async) as cart">
-  <div class="container">
+  <ng-container *ngIf="(cart$ | async) as cart">
+    <div class="container">
 
       <div (click)="goBack()">
         <a class="waves-effect waves-light btn"><i class="material-icons left">arrow_back</i>BACK</a>
       </div>
 
-    <ul class="collection">
-      <li class="collection-item cart-items" *ngFor="let cartItem of cart?.items">
-        <div class="cart-image">
-          <img src="{{cartItem?.item?.mainImage?.url}}">
-          <div class="cart-title">
-            {{cartItem?.item.title}}
+      <ul class="collection">
+        <li class="collection-item cart-items" *ngFor="let cartItem of cart?.items">
+          <div class="cart-image">
+            <img src="{{cartItem?.item?.mainImage?.url}}">
+            <div class="cart-title">
+              {{cartItem?.item.title}}
+            </div>
           </div>
-        </div>
-        <div>
-          {{cartItem.qty}} ks
-        </div>
-        <div>
-          {{cartItem.price}} €
-        </div>
-        <div class="remove-from-cart" (click)="removeFromCart(cartItem?.item._id)">
-          <i class="material-icons cart-icon">remove</i>
-        </div>
-      </li>
+          <div>
+            {{cartItem.qty}} ks
+          </div>
+          <div>
+            {{cartItem.price}} €
+          </div>
+          <div class="remove-from-cart" (click)="removeFromCart(cartItem?.item._id)">
+            <i class="material-icons cart-icon">remove</i>
+          </div>
+        </li>
 
-      <li class="collection-item cart-items">
-        <div class="cart-image">
-          <b>Summary</b>
-        </div>
+        <li class="collection-item cart-items">
+          <div class="cart-image">
+            <b>Summary</b>
+          </div>
 
-        <div>
+          <div>
             <b> {{cart?.totalQty}} ks </b>
-        </div>
+          </div>
 
-        <div>
+          <div>
             <b> {{cart?.totalPrice}} € </b>
           </div>
 
-      </li>
-    </ul>
-    <div class="card-pay-wrapp">
-    <app-card [price]="cart?.totalPrice"> </app-card>
-  </div>
-  </div>
-</ng-container>
+        </li>
+      </ul>
+      <div class="card-pay-wrapp">
+        <app-card [price]="cart?.totalPrice"> </app-card>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
 
 <app-footer *ngIf="(cart$ | async)"> </app-footer>

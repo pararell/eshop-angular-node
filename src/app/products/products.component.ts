@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { State } from './../store/reducers/index';
 import * as fromRoot from '../store/reducers';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/combineLatest';
 import { ApiService } from './../services/api.service';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';

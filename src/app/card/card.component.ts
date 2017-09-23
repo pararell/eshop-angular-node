@@ -35,7 +35,7 @@ export class CardComponent implements OnInit {
   onClickBuy() {
     this.handler.open({
       name: 'Bluetooth eshop',
-      description: 'Pay fro product',
+      description: 'Pay for products',
       amount: this.price * 100
     });
   }
