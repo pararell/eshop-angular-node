@@ -6,19 +6,22 @@
       <a class="waves-effect waves-light btn"><i class="material-icons left">arrow_back</i>BACK</a>
     </div>
 
-    <div class="progress" *ngIf="!(product$ | async) || (productLoading$ | async)">
+    <div class="progress" *ngIf="!(items$ | async)?.product || (productLoading$ | async)">
       <div class="indeterminate"></div>
     </div>
 
-    <ng-container *ngIf="(product$ | async) as product">
+    <ng-container *ngIf="(items$ | async) as items">
       <div class="card" *ngIf="!(productLoading$ | async)">
         <div class="card-content">
           <div>
-            <h3>{{product?.title}}</h3>
-            <h4>{{product?.description}}</h4>
+            <h3>{{items?.product?.title}}</h3>
+            <h4>{{items?.product?.description}}</h4>
             <div class="product-info">
-              <div class="stock">{{product?.stock}}</div>
-              <div class="price">{{product?.salePrice}}€</div>
+              <div class="stock">{{items?.product?.stock}}</div>
+              <div class="price">{{items?.product?.salePrice}}€</div>
+              <div class="cart-wrap">
+             <app-cart-show [items]="items?.cartIds[items?.product._id]" (add)="addToCart(items?.product._id)" (remove)="removeFromCart(items?.product._id)"></app-cart-show> 
+            </div>
             </div>
             <div class="tags">
               <div class="chip" *ngFor="let tag of product?.tags">
@@ -26,7 +29,7 @@
               </div>
             </div>
           </div>
-          <div class='image-wrap' [ngStyle]="{'background': 'url(' + product?.mainImage?.url + ') no-repeat'}"></div>
+          <div class='image-wrap' [ngStyle]="{'background': 'url(' + items?.product?.mainImage?.url + ') no-repeat'}"></div>
         </div>
         <div class="card-tabs">
           <ul class="tabs tabs-fixed-width">
@@ -35,7 +38,7 @@
           </ul>
         </div>
         <div class="card-content grey lighten-4">
-          <div *ngIf="activeTab == 'first'" [innerHTML]="product?.descriptionFull"></div>
+          <div *ngIf="activeTab == 'first'" [innerHTML]="items?.product?.descriptionFull"></div>
           <div *ngIf="activeTab == 'second'">Images</div>
         </div>
       </div>
@@ -43,4 +46,4 @@
   </div>
 </div>
 
-<app-footer *ngIf="(product$ | async)"> </app-footer>
+<app-footer *ngIf="(items$ | async)"> </app-footer>

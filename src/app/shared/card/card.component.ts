@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { State } from './../store/reducers/index';
+import { State } from './../../store/reducers/index';
 import { Store } from '@ngrx/store';
-import * as actions from './../store/actions'
-import * as fromRoot from '../store/reducers';
+import * as actions from './../../store/actions'
+import * as fromRoot from '../../store/reducers';
 import 'rxjs/add/operator/filter';
-import { keys } from './../../config/keys';
+import { keys } from './../../../config/keys';
 
 @Component({
   selector: 'app-card',

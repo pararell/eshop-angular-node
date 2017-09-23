@@ -5,11 +5,15 @@ import { HttpModule } from '@angular/http';
 
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { CardComponent } from './card/card.component';
+import { CartShowComponent } from './cart-show/cart-show.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    CardComponent,
+    CartShowComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -17,6 +21,6 @@ import { FooterComponent } from './footer/footer.component';
     BrowserModule
   ],
   providers: [],
-  exports: [HeaderComponent, FooterComponent]
+  exports: [HeaderComponent, FooterComponent, CardComponent, CartShowComponent]
 })
 export class SharedModule { }

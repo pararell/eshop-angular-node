@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/combineLatest';
 import { State } from './../store/reducers/index';
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
@@ -12,7 +13,7 @@ import * as fromRoot from '../store/reducers';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  product$: Observable<any>;
+  items$: Observable<any>;
   productLoading$: Observable<any>;
   activeTab: String = 'first';
 
@@ -24,12 +25,29 @@ export class ProductComponent implements OnInit {
       this.store.dispatch(new actions.GetProduct(params));
     });
 
-    this.product$ = this.store.select(fromRoot.getProduct);
     this.productLoading$ = this.store.select(fromRoot.getProductLoading);
 
    }
 
   ngOnInit() {
+    this.items$ = Observable.combineLatest(
+      this.store.select(fromRoot.getProduct),
+      this.store.select(fromRoot.getCart).filter(Boolean).map(cart => cart.items),
+      (product, cartItems) => {
+        return {
+          product: product,
+          cartIds: cartItems.reduce((prev, curr) => ( {...prev, [curr.id] : curr.qty } ), {} )
+        }
+      }
+    )
+  }
+
+  addToCart(id) {
+    this.store.dispatch(new actions.AddToCart(id));
+  }
+
+  removeFromCart(id) {
+    this.store.dispatch(new actions.RemoveFromCart(id));
   }
 
 }

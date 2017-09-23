@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
-import { CardComponent } from './card/card.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
@@ -24,8 +23,7 @@ import { AppEffects } from './store/effects';
     AppComponent,
     ProductsComponent,
     ProductComponent,
-    CartComponent,
-    CardComponent
+    CartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
