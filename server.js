@@ -4,7 +4,6 @@ require('reflect-metadata');
 const express = require('express');
 const ngUniversal = require('@nguniversal/express-engine');
 const {provideModuleMap} = require('@nguniversal/module-map-ngfactory-loader');
-
 const path = require('path');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
@@ -12,11 +11,12 @@ const passport = require('passport');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const keys = require('./config/keys');
-const cloudinary = require('cloudinary');
+// const cloudinary = require('cloudinary'); 
 const session = require('express-session');
+const compression = require('compression');
 const MongoStore = require('connect-mongo')(session);
 
-// Import the AOT compiled factory for your AppServerModule.
+// Import the AOT compiled factory for your AppServerModule - Universal require
 // This import will change with the hash of your built server bundle - use --output-hashing=none
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist-server/main.bundle');
 
@@ -42,14 +42,6 @@ app.set('views', 'dist')
 
 app.use(bodyParser.json());
 
-// app.use(
-//   cookieSession({
-//         maxAge: 30 * 24 * 60 * 60 * 1000,
-//         keys: [keys.cookieKey],
-
-//     })
-// );
-
 app.use(
   session({
       cookie : { maxAge: 30 * 24 * 60 * 60 * 1000 },
@@ -60,7 +52,7 @@ app.use(
   })
 );
 
-
+// middlewares
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -69,14 +61,18 @@ app.use((req, res, next) => {
   next();
 });
 
+// mongoose models
 require('./models/User');
 require('./models/Product');
+
+// services
 require('./services/passport');
 
 mongoose.connect(keys.mongoURI);
 
 app.get('/', angularRouter);
 
+// routes
 require('./routes/productRoutes')(app);
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
@@ -85,13 +81,10 @@ app.get('*.*', express.static(path.join(__dirname, '..', 'dist')));
 
 app.use(express.static(`${__dirname}/dist`));
 
+// compress files
+app.use(compression());
+
 app.get('*', angularRouter);
-
-
-// Load the index.html file.
-// const index = require('fs').readFileSync('./src/index.html', 'utf8');
-
-// let template = fs.readFileSync(path.join(__dirname, 'dist', 'index.html')).toString();
 
 
 const PORT = process.env.PORT || 5000;
@@ -102,7 +95,7 @@ app.listen(PORT, () => {
 
 
 
-
+// set for add images for products to cnd -  add dashboard - TODO
 
 // cloudinary.config({
 //   cloud_name: 'dnpgh1vhi',
