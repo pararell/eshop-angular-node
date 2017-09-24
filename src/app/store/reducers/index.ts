@@ -20,5 +20,7 @@ export const Products = (state: State) => state.products;
 export const getUser = createSelector(getAuth, fromAuth.user);
 export const getProducts = createSelector(Products, fromProducts.products);
 export const getProduct = createSelector(Products, fromProducts.product);
-export const getCart = createSelector(Products, fromProducts.cart);
 export const getProductLoading = createSelector(Products, fromProducts.productLoading);
+export const getCart = createSelector(Products, fromProducts.cart);
+export const getOrder = createSelector(Products, fromProducts.order);
+

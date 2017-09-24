@@ -64,6 +64,7 @@ app.use((req, res, next) => {
 // mongoose models
 require('./models/User');
 require('./models/Product');
+require('./models/Order');
 
 // services
 require('./services/passport');

@@ -26,7 +26,7 @@ export class CardComponent implements OnInit {
       key: keys.stripePublishableKey,
       locale: 'auto',
       token: token => {
-        const payment = { token: token, amount: this.price }
+        const payment = { token: token, amount: this.price};
         this.store.dispatch(new actions.LoadPayment(payment));
       }
     });
@@ -36,9 +36,14 @@ export class CardComponent implements OnInit {
     this.handler.open({
       name: 'Bluetooth eshop',
       description: 'Pay for products',
-      amount: this.price * 100
+      amount: this.price * 100,
+      billingAddress: true,
+      locale: 'auto',
+      currency: 'EUR'
+
     });
   }
+
 
   @HostListener('window:popstate')
   onPopstate() {

@@ -21,7 +21,7 @@ export class AppEffects {
     @Effect() loadPayment$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PAYMENT)
     .switchMap((action: actions.LoadPayment) => this.apiService.handleToken(action.payload))
-    .map(res => new actions.StoreUserAction(res));
+    .map(res => new actions.LoadPaymentSuccess(res));
 
     @Effect() loadProduct$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PRODUCT)

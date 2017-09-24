@@ -8,18 +8,18 @@ module.exports = function Cart(oldCart) {
 
     if(!itemExist) {
         this.items.push({item, id, price : item.salePrice, qty: 1});
+        this.totalQty++;
+        this.totalPrice += item.salePrice; 
     } else {
         this.items.forEach(cartItem => {
-            if(cartItem.id == id) {
-                cartItem.qty++;
-                cartItem.price = item.salePrice + cartItem.price;
-              }
-          })
+        if(cartItem.id == id) {
+            cartItem.qty++;
+            cartItem.price = item.salePrice + cartItem.price;
+            this.totalQty++;
+            this.totalPrice += item.salePrice; 
+        }
+      })
     }
-
-    this.totalQty++;
-    this.totalPrice += item.salePrice; 
-
   };
 
   this.remove = function(item, id) {
@@ -28,18 +28,17 @@ module.exports = function Cart(oldCart) {
         if(cartItem.id == id && cartItem.qty > 1) {
             cartItem.qty--;
             cartItem.price = cartItem.price - item.salePrice;
+            this.totalQty--;
+            this.totalPrice -= item.salePrice;
         } else if(cartItem.id == id && cartItem.qty == 1) {
             cartItem = {};
+            this.totalQty--;
+            this.totalPrice -= item.salePrice;
         }
         return cartItem;
     }).filter(cartItem => cartItem.id);
 
-    
 
-//    this.items = this.items.filter(cartItem => cartItem.qty == 1 && cartItem.id != id);
-
-    this.totalQty--;
-    this.totalPrice -= item.salePrice;
   };
 
 

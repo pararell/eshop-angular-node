@@ -1,20 +1,67 @@
 const keys = require('../config/keys');
+const mongoose = require('mongoose');
 const stripe = require('stripe')(keys.stripeSecretKey);
 const requireLogin = require('../middlewares/requireLogin');
+const Order = mongoose.model('orders');
+const Cart = require('../models/Cart');
 
 module.exports = (app) => {
     app.post('/api/stripe', requireLogin, async (req,res) => {
       const charge = await stripe.charges.create({
-            amount: req.body.amount,
+            amount: req.body.amount * 100,
             currency: 'eur',
             description: 'Pay',
             source: req.body.token.id
-        });
+        }).then(result => {
+            const order = new Order({
+                ...result,
+                customerEmail: req.body.token.email,
+                cart: req.session.cart,
+                _user: req.user.id,
+                dateAdd: Date.now()
+              });
+              const cart = new Cart({});
+            //   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+              req.session.cart = cart;
 
-        req.user.credits += req.body.amount;
-        const user = await req.user.save();
+              order.save();
+    
+            res.send({order, cart });
 
-        res.send(user);
+        }, 
+            (err) => {
+            switch (err.type) {
+                case 'StripeCardError':
+                  // A declined card error
+                  res.send(err);
+                  break;
+                case 'RateLimitError':
+                  // Too many requests made to the API too quickly
+                  res.send(err);
+                  break;
+                case 'StripeInvalidRequestError':
+                  // Invalid parameters were supplied to Stripe's API
+                  res.send(err);
+                  break;
+                case 'StripeAPIError':
+                  // An error occurred internally with Stripe's API
+                  res.send(err);
+                  break;
+                case 'StripeConnectionError':
+                  // Some kind of error occurred during the HTTPS communication
+                  res.send(err);
+                  break;
+                case 'StripeAuthenticationError':
+                  // You probably used an incorrect API key
+                  res.send(err);
+                  break;
+                default:
+                  // Handle any other types of unexpected errors
+                  res.send(err);
+                  break;
+            }
+         });
+
 
     });
 

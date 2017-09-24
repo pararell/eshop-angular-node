@@ -8,13 +8,15 @@ export interface State {
   product: any;
   cart: any;
   loadingProduct: boolean;
+  order: any;
 }
 
  export const initialState: State = {
     products: null,
     product: null,
     cart: null,
-    loadingProduct: false
+    loadingProduct: false,
+    order: null
 };
 
 
@@ -37,11 +39,16 @@ export function productReducer(state = initialState, action): State {
                     loadingProduct: false  }
       }
 
-      case actions.GET_CART_SUCCESS:
-      case actions.ADD_TO_CART_SUCCESS: {
+    case actions.GET_CART_SUCCESS:
+    case actions.ADD_TO_CART_SUCCESS: {
         return { ...state,
                     cart: action.payload  }
       }
+
+    case actions.LOAD_PAYMENT_SUCCESS:
+      return {...state,
+                 order: action.payload.order,
+                 cart: action.payload.cart }
 
     default: {
       return state;
@@ -53,3 +60,4 @@ export const products = (state: State) => state.products;
 export const product = (state: State) => state.product;
 export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;
+export const order = (state: State) => state.order;
