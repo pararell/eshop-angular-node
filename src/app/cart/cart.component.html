@@ -16,7 +16,9 @@
       <ul class="collection">
         <li class="collection-item cart-items" *ngFor="let cartItem of cart?.items">
           <div class="cart-image">
+            <a routerLink="/products/{{cartItem?.item?.titleUrl}}">
             <img src="{{cartItem?.item?.mainImage?.url}}">
+            </a>
             <div class="cart-title">
               {{cartItem?.item.title}}
             </div>

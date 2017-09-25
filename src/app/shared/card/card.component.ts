@@ -38,6 +38,7 @@ export class CardComponent implements OnInit {
       description: 'Pay for products',
       amount: this.price * 100,
       billingAddress: true,
+      allowRememberMe: false,
       locale: 'auto',
       currency: 'EUR'
 

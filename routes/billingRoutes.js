@@ -4,9 +4,10 @@ const stripe = require('stripe')(keys.stripeSecretKey);
 const requireLogin = require('../middlewares/requireLogin');
 const Order = mongoose.model('orders');
 const Cart = require('../models/Cart');
+const Mailer = require('../services/mailer');
 
 module.exports = (app) => {
-    app.post('/api/stripe', requireLogin, async (req,res) => {
+    app.post('/api/stripe', async (req,res) => {
       const charge = await stripe.charges.create({
             amount: req.body.amount * 100,
             currency: 'eur',
@@ -21,12 +22,15 @@ module.exports = (app) => {
                 dateAdd: Date.now()
               });
               const cart = new Cart({});
-            //   res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
               req.session.cart = cart;
 
               order.save();
-    
-            res.send({order, cart });
+
+              const mailer = new Mailer(cart, req.body.token.email);
+              mailer.send();
+              
+              res.send({order, cart });
+
 
         }, 
             (err) => {
