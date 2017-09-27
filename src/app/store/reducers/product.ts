@@ -5,6 +5,7 @@ import * as actions from './../actions';
 // state
 export interface State {
   products: any;
+  categories: { categories: any, tags: any };
   product: any;
   cart: any;
   loadingProduct: boolean;
@@ -13,6 +14,7 @@ export interface State {
 
  export const initialState: State = {
     products: null,
+    categories: null,
     product: null,
     cart: null,
     loadingProduct: false,
@@ -26,7 +28,9 @@ export function productReducer(state = initialState, action): State {
   switch (action.type) {
 
     case actions.LOAD_PRODUCTS_SUCESS: {
-      return { ...state, products: action.payload }
+      return { ...state,
+                  products: action.payload.products,
+                  categories: action.payload.categories }
     }
 
     case actions.LOADING_PRODUCT: {
@@ -57,6 +61,7 @@ export function productReducer(state = initialState, action): State {
 }
 
 export const products = (state: State) => state.products;
+export const categories = (state: State) => state.categories;
 export const product = (state: State) => state.product;
 export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;

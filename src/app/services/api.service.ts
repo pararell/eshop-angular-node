@@ -6,17 +6,16 @@ import 'rxjs/add/operator/map';
 export class ApiService {
   constructor( private http: Http) {}
 
+getUser() {
+  const userUrl = '/api/current_user';
+  return this.http.get(userUrl)
+    .map(res => res.json());
+}
 
-  getUser() {
-    const userUrl = '/api/current_user';
-    return this.http.get(userUrl)
-      .map(res => res.json());
-  }
-
-  handleToken(token) {
-    const tokenUrl = '/api/stripe';
-    return this.http.post(tokenUrl, token)
-      .map(res => res.json());
+handleToken(token) {
+  const tokenUrl = '/api/stripe';
+  return this.http.post(tokenUrl, token)
+    .map(res => res.json());
 };
 
 loadProduct(data) {
@@ -28,7 +27,14 @@ loadProduct(data) {
 loadProducts() {
   const productsUrl = '/prod/products';
   return this.http.get(productsUrl)
-    .map(res => res.json());
+    .map(res => res.json())
+    .map(products => ({
+      products,
+      categories: {
+        categories: products.map(product => product.category).reduce((prev, curr) => prev.concat(prev.includes(curr) ? [] : [curr]) , []).filter(Boolean),
+        tags: products.reduce((prev, curr) => prev.concat([...curr.tags]), []).reduce((prev, curr) => prev.concat(prev.includes(curr) ? [] : [curr]) , []).filter(Boolean)
+      }
+    }))
 }
 
 getProduct(name: string) {

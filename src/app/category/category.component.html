@@ -10,9 +10,10 @@
 
     <div class="wrapper">
       <div class="sidebar-wrapp">
-        <app-sidebar [categories]="categories$ | async"></app-sidebar>
+        <app-sidebar [categories]="categories$ | async" [activeCategory]="category$ | async"></app-sidebar>
       </div>
       <div class="main-wrap">
+        <h3>{{category$ | async}}</h3>
         <ng-container *ngIf="(items$ | async) as items">
 
           <div class="products-wrapp">
@@ -21,6 +22,7 @@
                 <a routerLink="/products/{{product?.titleUrl}}" class="card-image">
                   <img src="{{product?.mainImage?.url}}">
                 </a>
+                <div class="card-content"></div>
                 <div class="card-action">
                   <h2> {{product?.title}} </h2>
                   <div class="action-wrap">
@@ -29,7 +31,6 @@
                     <app-cart-show [items]="items?.cartIds[product._id]" (add)="addToCart(product._id)" (remove)="removeFromCart(product._id)"></app-cart-show>
                   </div>
                   <!-- <app-card [price]="product?.salePrice"> </app-card> -->
-                  <div class="price-card">{{product?.salePrice}}€</div>
                   <p>{{product?.description}}</p>
                 </div>
               </div>

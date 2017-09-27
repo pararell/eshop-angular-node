@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { CategoryComponent } from './category/category.component';
 import { ProductsComponent } from './products/products.component';
 import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
@@ -23,7 +24,8 @@ import { AppEffects } from './store/effects';
     AppComponent,
     ProductsComponent,
     ProductComponent,
-    CartComponent
+    CartComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
@@ -36,7 +38,8 @@ import { AppEffects } from './store/effects';
       { path: '',  pathMatch: 'full', redirectTo: 'products' },
       { path: 'products',  pathMatch: 'full', component: ProductsComponent },
       { path: 'products/:id', component: ProductComponent },
-      { path: 'cart', component: CartComponent }
+      { path: 'cart', component: CartComponent },
+      { path: 'category/:category', component: CategoryComponent }
     ]),
     StoreDevtoolsModule.instrument()
   ],
