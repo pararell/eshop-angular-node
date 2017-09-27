@@ -21,15 +21,15 @@ module.exports = (app) => {
                 _user: req.user.id,
                 dateAdd: Date.now()
               });
-              order.save();
+            order.save();
 
-              const mailer = new Mailer(cart, req.body.token.email);
-              mailer.send();
+            const mailer = new Mailer(req.session.cart, req.body.token.email);
+            mailer.send();
 
-              const cart = new Cart({});
-              req.session.cart = cart;
+            const cart = new Cart({});
+            req.session.cart = cart;
               
-              res.send({order, cart });
+            res.send({order, cart });
 
 
         }, 
