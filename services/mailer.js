@@ -4,10 +4,8 @@ const keys = require('../config/keys');
 
 
 class Mailer extends helper.Mail {
-    constructor(cart,email) {
+    constructor(cart,reqEmail) {
      super();
-
-     console.log(cart,email,'ccccccccccccccccccccccccccccccccccccccccccccccccccc')
 
     this.sgApi = sendgrid(keys.sendGridKey);
  
@@ -15,13 +13,15 @@ class Mailer extends helper.Mail {
     this.subject = 'Order';
 
     this.body = new helper.Content('text/html', getContent(cart));
+    
 
-    this.email = new helper.Email(email);
+    this.email = new helper.Email(reqEmail);
     const personalize = new helper.Personalization();
-    personalize.addTo(email);   
+    personalize.addTo(this.email);   
 
-    this.addPersonalization(personalize);
     this.addContent(this.body);
+    this.addPersonalization(personalize);
+    
 
     }
 
