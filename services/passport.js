@@ -36,7 +36,5 @@ passport.use(
         done(null, user);
         
 
-
-
     })
 );

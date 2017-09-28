@@ -1,5 +1,7 @@
 :host {
-  display: block;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   .card-content {
     display: flex;
     justify-content: space-between;
@@ -37,7 +39,7 @@
     }
   }
   .tab {
-      cursor: pointer;
+    cursor: pointer;
   }
   .cart-wrap {
     padding-right: 10px;

@@ -2,7 +2,6 @@
 import * as actions from './../actions';
 
 
-// state
 export interface State {
   products: any;
   categories: { categories: any, tags: any };
@@ -12,18 +11,17 @@ export interface State {
   order: any;
 }
 
- export const initialState: State = {
-    products: null,
-    categories: null,
-    product: null,
-    cart: null,
-    loadingProduct: false,
-    order: null
+export const initialState: State = {
+  products: null,
+  categories: null,
+  product: null,
+  cart: null,
+  loadingProduct: false,
+  order: null
 };
 
 
 
-// reducer
 export function productReducer(state = initialState, action): State {
   switch (action.type) {
 

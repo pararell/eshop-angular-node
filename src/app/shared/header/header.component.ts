@@ -1,7 +1,7 @@
 import { State } from './../../store/reducers/index';
 import * as fromRoot from '../../store/reducers';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
 
@@ -10,7 +10,7 @@ import * as actions from './../../store/actions'
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   user$: Observable<any>;
   cart$: Observable<any>;
 
@@ -22,7 +22,5 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(new actions.GetCart());
    }
 
-  ngOnInit() {
-  }
 
 }

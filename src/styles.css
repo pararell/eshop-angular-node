@@ -1,12 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
-
 .full-width {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
 
-  .main {
-    flex: 1 0 auto;
-  }
-      
+.main {
+  flex: 1 0 auto;
+}
+
+.container {
+  width: 100% !important;
+  padding: 20px;
+}

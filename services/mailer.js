@@ -4,7 +4,7 @@ const keys = require('../config/keys');
 
 
 class Mailer extends helper.Mail {
-    constructor(cart,reqEmail) {
+  constructor(cart,reqEmail) {
      super();
 
     this.sgApi = sendgrid(keys.sendGridKey);
@@ -13,7 +13,6 @@ class Mailer extends helper.Mail {
     this.subject = 'Order';
 
     this.body = new helper.Content('text/html', getContent(cart));
-    
 
     this.email = new helper.Email(reqEmail);
     const personalize = new helper.Personalization();
@@ -22,11 +21,10 @@ class Mailer extends helper.Mail {
     this.addContent(this.body);
     this.addPersonalization(personalize);
     
+  }
 
-    }
-
-    async send() {
-        const request = this.sgApi.emptyRequest({
+  async send() {
+    const request = this.sgApi.emptyRequest({
             method: 'POST',
             path: '/v3/mail/send',
             body: this.toJSON()
@@ -34,7 +32,7 @@ class Mailer extends helper.Mail {
 
         const response = await this.sgApi.API(request);
         return response;
-    }
+  }
 }
 
 
@@ -43,7 +41,7 @@ module.exports = Mailer;
 
 function getContent(cart) {
     
-     function prepareItem(items) {
+    function prepareItem(items) {
       return items.map(product => {
         return `<li>${product.item.title} ${product.price}€ ${product.qty}ks </li>`;
       }) ;

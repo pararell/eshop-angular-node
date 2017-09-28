@@ -17,7 +17,6 @@ export class CartComponent  {
   cart$: Observable<any>;
   order$: Observable<any>;
 
-
   constructor(private _route: ActivatedRoute,  private store: Store<State>, private location: Location) {
     this.cart$ = this.store.select(fromRoot.getCart);
     this.order$ = this.store.select(fromRoot.getOrder).filter(Boolean).map(order => order.outcome);

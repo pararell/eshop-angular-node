@@ -1,5 +1,8 @@
 <div class="collection with-header">
-   <div class="collection-header"><h4>Categories</h4></div> 
-    <a routerLink="/products" class="collection-item" [class.active]="!activeCategory">All products</a>
-    <a *ngFor="let category of categories" routerLink="/category/{{category | lowercase}}" class="collection-item" [class.active]="activeCategory == (category | lowercase)">{{category}}</a>
+  <div class="collection-header"><h4>Categories</h4></div> 
+  <a routerLink="/products" class="collection-item" [class.active]="!activeCategory">All products</a>
+  <a *ngFor="let category of categories" routerLink="/category/{{category | lowercase}}" class="collection-item" [class.active]="activeCategory == (category | lowercase)">{{category}}</a>
+  <input type="range" max="{{maxPrice}}" min="{{minPrice}}" value={{maxPrice}} #ref (change)="changePrice.emit(ref.value)"/>
+  Price to: {{ref.value}}€
 </div>
+

@@ -9,6 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { CardComponent } from './card/card.component';
 import { CartShowComponent } from './cart-show/cart-show.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { ProductsListComponent } from './products-list/products-list.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FooterComponent,
     CardComponent,
     CartShowComponent,
-    SidebarComponent
+    SidebarComponent,
+    ProductsListComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -25,6 +27,13 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     RouterModule
   ],
   providers: [],
-  exports: [HeaderComponent, FooterComponent, CardComponent, CartShowComponent, SidebarComponent]
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    CardComponent,
+    CartShowComponent,
+    SidebarComponent,
+    ProductsListComponent
+  ]
 })
 export class SharedModule { }

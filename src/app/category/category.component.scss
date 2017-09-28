@@ -1,5 +1,7 @@
 :host {
-  display: block;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
   .container {
     padding: 20px 0px;
   }
@@ -7,49 +9,6 @@
     display: flex;
     padding: 20px 0px;
     justify-content: center
-  }
-  .products-wrapp {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    .product-wrapp {
-      width: 49%;
-      .card {
-        &:hover {
-          box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-        }
-        .card-image {
-          cursor: pointer;
-          overflow: hidden;
-          display: block;
-          &:hover img {
-            transform: scale(1.1);
-          }
-          img {
-            transition: all .2s ease-in-out;
-          }
-        }
-      }
-      h2 {
-        font-size: 20px;
-        line-height: 22px;
-        margin: 0px;
-        font-weight: 600;
-      }
-      .action-wrap {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .cart-icon {
-        cursor: pointer;
-        color: #c6ff00;
-        font-size: 30px;
-      }
-      .cart-quantity {
-        color: #c6ff00;
-      }
-    }
   }
   .wrapper {
     display: flex;

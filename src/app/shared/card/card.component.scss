@@ -1,6 +1,5 @@
 :host {
   display: block;
-
   .cart-items {
     display: flex;
     justify-content: space-between;
@@ -8,13 +7,12 @@
     .cart-title {
       padding: 0px 10px;
     }
-
     .cart-image {
       display: flex;
       align-items: center;
       width: 50%;
       img {
-      height: 70px;
+        height: 70px;
       }
     }
   }

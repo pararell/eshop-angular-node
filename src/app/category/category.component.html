@@ -1,45 +1,36 @@
 <app-header> </app-header>
 
 <div class="main">
-
   <div class="container">
 
     <div class="progress" *ngIf="!(items$ | async)?.products">
       <div class="indeterminate"></div>
     </div>
 
-    <div class="wrapper">
+    <div class="wrapper" *ngIf="(items$ | async) as items">
       <div class="sidebar-wrapp">
-        <app-sidebar [categories]="categories$ | async" [activeCategory]="category$ | async"></app-sidebar>
+        <app-sidebar 
+        [categories]="categories$ | async"
+        [minPrice]="items?.maxPrice"
+        [maxPrice]="items?.minPrice"
+        [activeCategory]="category$ | async"
+        (changePrice)="priceRange($event)">
+        </app-sidebar>
       </div>
       <div class="main-wrap">
         <h3>{{category$ | async}}</h3>
-        <ng-container *ngIf="(items$ | async) as items">
-
-          <div class="products-wrapp">
-            <div class="product-wrapp" *ngFor="let product of items?.products">
-              <div class="card scale-transition">
-                <a routerLink="/products/{{product?.titleUrl}}" class="card-image">
-                  <img src="{{product?.mainImage?.url}}">
-                </a>
-                <div class="card-content"></div>
-                <div class="card-action">
-                  <h2> {{product?.title}} </h2>
-                  <div class="action-wrap">
-                    <a routerLink="/products/{{product?.titleUrl}}">Detail</a>
-                    <p>{{product?.stock}}</p>
-                    <app-cart-show [items]="items?.cartIds[product._id]" (add)="addToCart(product._id)" (remove)="removeFromCart(product._id)"></app-cart-show>
-                  </div>
-                  <!-- <app-card [price]="product?.salePrice"> </app-card> -->
-                  <p>{{product?.description}}</p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </ng-container>
+        <div class="products-wrapp">
+          <app-products-list 
+          [products]="items?.products" 
+          [cartIds]="items?.cartIds" 
+          (add)="addToCart($event)" 
+          (remove)="removeFromCart($event)">
+          </app-products-list>
+        </div>
       </div>
     </div>
+
   </div>
 </div>
+
 <app-footer *ngIf="(items$ | async)?.products"> </app-footer>
