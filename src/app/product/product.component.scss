@@ -2,6 +2,11 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  .container {
+    @media screen and (max-width: 600px) {
+      padding: 0px !important;
+    }
+  }
   .card-content {
     display: flex;
     justify-content: space-between;
