@@ -17,9 +17,16 @@
   }
   .wrapper {
     display: flex;
+    @media screen and (max-width: 600px) {
+      flex-flow: wrap;
+    }
     .sidebar-wrapp {
       margin-right: 15px;
       width: 20%;
+      @media screen and (max-width: 600px) {
+        width: 100%;
+        margin-left: 15px;
+      }
     }
   }
 }

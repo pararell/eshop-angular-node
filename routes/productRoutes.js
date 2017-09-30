@@ -46,6 +46,10 @@ module.exports = (app) => {
 
       cart.add(product, product.id);
       req.session.cart = cart;
+      if(req.user) {
+        req.user.cart = cart;
+        req.user.save();
+      }
       res.send(cart);
     })
   });
@@ -64,6 +68,10 @@ module.exports = (app) => {
 
       cart.remove(product, product.id);
       req.session.cart = cart;
+      if(req.user) {
+        req.user.cart = cart;
+        req.user.save();
+      }
       res.send(cart);
 
     })
@@ -71,7 +79,7 @@ module.exports = (app) => {
 
 
   app.get('/prod/cart', (req, res) => {
-    const cart = req.session.cart ? req.session.cart : new Cart({});
+    const cart = req.user ? req.user.cart : req.session.cart ? req.session.cart : new Cart({});
     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     req.session.cart = cart;
     res.send(cart);

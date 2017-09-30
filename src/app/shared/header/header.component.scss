@@ -2,4 +2,9 @@
   .cart-wrap {
     display: flex;
   }
+
+  .brand-logo {
+    text-overflow: ellipsis;
+    max-width: 40%;
+  }
 }

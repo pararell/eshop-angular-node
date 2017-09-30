@@ -28,6 +28,10 @@ module.exports = (app) => {
 
         const cart = new Cart({});
         req.session.cart = cart;
+        if(req.user) {
+          req.user.cart = cart;
+          req.user.save();
+        }
 
         res.send({ order, cart });
 
