@@ -27,6 +27,32 @@ export const GET_CART_SUCCESS = 'Get Cart Success'
 
 export const REMOVE_FROM_CART = 'Remove from Cart';
 
+export const ADD_PRODUCT_IMAGE = 'Add Product Image';
+export const REMOVE_PRODUCT_IMAGE = 'Remove Product Image';
+
+export const ADD_PRODUCT = 'Add Product';
+
+
+export class AddProduct implements Action {
+    readonly type = ADD_PRODUCT;
+    constructor(public payload: any ) {
+    }
+}
+
+
+export class AddProductImage implements Action {
+    readonly type = ADD_PRODUCT_IMAGE;
+    constructor(public payload: any ) {
+    }
+}
+
+export class RemoveProductImage implements Action {
+    readonly type = REMOVE_PRODUCT_IMAGE;
+    constructor(public payload: any ) {
+    }
+}
+
+
 export class AddToCart implements Action {
     readonly type = ADD_TO_CART;
     constructor(public payload: any ) {

@@ -24,4 +24,4 @@ export const getProduct = createSelector(Products, fromProducts.product);
 export const getProductLoading = createSelector(Products, fromProducts.productLoading);
 export const getCart = createSelector(Products, fromProducts.cart);
 export const getOrder = createSelector(Products, fromProducts.order);
-
+export const getProductImages = createSelector(Products, fromProducts.productImages);

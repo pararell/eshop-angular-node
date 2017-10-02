@@ -14,8 +14,10 @@ module.exports = (app) => {
       description: 'New Order',
       source: req.body.token.id
     }).then(result => {
+      const orderId = 'order' + new Date().getTime() + 't' + Math.floor((Math.random() * 1000) + 1);
         const order = new Order({
           ...result,
+          orderId,
           customerEmail: req.body.token.email,
           cart: req.session.cart,
           _user: req.user.id,
@@ -23,13 +25,14 @@ module.exports = (app) => {
         });
         order.save();
 
-        const mailer = new Mailer(req.session.cart, req.body.token.email);
+        const mailer = new Mailer(req.session.cart, req.body.token.email, orderId);
         mailer.send();
 
         const cart = new Cart({});
         req.session.cart = cart;
         if(req.user) {
           req.user.cart = cart;
+          req.user.order = [...req.user.order,order];
           req.user.save();
         }
 

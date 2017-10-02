@@ -61,4 +61,16 @@ export class ApiService {
     .map(res => res.json());
  }
 
+ removeImage(id: string) {
+  const removeImage = '/admin/removeimage';
+  return this.http.post(removeImage, {image: id} )
+    .map(res => res.json());
+ }
+
+ addProduct(product) {
+  const addProduct = '/admin/addproduct';
+  return this.http.post(addProduct, product )
+    .map(res => res.json());
+ }
+
 }

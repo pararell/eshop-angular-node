@@ -36,6 +36,7 @@ app.engine('html', ngUniversal.ngExpressEngine({
 app.set('view engine', 'html');
 app.set('views', 'dist')
 
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 app.use(
@@ -78,6 +79,7 @@ app.get('/', angularRouter);
 require('./routes/productRoutes')(app);
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/adminRoutes')(app);
 
 app.get('*.*', express.static(path.join(__dirname, '..', 'dist')));
 

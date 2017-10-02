@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
+    orderId : String,
     amount: Number,
     amount_refunded: Number,
     description: String,

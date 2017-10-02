@@ -4,7 +4,7 @@ const keys = require('../config/keys');
 
 
 class Mailer extends helper.Mail {
-  constructor(cart,reqEmail) {
+  constructor(cart,reqEmail,orderId) {
      super();
 
     this.sgApi = sendgrid(keys.sendGridKey);
@@ -58,6 +58,8 @@ function getContent(cart) {
       <div>
       Summary: ${cart.totalPrice}€
       </div>
+      You can see your order here: 
+      <a href="https://angular-un-ngrx-node-eshop.herokuapp.com/orders/${orderId}"> </a>
      </div>
      </body>
      </html>

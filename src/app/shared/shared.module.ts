@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
@@ -23,7 +23,7 @@ import { ProductsListComponent } from './products-list/products-list.component';
   imports: [
     ReactiveFormsModule,
     HttpModule,
-    BrowserModule,
+    CommonModule,
     RouterModule
   ],
   providers: [],

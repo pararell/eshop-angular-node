@@ -37,6 +37,11 @@ export class AppEffects {
     .switchMap(() => this.apiService.loadProducts())
     .map(res => new actions.LoadProductsSuccess(res));
 
+  @Effect() addProduct$: Observable<Action> = this._actions
+    .ofType(actions.ADD_PRODUCT)
+    .switchMap((action: actions.AddProduct) => this.apiService.addProduct(action.payload))
+    .map(res => new actions.LoadProductsSuccess(res));
+
   @Effect() getProduct$: Observable<Action> = this._actions
     .ofType(actions.GET_PRODUCT)
     .switchMap((action: actions.GetProduct) => this.apiService.getProduct(action.payload))
@@ -56,6 +61,12 @@ export class AppEffects {
     .ofType(actions.REMOVE_FROM_CART)
     .switchMap((action: actions.RemoveFromCart) => this.apiService.removeFromCart(action.payload))
     .map(res => new actions.GetCartSuccess(res));
+
+
+  @Effect() removeImage$: Observable<Action> = this._actions
+  .ofType(actions.REMOVE_PRODUCT_IMAGE)
+  .switchMap((action: actions.RemoveProductImage) => this.apiService.removeImage(action.payload))
+  .map(res => new actions.StoreUserAction(res));
 
   constructor(private _actions: Actions, private store: Store<State>, private apiService: ApiService) { }
 

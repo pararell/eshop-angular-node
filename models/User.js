@@ -3,7 +3,10 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
     googleId: String,
-    cart: { }
+    cart: {},
+    order: [],
+    images: [],
+    admin: Boolean
 });
 
 
