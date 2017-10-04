@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  .product-actions-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    .product-actions {
+      display: flex;
+      align-items: center;
+      flex-flow: column;
+    }
+  }
+}

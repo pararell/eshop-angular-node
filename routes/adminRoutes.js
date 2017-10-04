@@ -6,9 +6,11 @@ const requireAdmin = require('../middlewares/requireAdmin');
 const requireLogin = require('../middlewares/requireLogin');
 const cloudinary = require('cloudinary');
 const keys = require('../config/keys');
-const multer  = require('multer')
+const multer = require('multer')
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage
+});
 const Datauri = require('datauri');
 
 cloudinary.config({
@@ -20,10 +22,11 @@ cloudinary.config({
 
 module.exports = (app) => {
 
-  app.post('/admin/removeimage',  requireLogin, requireAdmin, (req,res) => {
+  app.post('/admin/removeimage', requireLogin, requireAdmin, (req, res) => {
     const image = req.body.image;
     const filterImages = req.user.images.filter(img => img != image);
     req.user.images = filterImages;
+    req.user.save();
     res.status(200).send(req.user);
   });
 
@@ -32,8 +35,8 @@ module.exports = (app) => {
     const datauri = new Datauri();
     datauri.format('.png', req.file.buffer);
 
-    cloudinary.uploader.upload(datauri.content, function(result) {
-      req.user.images = [...req.user.images,result.url];
+    cloudinary.uploader.upload(datauri.content, function (result) {
+      req.user.images = [...req.user.images, result.url];
       req.user.save();
 
       res.status(200).send(req.user.images);
@@ -44,6 +47,9 @@ module.exports = (app) => {
   app.post('/admin/addproduct', requireLogin, requireAdmin, (req, res) => {
     const product = new Product({
       ...req.body,
+      tags: req.body.tags ? req.body.tags.split(',') : [],
+      categories: req.body.categories ? req.body.categories.split(',') : [],
+      mainImage: {  url: req.body.mainImage,  name: req.body.titleUrl },
       _user: req.user.id,
       dateAdd: Date.now()
     });
@@ -62,25 +68,23 @@ module.exports = (app) => {
       titleUrl: productTitle
     }, function (err) {
       if (!err) {
-        res.status(200).send(productTitle + ' remove');
+        Product.find({}, function (err, products) {
+          res.status(200).send(products);
+        });
+
       }
     });
 
   });
 
 
-  app.post('/admin/udpateproduct/:name', requireAdmin, (req, res) => {
-    const productTitle = req.params.name;
-    Product.findOne({titleUrl: productTitle}, function (err, product) {
+  app.post('/admin/udpateproduct', requireAdmin, (req, res) => {
+    const productTitle = req.body.titleUrl;
 
-        const newProduct = {...product, ...req.body};
-    
-        newProduct.save(function (err) {
-            if(err) {
-                return err;
-            }
-
-            res.status(200).send(newProduct);
+    Product.findOneAndUpdate({titleUrl: productTitle}, req.body, {upsert:true}, function(err, doc){
+        if (err) return res.send(500, { error: err });
+        Product.find({}, function (err, products) {
+         return res.status(200).send(products);
         });
     });
 
@@ -88,4 +92,3 @@ module.exports = (app) => {
 
 
 };
-

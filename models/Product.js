@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+
+
 const productSchema = new Schema({
     title: String,
     titleUrl:String,
@@ -19,6 +21,7 @@ const productSchema = new Schema({
     category: String,
     categories: [],
     stock: String,
+    visibility: String,
     regularPrice: Number,
     salePrice: Number,
     _user: {type: Schema.Types.ObjectId, ref: 'User'},

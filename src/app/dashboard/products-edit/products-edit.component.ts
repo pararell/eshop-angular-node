@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl  } from '@angular/forms';
 import {FileUploader, FileItem, ParsedResponseHeaders} from 'ng2-file-upload';
 import { State } from './../../store/reducers/index';
@@ -13,9 +13,12 @@ import * as actions from './../../store/actions'
   styleUrls: ['./products-edit.component.scss']
 })
 export class ProductsEditComponent implements OnInit {
+  @Input() action: string;
+
   productEditForm: FormGroup;
   uploader: FileUploader;
   images$: Observable<any>;
+  sendRequest: Boolean = false;
 
   constructor(private fb: FormBuilder, private store: Store<State> ) {  this.createForm(); }
 
@@ -29,6 +32,11 @@ export class ProductsEditComponent implements OnInit {
   });
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
+
+ }
+
+ ngAfterView() {
+  this.productEditForm.valueChanges.subscribe(console.log);
  }
 
  onEditorChange(data) {
@@ -38,15 +46,15 @@ export class ProductsEditComponent implements OnInit {
  createForm() {
   this.productEditForm = this.fb.group({
     titleUrl: ['', Validators.required ],
-    title: ['', Validators.required],
+    title: [''],
     description: '',
     salePrice: '',
     regularPrice: '',
     tags: '',
     categories: '',
     visibility: '',
-    onStock: '',
-    onSale: '',
+    stock: '',
+    onSale: false,
     shiping: '',
     mainImage: '',
     images: [],
@@ -68,11 +76,39 @@ onRemoveImage(image: string) {
 }
 
  onSubmit() {
-  this.images$.first().subscribe(images => {
-    this.productEditForm.patchValue( { images: images });
-    this.store.dispatch(new actions.AddProduct( this.productEditForm.value));
-  })
 
+   switch (this.action) {
+     case 'add':
+     this.images$.first().subscribe(images => {
+      this.productEditForm.patchValue( { images: images });
+      this.store.dispatch(new actions.AddProduct( this.productEditForm.value));
+    })
+     break;
+
+     case 'edit':
+     this.images$.first().subscribe(images => {
+      this.productEditForm.patchValue( { images: images });
+
+      const editProduct = Object.keys(this.productEditForm.value)
+        .filter(key => !!this.productEditForm.value[key] )
+        .reduce((prev, curr) =>  ({ ...prev, [curr] : this.productEditForm.value[curr] }) , {})
+
+
+      this.store.dispatch(new actions.EditProduct( editProduct));
+    });
+     break;
+
+     case 'remove':
+     this.store.dispatch(new actions.RemoveProduct( this.productEditForm.get('titleUrl').value));
+     break;
+   }
+
+   this.sendRequest = true;
+
+ }
+
+ openForm() {
+  this.sendRequest = false;
  }
 
 

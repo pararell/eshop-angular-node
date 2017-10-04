@@ -1,104 +1,117 @@
-<form [formGroup]="productEditForm" novalidate (ngSubmit)="onSubmit()">
+<ng-container *ngIf="!sendRequest">
+  <h4> {{action | uppercase}} PRODUCT </h4>
+  <form [formGroup]="productEditForm" novalidate (ngSubmit)="onSubmit()">
 
-  <div class="full-input">
-    <input class="form-control" formControlName="titleUrl">
-    <label for="titleUrl">titleUrl</label>
-  </div>
-
-  <div class="full-input">
-    <input class="form-control" formControlName="title">
-    <label for="title">Title</label>
-  </div>
-
-  <div class="full-input">
-    <textarea class="materialize-textarea" formControlName="description"></textarea>
-    <label for="description">Description</label>
-  </div>
-
-  <div class="full-input">
-    <input class="form-control" formControlName="salePrice">
-    <label for="salePrice">SalePrice</label>
-  </div>
-
-  <div class="full-input">
-    <input class="form-control" formControlName="regularPrice">
-    <label for="regularPrice">RegularPrice</label>
-  </div>
-
-  <div class="full-input">
-    <input class="form-control" formControlName="tags">
-    <label for="tags">Tags</label>
-  </div>
-
-  <div class="full-input">
-    <input class="form-control" formControlName="categories">
-    <label for="categories">Categories</label>
-  </div>
-
-  <div class="full-check">
-
-    <input type="radio" value="visible" formControlName="visibility" id="visible" />
-    <label for="visible">Visible</label>
-
-    <input type="radio" value="hidden" formControlName="visibility" id="hidden" />
-    <label for="hidden">Hidden</label>
-  </div>
-  <div class="check-title">Visibility</div>
-
-  <div class="full-check">
-
-    <input type="radio" value="onStock" formControlName="onStock" id="onStock" />
-    <label for="onStock">On Stock</label>
-
-    <input type="radio" value="onWaitings" formControlName="onStock" id="onWaitings" />
-    <label for="onWaitings">Avaible in two weeks</label>
-
-    <input type="radio" value="inavailable" formControlName="onStock" id="inavailable" />
-    <label for="inavailable">Inavaible</label>
-
-  </div>
-  <div class="check-title">On Stock</div>
-
-  <div class="full-check">
-
-    <input type="radio" value="onSale" formControlName="onSale" id="onSale" />
-    <label for="onSale">On Sale</label>
-
-    <input type="radio" value="normal" formControlName="onSale" id="normal" />
-    <label for="normal">Normal</label>
-
-  </div>
-  <div class="check-title">On Sale</div>
-
-  <div class="full-check">
-
-    <input type="checkbox" formControlName="shiping" id="shiping" />
-    <label for="shiping">Cash on Delivery</label>
-
-  </div>
-  <div class="check-title">Shiping</div>
-
-  <div class="images-wrapp" *ngIf="(images$ | async)?.length">
-    <div class="image-dash-wrap" *ngFor="let image of (images$ | async)">
-    <img src="{{image}}">
-    <div class="remove-image" (click)="onRemoveImage(image)">X</div>
-  </div>
-  </div>
-
-  <div ng2FileDrop [uploader]="uploader" class="add-images">
-    <div class="file-field input-field">
-      <div class="btn">
-        <span>File</span>
-        <input type="file" ng2FileSelect [uploader]="uploader" multiple />
-      </div>
+    <div class="full-input">
+      <input class="form-control" formControlName="titleUrl">
+      <label for="titleUrl">titleUrl</label>
     </div>
-    <div class="check-title">Images</div>
-  </div>
 
-  <app-tiny-editor [elementId]="'dashboardEdit'" (onEditorContentChange)="onEditorChange($event)">
-  </app-tiny-editor>
-  <div class="check-title">DescriptionFull</div>
+    <ng-container *ngIf="action !== 'remove'">
+      <div class="full-input">
+        <input class="form-control" formControlName="title">
+        <label for="title">Title</label>
+      </div>
 
-  <button type="submit" [disabled]="!productEditForm.valid" class="btn btn-success">Save</button>
+      <div class="full-input">
+        <textarea class="materialize-textarea" formControlName="description"></textarea>
+        <label for="description">Description</label>
+      </div>
 
-</form>
+      <div class="full-input">
+        <input class="form-control" formControlName="salePrice">
+        <label for="salePrice">SalePrice</label>
+      </div>
+
+      <div class="full-input">
+        <input class="form-control" formControlName="regularPrice">
+        <label for="regularPrice">RegularPrice</label>
+      </div>
+
+      <div class="full-input">
+        <input class="form-control" formControlName="tags">
+        <label for="tags">Tags</label>
+      </div>
+
+      <div class="full-input">
+        <input class="form-control" formControlName="categories">
+        <label for="categories">Categories</label>
+      </div>
+
+      <div class="full-input">
+        <input class="form-control" formControlName="mainImage">
+        <label for="mainImage">MainImage</label>
+      </div>
+
+      <div class="full-check">
+
+        <input type="radio" value="visible" formControlName="visibility" id="visible" />
+        <label for="visible">Visible</label>
+
+        <input type="radio" value="hidden" formControlName="visibility" id="hidden" />
+        <label for="hidden">Hidden</label>
+      </div>
+      <div class="check-title">Visibility</div>
+
+      <div class="full-check">
+
+        <input type="radio" value="onStock" formControlName="stock" id="onStock" />
+        <label for="onStock">On Stock</label>
+
+        <input type="radio" value="onWaitings" formControlName="stock" id="onWaitings" />
+        <label for="onWaitings">Avaible in two weeks</label>
+
+        <input type="radio" value="inavailable" formControlName="stock" id="inavailable" />
+        <label for="inavailable">Inavaible</label>
+
+      </div>
+      <div class="check-title">On Stock</div>
+
+      <div class="full-check">
+
+        <input type="radio" value="true" formControlName="onSale" id="onSale" />
+        <label for="onSale">On Sale</label>
+
+        <input type="radio" value="false" formControlName="onSale" id="normal" />
+        <label for="normal">Normal</label>
+
+      </div>
+      <div class="check-title">On Sale</div>
+
+      <div class="full-check">
+
+        <input type="checkbox" value="shiping" formControlName="shiping" id="shiping" />
+        <label for="shiping">Cash on Delivery</label>
+
+      </div>
+      <div class="check-title">Shiping</div>
+
+      <div class="images-wrapp" *ngIf="(images$ | async)?.length">
+        <div class="image-dash-wrap" *ngFor="let image of (images$ | async)">
+          <img src="{{image}}">
+          <div class="remove-image" (click)="onRemoveImage(image)">X</div>
+        </div>
+      </div>
+
+      <div ng2FileDrop [uploader]="uploader" class="add-images">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" ng2FileSelect [uploader]="uploader" multiple />
+          </div>
+        </div>
+        <div class="check-title">Images</div>
+      </div>
+
+      <app-tiny-editor [elementId]="'dashboardEdit'" (onEditorContentChange)="onEditorChange($event)">
+      </app-tiny-editor>
+      <div class="check-title">DescriptionFull</div>
+
+    </ng-container>
+
+    <button type="submit" [disabled]="!productEditForm.valid" class="btn btn-success">Save</button>
+
+  </form>
+</ng-container>
+
+<div class="after-send" *ngIf="sendRequest"> Request was send. <a (click)="openForm()" class="waves-effect waves-light btn">Again</a> </div>

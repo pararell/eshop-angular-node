@@ -31,10 +31,24 @@ export const ADD_PRODUCT_IMAGE = 'Add Product Image';
 export const REMOVE_PRODUCT_IMAGE = 'Remove Product Image';
 
 export const ADD_PRODUCT = 'Add Product';
-
+export const REMOVE_PRODUCT = 'Remove Product';
+export const EDIT_PRODUCT = 'Edit Product';
 
 export class AddProduct implements Action {
     readonly type = ADD_PRODUCT;
+    constructor(public payload: any ) {
+    }
+}
+
+export class EditProduct implements Action {
+    readonly type = EDIT_PRODUCT;
+    constructor(public payload: any ) {
+    }
+}
+
+
+export class RemoveProduct implements Action {
+    readonly type = REMOVE_PRODUCT;
     constructor(public payload: any ) {
     }
 }
