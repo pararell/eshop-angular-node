@@ -7,6 +7,7 @@ const orderSchema = new Schema({
     amount_refunded: Number,
     description: String,
     customerEmail: String,
+    status: String,
     cart: {},
     outcome: {},
     source: {},
