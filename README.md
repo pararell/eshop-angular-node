@@ -19,17 +19,21 @@ Run `node server.js`
 Create dev.js in config and add keys as their are prepare in - dev.setThisFromExternalApiKeys <br />
 <br />
 mongoURI - use link to mongoDB database, e.g. from mlab.com
-<br />
+<br /><br />
 googleClientID - create to set login through google - google API
-googleClientSecret - create to set login through google - google API
 <br />
+googleClientSecret - create to set login through google - google API
+<br /><br />
 stripePublishableKey - set to work with stripe payments
+<br />
 stripeSecretKey - set to work with stripe payments
 <br />
 sendGridKey - set to use sendGrid
-<br />
+<br /><br />
 cloudinaryName - set to upload images straight from angular to cloudinary
+<br />
 cloudinaryKey - set to upload images straight from angular to cloudinary
+<br />
 cloudinarySecret - set to upload images straight from angular to cloudinary
 
 ## TEST ORDER

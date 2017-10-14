@@ -4,7 +4,7 @@
   "main": "server.js",
   "license": "MIT",
   "engines": {
-    "node": "8.6.0",
+    "node": "8.7.0",
     "npm": "5.4.2"
   },
   "scripts": {
