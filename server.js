@@ -23,8 +23,6 @@ function angularRouter(req, res) {
   res.render('index', { req, res });
 }
 
-const {  renderModuleFactoryn} = require('@angular/platform-server');
-const { platformServer } = require('@angular/platform-server');
 
 const app = express();
 
@@ -70,7 +68,9 @@ require('./models/Order');
 // services
 require('./services/passport');
 
+if(keys.mongoURI) {
 mongoose.connect(keys.mongoURI);
+}
 
 
 app.get('/', angularRouter);
