@@ -52,6 +52,7 @@
     "mongoose": "^4.12.1",
     "multer": "^1.3.0",
     "ng2-file-upload": "^1.2.1",
+    "node-sass": "^4.7.2",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
     "reselect": "^3.0.1",
