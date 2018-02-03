@@ -17,7 +17,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "heroku-postbuild": "ng build --prod --aot false --build-optimizer=false && ng build --prod --app 1 --aot false --build-optimizer=false --output-hashing=none"
+    "heroku-postbuild": "npm run build:client-and-server-bundles && npm run webpack:server"
   },
   "private": true,
   "dependencies": {
