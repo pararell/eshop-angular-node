@@ -1,7 +1,7 @@
 {
   "name": "bluetooth-eshop",
   "version": "0.7.0",
-  "main": "server.js",
+  "main": "./dist/server.js",
   "license": "MIT",
   "engines": {
     "node": "9.5.0",
@@ -9,6 +9,7 @@
   },
   "scripts": {
     "ng": "ng",
+    "start": "node ./dist/server.js",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "serve:ssr": "node dist/server.js",
     "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
