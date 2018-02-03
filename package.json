@@ -63,6 +63,7 @@
     "stripe": "^5.4.0",
     "tinymce": "^4.7.6",
     "ts-loader": "^3.4.0",
+    "@types/node": "^9.4.0",
     "typescript": "^2.6.2",
     "zone.js": "^0.8.20"
   },
