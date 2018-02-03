@@ -9,11 +9,8 @@ module.exports = app => {
   app.disable('etag');
 
   app.post('/prod/product', (req, res) => {
-    const product = new Product({
-      ...req.body,
-      _user: req.user.id,
-      dateAdd: Date.now()
-    });
+    const newProduct = Object.assign(req.body, {_user: req.user.id, dateAdd: Date.now()});
+    const product = new Product(newProduct);
 
     product.save();
 
@@ -38,6 +35,7 @@ module.exports = app => {
   });
 
   app.get('/prod/addcart/:id', (req, res) => {
+
     const productId = req.params.id;
     const cart = new Cart(req.session.cart ? req.session.cart : {});
 
@@ -47,7 +45,9 @@ module.exports = app => {
       }
 
       cart.add(product, product.id);
+
       req.session.cart = cart;
+
       if (req.user) {
         req.user.cart = cart;
         req.user.save();
@@ -81,9 +81,7 @@ module.exports = app => {
   });
 
   app.get('/prod/cart', (req, res) => {
-    const cart = req.user
-      ? req.user.cart
-      : req.session.cart ? req.session.cart : new Cart({});
+    const cart = req.user ? req.user.cart : req.session.cart ? req.session.cart : new Cart({});
     res.set(
       'Cache-Control',
       'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'

@@ -8,19 +8,19 @@ class Mailer extends helper.Mail {
      super();
 
     this.sgApi = sendgrid(keys.sendGridKey);
- 
+
     this.from_email = new helper.Email('no-reply@bluetooh-eshop.com');
     this.subject = 'Order';
 
-    this.body = new helper.Content('text/html', getContent(cart));
+    this.body = new helper.Content('text/html', getContent(cart, orderId));
 
     this.email = new helper.Email(reqEmail);
     const personalize = new helper.Personalization();
-    personalize.addTo(this.email);   
+    personalize.addTo(this.email);
 
     this.addContent(this.body);
     this.addPersonalization(personalize);
-    
+
   }
 
   async send() {
@@ -39,14 +39,14 @@ class Mailer extends helper.Mail {
 module.exports = Mailer;
 
 
-function getContent(cart) {
-    
+function getContent(cart, orderId) {
+
     function prepareItem(items) {
       return items.map(product => {
         return `<li>${product.item.title} ${product.price}€ ${product.qty}ks </li>`;
       }) ;
-     } 
-  
+     }
+
      return `<html>
      <body>
      <div style="text-align:center;">
@@ -58,7 +58,7 @@ function getContent(cart) {
       <div>
       Summary: ${cart.totalPrice}€
       </div>
-      You can see your order here: 
+      You can see your order here:
       <a href="https://angular-un-ngrx-node-eshop.herokuapp.com/orders/${orderId}"> </a>
      </div>
      </body>

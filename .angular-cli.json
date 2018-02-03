@@ -5,7 +5,7 @@
   },
   "apps": [{
       "root": "src",
-      "outDir": "dist",
+      "outDir": "dist/browser",
       "assets": [
         "assets"
       ],
@@ -17,12 +17,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "../node_modules/materialize-css/dist/css/materialize.css",
-        "../node_modules/tinymce/skins/lightgray/skin.min.css",
-        "../node_modules/tinymce/skins/lightgray/content.min.css"
+        "styles/index.scss"
       ],
-      "scripts": [   
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "styles"
+        ]
+      },
+      "scripts": [
         "../node_modules/tinymce/tinymce.js",
         "../node_modules/tinymce/themes/modern/theme.js",
         "../node_modules/tinymce/plugins/media/plugin.js",
@@ -30,18 +32,17 @@
         "../node_modules/tinymce/plugins/link/plugin.js",
         "../node_modules/tinymce/plugins/code/plugin.js"
       ],
-      
+
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }
     },
-    { 
-      "name"    : "universal",
+    {
       "platform": "server",
       "root": "src",
-      "outDir": "dist-server",
+      "outDir": "dist/server",
       "assets": [
         "assets"
       ],
@@ -52,13 +53,14 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
-        "../node_modules/materialize-css/dist/css/materialize.css",
-        "../node_modules/tinymce/skins/lightgray/skin.min.css",
-        "../node_modules/tinymce/skins/lightgray/content.min.css"
-
+        "styles/index.scss"
       ],
-      "scripts": [        
+      "stylePreprocessorOptions": {
+        "includePaths": [
+          "styles"
+        ]
+      },
+      "scripts": [
         "../node_modules/tinymce/tinymce.js",
         "../node_modules/tinymce/themes/modern/theme.js",
         "../node_modules/tinymce/plugins/media/plugin.js",

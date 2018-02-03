@@ -9,20 +9,20 @@
 
     <div class="wrapper" *ngIf="(items$ | async) as items">
       <div class="sidebar-wrapp">
-        <app-sidebar 
-        [categories]="categories$ | async" 
-        [minPrice]="items?.maxPrice" 
+        <app-sidebar
+        [categories]="categories$ | async"
+        [minPrice]="items?.maxPrice"
         [maxPrice]="items?.minPrice"
         (changePrice)="priceRange($event)">
         </app-sidebar>
       </div>
       <div class="main-wrap">
           <div class="products-wrapp">
-            <app-products-list 
-            [products]="items?.products" 
-            [cartIds]="items?.cartIds" 
-            (add)="addToCart($event)" 
-            (remove)="removeFromCart($event)">
+            <app-products-list
+            [products]="items?.products"
+            [cartIds]="items?.cartIds"
+            (addProduct)="addToCart($event)"
+            (removeProduct)="removeFromCart($event)">
             </app-products-list>
           </div>
       </div>

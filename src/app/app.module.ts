@@ -40,8 +40,8 @@ import { AuthService } from './services/auth.service';
     HttpModule,
     EffectsModule.forRoot([ AppEffects ]),
     RouterModule.forRoot([
-      { path: '',  pathMatch: 'full', redirectTo: 'products' },
-      { path: 'products',  pathMatch: 'full', component: ProductsComponent },
+      { path: '', redirectTo: 'products', pathMatch: 'full' },
+      { path: 'products', component: ProductsComponent, pathMatch: 'full'  },
       { path: 'products/:id', component: ProductComponent },
       { path: 'cart', component: CartComponent },
       { path: 'category/:category', component: CategoryComponent },

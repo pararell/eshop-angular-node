@@ -1,31 +1,35 @@
 import { Injectable } from '@angular/core';
 import {  Http,  Response } from '@angular/http';
+import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ApiService {
+
+  readonly baseUrl = 'http://localhost:5000';
+
   constructor(private http: Http) {}
 
   getUser() {
-    const userUrl = '/api/current_user';
+    const userUrl = this.baseUrl + '/api/current_user';
     return this.http.get(userUrl)
       .map(res => res.json());
   }
 
   handleToken(token) {
-    const tokenUrl = '/api/stripe';
+    const tokenUrl = this.baseUrl + '/api/stripe';
     return this.http.post(tokenUrl, token)
       .map(res => res.json());
   };
 
   loadProduct(data) {
-    const productUrl = '/prod/product';
+    const productUrl = this.baseUrl + '/prod/product';
     return this.http.post(productUrl, data)
       .map(res => res.json());
   }
 
   loadProducts() {
-    const productsUrl = '/prod/products';
+    const productsUrl = this.baseUrl + '/prod/products';
     return this.http.get(productsUrl)
       .map(res => res.json())
       .map(products => ({
@@ -41,31 +45,31 @@ export class ApiService {
   }
 
   getProduct(name: string) {
-    const productUrl = '/prod/productId/' + name;
+    const productUrl = this.baseUrl + '/prod/productId/' + name;
     return this.http.get(productUrl)
       .map(res => res.json());
   }
 
   getCart() {
-    const cartUrl = '/prod/cart/';
+    const cartUrl = this.baseUrl + '/prod/cart/';
     return this.http.get(cartUrl)
       .map(res => res.json());
   }
 
   addToCart(id: string) {
-    const addToCartUrl = '/prod/addcart/' + id;
+    const addToCartUrl = this.baseUrl + '/prod/addcart/' + id;
     return this.http.get(addToCartUrl)
       .map(res => res.json());
   }
 
   removeFromCart(id: string) {
-    const removeFromCartUrl = '/prod/removefromcart/' + id;
+    const removeFromCartUrl = this.baseUrl + '/prod/removefromcart/' + id;
     return this.http.get(removeFromCartUrl)
       .map(res => res.json());
   }
 
   removeImage(id: string) {
-    const removeImage = '/admin/removeimage';
+    const removeImage = this.baseUrl + '/admin/removeimage';
     return this.http.post(removeImage, {
         image: id
       })
@@ -73,19 +77,19 @@ export class ApiService {
   }
 
   addProduct(product) {
-    const addProduct = '/admin/addproduct';
+    const addProduct = this.baseUrl + '/admin/addproduct';
     return this.http.post(addProduct, product)
       .map(res => res.json());
   }
 
   editProduct(product) {
-    const eidtProduct = '/admin/udpateproduct';
+    const eidtProduct = this.baseUrl + '/admin/udpateproduct';
     return this.http.post(eidtProduct, product)
       .map(res => res.json());
   }
 
   removeProduct(name: string) {
-    const removeProduct = '/admin/removeproduct/' + name;
+    const removeProduct = this.baseUrl + '/admin/removeproduct/' + name;
     return this.http.get(removeProduct)
       .map(res => res.json());
   }
