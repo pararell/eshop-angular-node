@@ -8,7 +8,11 @@
       <div class="action-wrap">
         <a routerLink="/products/{{product?.titleUrl}}">Detail</a>
         <p>{{product?.stock}}</p>
-        <app-cart-show [items]="cartIds[product._id]" (add)="add.emit(product._id)" (remove)="remove.emit(product._id)"></app-cart-show>
+        <app-cart-show
+          [items]="cartIds[product._id]"
+          (add)="onAddProduct(product._id)"
+          (remove)="onRemoveProduct(product._id)">
+        </app-cart-show>
       </div>
       <!-- <app-card [price]="product?.salePrice"> </app-card> -->
       <div class="price-card">{{product?.salePrice}}€</div>

@@ -11,7 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage
 });
-const Datauri = require('datauri');
+// const Datauri = require('datauri');
 
 cloudinary.config({
   cloud_name: keys.cloudinaryName,
@@ -29,10 +29,10 @@ module.exports = app => {
   });
 
   app.post( '/admin/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
-      const datauri = new Datauri();
-      datauri.format('.png', req.file.buffer);
+      // const datauri = new Datauri();
+      // datauri.format('.png', req.file.buffer);
 
-      cloudinary.uploader.upload(datauri.content, function(result) {
+      cloudinary.uploader.upload(req.file.buffer, function(result) {
         req.user.images = [...req.user.images, result.url];
         req.user.save();
 
@@ -42,14 +42,15 @@ module.exports = app => {
   );
 
   app.post('/admin/addproduct', requireLogin, requireAdmin, (req, res) => {
-    const product = new Product({
-      ...req.body,
+    const newProduct = Object.assign(req.body, {
       tags: req.body.tags ? req.body.tags.split(',') : [],
       categories: req.body.categories ? req.body.categories.split(',') : [],
       mainImage: { url: req.body.mainImage, name: req.body.titleUrl },
       _user: req.user.id,
       dateAdd: Date.now()
     });
+
+    const product = new Product(newProduct);
 
     product.save();
 

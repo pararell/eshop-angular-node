@@ -17,17 +17,15 @@ module.exports = app => {
       })
       .then(
         result => {
-          const orderId =
-            'order' + new Date().getTime() + 't' +  Math.floor(Math.random() * 1000 + 1);
-          const order = new Order({
-            ...result,
-            orderId,
+          const orderId = 'order' + new Date().getTime() + 't' +  Math.floor(Math.random() * 1000 + 1);
+          const newOrder = Object.assign(result, {
             customerEmail: req.body.token.email,
             status: 'NEW',
             cart: req.session.cart,
             _user: req.user.id,
             dateAdd: Date.now()
           });
+          const order = new Order(newOrder);
           order.save();
 
           const mailer = new Mailer(

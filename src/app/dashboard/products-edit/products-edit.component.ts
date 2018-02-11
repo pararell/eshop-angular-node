@@ -35,10 +35,6 @@ export class ProductsEditComponent implements OnInit {
 
  }
 
- ngAfterView() {
-  this.productEditForm.valueChanges.subscribe(console.log);
- }
-
  onEditorChange(data) {
    this.productEditForm.patchValue( { descriptionFull: [ data ] });
  }

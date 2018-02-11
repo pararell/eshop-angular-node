@@ -15,7 +15,7 @@ export class AppEffects {
 
   @Effect() fetchUser$: Observable<Action> = this._actions
     .ofType(actions.LOAD_USER_ACTION)
-    .switchMap(() => this.apiService.getUser())
+    .switchMap((action: actions.LoadUserAction) => this.apiService.getUser())
     .map(res => new actions.StoreUserAction(res));
 
   @Effect() loadPayment$: Observable<Action> = this._actions
@@ -34,7 +34,7 @@ export class AppEffects {
 
   @Effect() loadProducts$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PRODUCTS)
-    .switchMap(() => this.apiService.loadProducts())
+    .switchMap((action: actions.LoadProducts) => this.apiService.loadProducts())
     .map(res => new actions.LoadProductsSuccess(res));
 
   @Effect() addProduct$: Observable<Action> = this._actions
@@ -59,7 +59,7 @@ export class AppEffects {
 
   @Effect() getCart$: Observable<Action> = this._actions
     .ofType(actions.GET_CART)
-    .switchMap(() => this.apiService.getCart())
+    .switchMap((action: actions.GetCart) => this.apiService.getCart())
     .map(res => new actions.GetCartSuccess(res));
 
   @Effect() addToCart$: Observable<Action> = this._actions
