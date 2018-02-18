@@ -6,7 +6,7 @@ const requireLogin = require('../middlewares/requireLogin');
 const Cart = require('../models/Cart');
 
 module.exports = app => {
-  app.disable('etag');
+  
 
   app.post('/prod/product', (req, res) => {
     const newProduct = Object.assign(req.body, {_user: req.user.id, dateAdd: Date.now()});
