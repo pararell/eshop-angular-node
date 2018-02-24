@@ -20,26 +20,6 @@ cloudinary.config({
 });
 
 module.exports = app => {
-  app.post('/admin/removeimage', requireLogin, requireAdmin, (req, res) => {
-    const image = req.body.image;
-    const filterImages = req.user.images.filter(img => img != image);
-    req.user.images = filterImages;
-    req.user.save();
-    res.status(200).send(req.user);
-  });
-
-  app.post( '/admin/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
-      // const datauri = new Datauri();
-      // datauri.format('.png', req.file.buffer);
-
-      cloudinary.uploader.upload(req.file.buffer, function(result) {
-        req.user.images = [...req.user.images, result.url];
-        req.user.save();
-
-        res.status(200).send(req.user.images);
-      });
-    }
-  );
 
   app.post('/admin/addproduct', requireLogin, requireAdmin, (req, res) => {
     const newProduct = Object.assign(req.body, {
@@ -86,4 +66,27 @@ module.exports = app => {
       }
     );
   });
+
+  app.post( '/admin/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
+    // const datauri = new Datauri();
+    // datauri.format('.png', req.file.buffer);
+
+    cloudinary.uploader.upload(req.file.buffer, function(result) {
+      req.user.images = [...req.user.images, result.url];
+      req.user.save();
+
+      res.status(200).send(req.user.images);
+    });
+  }
+);
+
+  app.post('/admin/removeimage', requireLogin, requireAdmin, (req, res) => {
+    const image = req.body.image;
+    const filterImages = req.user.images.filter(img => img != image);
+    req.user.images = filterImages;
+    req.user.save();
+    res.status(200).send(req.user);
+  });
+
+
 };

@@ -9,12 +9,12 @@ module.exports = (app) => {
         res.redirect('/');
     });
 
-    app.get('/api/logout', (req, res) => {
+    app.get('/auth/logout', (req, res) => {
         req.logout();
         res.redirect('/');
     });
 
-    app.get('/api/current_user', (req, res) => {
+    app.get('/auth/current_user', (req, res) => {
         req.user ? res.send(req.user) : res.send({});
     });
 

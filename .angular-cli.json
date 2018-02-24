@@ -25,12 +25,6 @@
         ]
       },
       "scripts": [
-        "../node_modules/tinymce/tinymce.js",
-        "../node_modules/tinymce/themes/modern/theme.js",
-        "../node_modules/tinymce/plugins/media/plugin.js",
-        "../node_modules/tinymce/plugins/image/plugin.js",
-        "../node_modules/tinymce/plugins/link/plugin.js",
-        "../node_modules/tinymce/plugins/code/plugin.js"
       ],
 
       "environmentSource": "environments/environment.ts",
@@ -61,12 +55,6 @@
         ]
       },
       "scripts": [
-        "../node_modules/tinymce/tinymce.js",
-        "../node_modules/tinymce/themes/modern/theme.js",
-        "../node_modules/tinymce/plugins/media/plugin.js",
-        "../node_modules/tinymce/plugins/image/plugin.js",
-        "../node_modules/tinymce/plugins/link/plugin.js",
-        "../node_modules/tinymce/plugins/code/plugin.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

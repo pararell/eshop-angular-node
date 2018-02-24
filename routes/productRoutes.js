@@ -59,10 +59,6 @@ module.exports = app => {
   app.get('/prod/removefromcart/:id', (req, res) => {
     const productId = req.params.id;
     const storeCart = req.session.cart ? req.session.cart : new Cart({});
-    res.set(
-      'Cache-Control',
-      'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
-    );
     const cart = new Cart(storeCart);
 
     Product.findById(productId, (err, product) => {
@@ -76,17 +72,15 @@ module.exports = app => {
         req.user.cart = cart;
         req.user.save();
       }
-      res.send(cart);
+      res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
+         .send(cart);
     });
   });
 
   app.get('/prod/cart', (req, res) => {
     const cart = req.user ? req.user.cart : req.session.cart ? req.session.cart : new Cart({});
-    res.set(
-      'Cache-Control',
-      'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0'
-    );
     req.session.cart = cart;
-    res.send(cart);
+    res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
+      .send(cart);
   });
 };

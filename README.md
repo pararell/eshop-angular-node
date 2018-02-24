@@ -4,15 +4,16 @@ Eshop with google login, cart save in session or user, test buy with stripe
 
 ## Build
 
-Run `npm run build`
-<br />or <br />
+
 Run `ng build --prod && ng build --prod --app 1 --output-hashing=none`
+<br />or <br />
+`npm run build:ssr`
 
 ## Serve
 
 Run `npm run start`
 <br />or <br />
-Run `node server.js`
+`ng serve`
 
 ## PREPARE ENVIROMENT
 

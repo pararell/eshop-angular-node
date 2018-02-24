@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './../shared/shared.module';
 import { TinyEditorComponent } from './tiny-editor.ts/tiny-editor.component';
 import {  FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 const DASHBOARD_ROUTER: Routes = [
   {
@@ -22,7 +23,8 @@ const DASHBOARD_ROUTER: Routes = [
     SharedModule,
     ReactiveFormsModule,
     FileUploadModule,
-    RouterModule.forChild(DASHBOARD_ROUTER)
+    RouterModule.forChild(DASHBOARD_ROUTER),
+    EditorModule
   ],
   declarations: [ProductsEditComponent, OrdersEditComponent, DashboardComponent, TinyEditorComponent]
 })

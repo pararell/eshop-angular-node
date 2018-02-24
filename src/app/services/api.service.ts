@@ -11,7 +11,7 @@ export class ApiService {
   constructor(private http: Http) {}
 
   getUser() {
-    const userUrl = this.baseUrl + '/api/current_user';
+    const userUrl = this.baseUrl + '/auth/current_user';
     return this.http.get(userUrl)
       .map(res => res.json());
   }

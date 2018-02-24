@@ -1,1 +1,1 @@
-<textarea #edit id="{{elementId}}"></textarea>
+<editor (onKeyUp)="onEditorContentChange.emit($event)" [init]="{plugins: ['image', 'media', 'link', 'code']}"></editor>

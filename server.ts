@@ -36,6 +36,15 @@ require('./services/passport');
 
 const app = express();
 
+app.all('*', (req, res, next) => {
+  // CORS headers
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key, Authorization');
+  next();
+});
+
 const DIST_FOLDER = path.join(process.cwd(), 'dist');
 
 // Our index.html we'll use as our template
