@@ -35,8 +35,8 @@ export class ProductsEditComponent implements OnInit {
 
  }
 
- onEditorChange(data) {
-   this.productEditForm.patchValue( { descriptionFull: [ data ] });
+ onEditorChange(editor) {
+   this.productEditForm.patchValue( { descriptionFull: [ editor.getContent() ] });
  }
 
  createForm() {

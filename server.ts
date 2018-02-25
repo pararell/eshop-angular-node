@@ -16,15 +16,12 @@ const keys = require('./config/keys');
 const compression = require('compression');
 const MongoStore = require('connect-mongo')(session);
 
-enableProdMode();
+const DIST_FOLDER = path.join(process.cwd(), 'dist');
+const template = fs.readFileSync(path.join(DIST_FOLDER, 'browser', 'index.html')).toString();
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main.bundle');
+const factoryLoader = require('@nguniversal/module-map-ngfactory-loader');
 
-function angularRouter(req, res) {
-  res.render('index', { req, res });
-}
-
-if (keys.mongoURI) {
-  mongoose.connect(keys.mongoURI);
-}
+const PORT = process.env.PORT || 5000;
 
 // mongoose models
 require('./models/User');
@@ -34,25 +31,31 @@ require('./models/Order');
 // services
 require('./services/passport');
 
+// connect mongoDB
+if (keys.mongoURI) {
+  mongoose.connect(keys.mongoURI);
+}
+
+import { authRoutes, billingRoutes, productRoutes, cartRoutes, adminRoutes } from './newRoutes';
+
+
+enableProdMode();
+
+function angularRouter(req, res) {
+  res.render('index', { req, res });
+}
+
+// set Express
 const app = express();
 
+// set CORS headers
 app.all('*', (req, res, next) => {
-  // CORS headers
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Key, Authorization');
   next();
 });
-
-const DIST_FOLDER = path.join(process.cwd(), 'dist');
-
-// Our index.html we'll use as our template
-const template = fs.readFileSync(path.join(DIST_FOLDER, 'browser', 'index.html')).toString();
-
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main.bundle');
-
-const factoryLoader = require('@nguniversal/module-map-ngfactory-loader');
 
 app.engine('html', (_, options, callback) => {
   platformServer.renderModuleFactory(AppServerModuleNgFactory, {
@@ -102,11 +105,19 @@ app.use((req, res, next) => {
 
 app.get('/', angularRouter);
 
-// routes
-require('./routes/productRoutes')(app);
-require('./routes/authRoutes')(app);
-require('./routes/billingRoutes')(app);
-require('./routes/adminRoutes')(app);
+app.use('/auth', authRoutes);
+app.use('/api', billingRoutes);
+app.use('/prod', productRoutes);
+app.use('/cart', cartRoutes);
+app.use('/admin', adminRoutes);
+
+
+
+// old routes
+// require('./routes/productRoutes')(app);
+// require('./routes/authRoutes')(app);
+// require('./routes/billingRoutes')(app);
+// require('./routes/adminRoutes')(app);
 
 
 app.get('*.*', express.static(path.join(DIST_FOLDER, 'browser')));
@@ -121,9 +132,6 @@ app.get('*', (req, res) => {
 app.use(compression());
 
 app.get('*', angularRouter);
-
-
-const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);
