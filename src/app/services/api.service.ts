@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Injectable()
 export class ApiService {
 
-  readonly baseUrl = 'http://localhost:5000';
+  readonly baseUrl = '';
 
   constructor(private http: Http) {}
 
