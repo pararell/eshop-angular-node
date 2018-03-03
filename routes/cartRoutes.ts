@@ -45,7 +45,7 @@ cartRoutes.get('/removefromcart/:id', (req, res) => {
         req.user.cart = cart;
         req.user.save();
       }
-      res.header('Cache-Control','no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
+      res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0')
          .send(cart);
     });
   });
@@ -59,5 +59,3 @@ cartRoutes.get('/cart', (req, res) => {
 
 
 export {cartRoutes};
-
-

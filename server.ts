@@ -36,7 +36,7 @@ if (keys.mongoURI) {
   mongoose.connect(keys.mongoURI);
 }
 
-import { authRoutes, billingRoutes, productRoutes, cartRoutes, adminRoutes } from './newRoutes';
+import { authRoutes, billingRoutes, productRoutes, cartRoutes, adminRoutes } from './routes';
 
 
 enableProdMode();
@@ -108,16 +108,9 @@ app.get('/', angularRouter);
 app.use('/auth', authRoutes);
 app.use('/api', billingRoutes);
 app.use('/prod', productRoutes);
-app.use('/cart', cartRoutes);
+app.use('/cartApi', cartRoutes);
 app.use('/admin', adminRoutes);
 
-
-
-// old routes
-// require('./routes/productRoutes')(app);
-// require('./routes/authRoutes')(app);
-// require('./routes/billingRoutes')(app);
-// require('./routes/adminRoutes')(app);
 
 
 app.get('*.*', express.static(path.join(DIST_FOLDER, 'browser')));

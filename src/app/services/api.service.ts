@@ -55,19 +55,19 @@ export class ApiService {
   }
 
   getCart() {
-    const cartUrl = this.baseUrl + '/cart/cart/';
+    const cartUrl = this.baseUrl + '/cartApi/cart/';
     return this.http.get(cartUrl)
       .map(res => res.json());
   }
 
   addToCart(id: string) {
-    const addToCartUrl = this.baseUrl + '/cart/addcart/' + id;
+    const addToCartUrl = this.baseUrl + '/cartApi/addcart/' + id;
     return this.http.get(addToCartUrl)
       .map(res => res.json());
   }
 
   removeFromCart(id: string) {
-    const removeFromCartUrl = this.baseUrl + '/cart/removefromcart/' + id;
+    const removeFromCartUrl = this.baseUrl + '/cartApi/removefromcart/' + id;
     return this.http.get(removeFromCartUrl)
       .map(res => res.json());
   }
