@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl  } from '@angular/forms';
 import {FileUploader, FileItem, ParsedResponseHeaders} from 'ng2-file-upload';
-import { State } from './../../store/reducers/index';
-import * as fromRoot from '../../store/reducers';
+
 import { Observable } from 'rxjs/Observable';
+
+import * as fromRoot from '../../store/reducers';
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
 
@@ -20,10 +21,13 @@ export class ProductsEditComponent implements OnInit {
   images$: Observable<any>;
   sendRequest: Boolean = false;
 
-  constructor(private fb: FormBuilder, private store: Store<State> ) {  this.createForm(); }
+  constructor(private fb: FormBuilder, private store: Store<fromRoot.State> ) {  this.createForm(); }
 
   ngOnInit() {
-    this.images$ = this.store.select(fromRoot.getUser).filter(Boolean).map(user => user.images);
+    this.images$ = this.store.select(fromRoot.getUser)
+      .filter(Boolean)
+      .map(user => user.images);
+
     this.uploader = new FileUploader({
       url: '/admin/addimage',
       headers: [{name: 'Accept', value: 'application/json'}],
@@ -32,7 +36,6 @@ export class ProductsEditComponent implements OnInit {
   });
     this.uploader.onErrorItem = (item, response, status, headers) => this.onErrorItem(item, response, status, headers);
     this.uploader.onSuccessItem = (item, response, status, headers) => this.onSuccessItem(item, response, status, headers);
-
  }
 
  onEditorChange(editor) {

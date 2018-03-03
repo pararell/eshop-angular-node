@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { State } from './../store/reducers/index';
-import * as fromRoot from '../store/reducers';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/observable/combineLatest';
-import { ApiService } from './../services/api.service';
 
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
+import * as fromRoot from '../store/reducers';
 
 
 @Component({
@@ -15,17 +12,14 @@ import * as actions from './../store/actions'
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
 
   items$: Observable<any>;
   categories$: Observable<any>;
   filterPrice: BehaviorSubject<number> = new BehaviorSubject(Infinity);
 
-  constructor( private store: Store<State>) {
+  constructor( private store: Store<fromRoot.State>) {
     this.store.dispatch(new actions.LoadProducts());
-  }
-
- ngOnInit() {
 
   this.items$ = Observable.combineLatest(
     this.store.select(fromRoot.getProducts).filter(Boolean),
@@ -34,8 +28,8 @@ export class ProductsComponent implements OnInit {
     (products, cartItems, filterPrice) => {
       return {
         products: products.filter(product => product.salePrice <= filterPrice),
-        minPrice: products.map(product => product.salePrice).reduce((a, b) => Math.max(a, b)),
-        maxPrice: products.map(product => product.salePrice).reduce((a, b) => Math.min(a, b)),
+        minPrice: products.map(product => product.salePrice).reduce((a, b) => Math.max(a, b), 0),
+        maxPrice: products.map(product => product.salePrice).reduce((a, b) => Math.min(a, b), 0),
         cartIds: cartItems.reduce((prev, curr) => ( {...prev, [curr.id] : curr.qty } ), {} )
       }
     }
@@ -46,7 +40,6 @@ export class ProductsComponent implements OnInit {
     .map(categories => ([...categories.categories, ...categories.tags])
     .map(category => category.toLowerCase())
     .reduce((prev, curr) => prev.concat(prev.includes(curr) ? [] : [curr]) , []).filter(Boolean));
-
  }
 
  addToCart(id) {

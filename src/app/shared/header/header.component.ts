@@ -1,7 +1,8 @@
-import { State } from './../../store/reducers/index';
-import * as fromRoot from '../../store/reducers';
-import { Observable } from 'rxjs/Observable';
 import { Component } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+
+import * as fromRoot from '../../store/reducers';
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
 
@@ -14,7 +15,7 @@ export class HeaderComponent {
   user$: Observable<any>;
   cart$: Observable<any>;
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<fromRoot.State>) {
 
     this.user$ = this.store.select(fromRoot.getUser);
     this.cart$ = this.store.select(fromRoot.getCart);

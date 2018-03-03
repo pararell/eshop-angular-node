@@ -1,3 +1,9 @@
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/withLatestFrom';
+import 'rxjs/add/operator/switchMap';
+
 // angular
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';

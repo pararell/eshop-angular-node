@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {  Http,  Response } from '@angular/http';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ApiService {
@@ -33,14 +32,19 @@ export class ApiService {
     return this.http.get(productsUrl)
       .map(res => res.json())
       .map(products => ({
-        products,
+        products : products
+          .map(product => ({...product, tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
         categories: {
           categories: products
             .map(product => product.category)
-            .reduce((prev, curr) => prev.concat(prev.includes(curr) ? [] : [curr]), []).filter(Boolean),
+            .filter(Boolean),
           tags: products
-            .reduce((prev, curr) => prev.concat([...curr.tags]), []).reduce((prev, curr) => prev.concat(prev.includes(curr) ? [] : [curr]), []).filter(Boolean)
-        }
+            .map(product => product.tags
+              .filter(Boolean))
+            .reduce((tagsArr, tags) => tagsArr.concat(
+              tags.reduce((tagArr, tag) => tagArr.concat(tag.split(',')), [] )),
+              [])
+            }
       }))
   }
 

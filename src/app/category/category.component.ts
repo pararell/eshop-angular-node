@@ -1,34 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { State } from './../store/reducers/index';
-import * as fromRoot from '../store/reducers';
+import { Component } from '@angular/core';
+
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/observable/combineLatest';
-import { ApiService } from './../services/api.service';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
-
+import * as fromRoot from '../store/reducers';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss']
 })
-export class CategoryComponent implements OnInit {
+export class CategoryComponent {
 
   items$: Observable<any>;
   categories$: Observable<any>;
   category$: Observable<any>;
   filterPrice: BehaviorSubject<number> = new BehaviorSubject(Infinity);
 
-  constructor( private store: Store<State>, private route: ActivatedRoute) {
+  constructor( private store: Store<fromRoot.State>, private route: ActivatedRoute) {
     this.store.dispatch(new actions.LoadProducts());
     this.category$ = route.params.map(params => params['category']);
-  }
-
-  ngOnInit() {
 
     this.items$ = Observable.combineLatest(
       this.store.select(fromRoot.getProducts).filter(Boolean),
@@ -36,11 +30,12 @@ export class CategoryComponent implements OnInit {
       this.category$,
       this.filterPrice,
       (products, cartItems, category, filterPrice) => {
-        const categoryProducts = products.filter(product => (product.category === category || product['tags'].includes(category)));
+        const categoryProducts = products
+          .filter(product => (product.category === category || product['tags'].includes(category)));
         return {
           products: categoryProducts.filter(product => product.salePrice <= filterPrice),
-          minPrice: categoryProducts.map(product => product.salePrice).reduce((a, b) => Math.max(a, b)),
-          maxPrice: categoryProducts.map(product => product.salePrice).reduce((a, b) => Math.min(a, b)),
+          minPrice: categoryProducts.map(product => product.salePrice).reduce((a, b) => Math.max(a, b), 0),
+          maxPrice: categoryProducts.map(product => product.salePrice).reduce((a, b) => Math.min(a, b), 0),
           cartIds: cartItems.reduce((prev, curr) => ( {...prev, [curr.id] : curr.qty } ), {} )
         }
       }
@@ -51,19 +46,17 @@ export class CategoryComponent implements OnInit {
       .map(categories => ([...categories.categories, ...categories.tags])
       .map(category => category.toLowerCase())
       .reduce((prev, curr) => prev.concat(prev.includes(curr) ? [] : [curr]) , []).filter(Boolean));
-
   }
 
-
-  addToCart(id) {
+  addToCart(id): void {
     this.store.dispatch(new actions.AddToCart(id));
   }
 
-  removeFromCart(id) {
+  removeFromCart(id): void {
     this.store.dispatch(new actions.RemoveFromCart(id));
   }
 
-  priceRange(price) {
+  priceRange(price): void {
     this.filterPrice.next(price);
   }
 }

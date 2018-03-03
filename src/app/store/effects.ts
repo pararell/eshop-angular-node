@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
-import {of} from 'rxjs/observable/of';
+
 import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
+
 import { ApiService } from './../services/api.service';
+
 import {Store, combineReducers, Action} from '@ngrx/store';
 import * as actions from './actions';
 import { State } from './reducers/index';
 
-import 'rxjs/add/operator/withLatestFrom';
-import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 export class AppEffects {
@@ -72,7 +73,6 @@ export class AppEffects {
     .switchMap((action: actions.RemoveFromCart) => this.apiService.removeFromCart(action.payload))
     .map(res => new actions.GetCartSuccess(res));
 
-
   @Effect() removeImage$: Observable<Action> = this._actions
   .ofType(actions.REMOVE_PRODUCT_IMAGE)
   .switchMap((action: actions.RemoveProductImage) => this.apiService.removeImage(action.payload))
@@ -81,5 +81,3 @@ export class AppEffects {
   constructor(private _actions: Actions, private store: Store<State>, private apiService: ApiService) { }
 
 }
-
-

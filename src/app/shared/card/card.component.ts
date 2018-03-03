@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { State } from './../../store/reducers/index';
+
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
 import * as fromRoot from '../../store/reducers';
+
 import { keys } from './../../../config/keys';
 
 @Component({
@@ -11,11 +12,13 @@ import { keys } from './../../../config/keys';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })
+
 export class CardComponent implements OnInit {
+
   @Input() price: number;
   handler: any;
 
-  constructor(private store: Store<State>) {}
+  constructor(private store: Store<fromRoot.State>) {}
 
   ngOnInit() {
     this.handler = StripeCheckout.configure({
@@ -37,7 +40,6 @@ export class CardComponent implements OnInit {
       allowRememberMe: false,
       locale: 'auto',
       currency: 'EUR'
-
     });
   }
 

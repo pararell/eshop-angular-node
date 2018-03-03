@@ -4,7 +4,7 @@ import * as actions from './../actions';
 
 export interface State {
   products: any;
-  categories: { categories: any, tags: any };
+  categories: { categories: Array<string>, tags: Array<string> };
   product: any;
   cart: any;
   loadingProduct: boolean;
@@ -14,7 +14,7 @@ export interface State {
 
 export const initialState: State = {
   products: null,
-  categories: null,
+  categories: { categories: [], tags: [] },
   product: null,
   cart: null,
   loadingProduct: false,

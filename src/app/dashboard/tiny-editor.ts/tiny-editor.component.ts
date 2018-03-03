@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tiny-editor',
@@ -12,4 +12,3 @@ export class TinyEditorComponent {
   constructor() { }
 
 }
-
