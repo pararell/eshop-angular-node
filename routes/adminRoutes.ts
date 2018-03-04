@@ -9,10 +9,7 @@ const cloudinary = require('cloudinary');
 const keys = require('../config/keys');
 const multer = require('multer');
 const storage = multer.memoryStorage();
-const upload = multer({
-  storage: storage
-});
-// const Datauri = require('datauri');
+const upload = multer({ storage: storage });
 
 cloudinary.config({
   cloud_name: keys.cloudinaryName,
@@ -71,15 +68,14 @@ adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
 });
 
 adminRoutes.post( '/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
-    // const datauri = new Datauri();
-    // datauri.format('.png', req.file.buffer);
 
-    cloudinary.uploader.upload(req.file.buffer, function(result) {
+  cloudinary.v2.uploader.upload_stream({resource_type: 'auto', use_filename: true},
+    (error, result) => {
       req.user.images = [...req.user.images, result.url];
       req.user.save();
-
       res.status(200).send(req.user.images);
-    });
+    })
+    .end(req.file.buffer);
   }
 );
 

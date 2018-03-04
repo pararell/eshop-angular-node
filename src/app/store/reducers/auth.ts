@@ -15,7 +15,11 @@ export function appReducer(state = initialState, action): State {
   switch (action.type) {
 
     case actions.STORE_USER_ACTION: {
-      return { ...state, user: Object.keys(action.payload).length ? action.payload : null }
+      return { ...state, user: action.payload };
+    }
+
+    case actions.ADD_PRODUCT_IMAGE: {
+      return {...state, user: { ...state.user, images: action.payload } };
     }
 
     default: {

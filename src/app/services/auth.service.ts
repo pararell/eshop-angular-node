@@ -12,8 +12,8 @@ export class AuthService {
   get isLoggedIn(): Observable<boolean> {
     return this.apiService.getUser()
     .first()
-    .map(user => {
-      return user ? true : false;
+    .map((user: any) => {
+      return (user && user._id) ? true : false;
     })
 
   }

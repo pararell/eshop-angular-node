@@ -63,7 +63,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       { path: 'category/:category', component: ProductsComponent, pathMatch: 'full' },
       { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canLoad: [AuthGuardAdmin], pathMatch: 'full' },
       { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
-      { path: '**', redirectTo: 'products', pathMatch: 'full' }
+      { path: '**', redirectTo: 'products' }
     ]),
     StoreDevtoolsModule.instrument()
   ],
