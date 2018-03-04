@@ -3,7 +3,7 @@
   min-height: 100vh;
   flex-direction: column;
   .container {
-    padding: 20px 0px;
+    padding: 20px 15px;
   }
   .card-button-wrapper {
     display: flex;
@@ -16,16 +16,33 @@
     flex-wrap: wrap;
   }
   .wrapper {
-    display: flex;
-    @media screen and (max-width: 600px) {
-      flex-flow: wrap;
+    display: grid;
+    grid-template-areas: "sidebar main main";
+    grid-template-columns: 200px auto;
+    grid-column-gap: 15px;
+
+    .main-wrap {
+      grid-area: main;
+
+      .category-title {
+        margin: 0;
+      }
     }
-    .sidebar-wrapp {
-      margin-right: 15px;
-      width: 20%;
-      @media screen and (max-width: 600px) {
-        width: 100%;
-        margin-left: 15px;
+
+    .sidebar-wrap {
+      grid-area: sidebar;
+    }
+
+    @media screen and (max-width: 600px) {
+      grid-template-areas: "sidebar" "main";
+      grid-template-columns: auto;
+
+      .main-wrap {
+        grid-area: main;
+      }
+
+      .sidebar-wrap {
+        grid-area: sidebar;
       }
     }
   }

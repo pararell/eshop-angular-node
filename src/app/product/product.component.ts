@@ -19,11 +19,16 @@ export class ProductComponent {
 
   constructor(private _route: ActivatedRoute,  private store: Store<fromRoot.State>) {
 
-    _route.params
-      .map(params => params['id'])
-      .subscribe(params => {
-        this.store.dispatch(new actions.GetProduct(params));
-      });
+    Observable.combineLatest(
+      _route.params.map(params => params['id']),
+      this.store.select(fromRoot.getProduct),
+      (params, product) => ({params, product}))
+      .first()
+      .subscribe(({params, product}) => {
+        if (!product || (product && product.titleUrl !== params)) {
+          this.store.dispatch(new actions.GetProduct(params));
+        }
+    });
 
     this.productLoading$ = this.store.select(fromRoot.getProductLoading);
 

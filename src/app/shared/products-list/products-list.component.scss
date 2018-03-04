@@ -1,12 +1,17 @@
 :host {
-  justify-content: space-between;
-  flex-wrap: wrap;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px;
+
+  @media(max-width: 1000px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media(max-width: 650px) {
+    grid-template-columns: 1fr;
+  }
+
   .product-wrapp {
-    width: 49%;
-    @media screen and (max-width: 600px) {
-      width: 100%;
-    }
     .card {
       &:hover {
         box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);

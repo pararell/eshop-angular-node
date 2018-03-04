@@ -19,8 +19,22 @@ export class HeaderComponent {
 
     this.user$ = this.store.select(fromRoot.getUser);
     this.cart$ = this.store.select(fromRoot.getCart);
-    this.store.dispatch(new actions.LoadUserAction());
-    this.store.dispatch(new actions.GetCart());
+
+    this.user$
+      .first()
+      .subscribe((user) => {
+        if (!user) {
+          this.store.dispatch(new actions.LoadUserAction());
+        }
+      });
+
+    this.cart$
+      .first()
+      .subscribe(cart => {
+        if (!cart) {
+          this.store.dispatch(new actions.GetCart());
+        }
+      });
    }
 
 

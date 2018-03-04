@@ -21,7 +21,7 @@ export class AuthService {
   get isAdmin(): Observable<boolean> {
     return this.apiService.getUser()
     .first()
-    .map(user => {
+    .map((user: any) => {
       return (user && user.admin) ? true : false;
     })
 

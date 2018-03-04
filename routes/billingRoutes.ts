@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as passport  from 'passport';
+import * as passport from 'passport';
 
 const mongoose = require('mongoose');
 const keys = require('../config/keys');

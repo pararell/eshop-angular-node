@@ -8,23 +8,23 @@
     </div>
 
     <div class="wrapper" *ngIf="(items$ | async) as items">
-      <div class="sidebar-wrapp">
+      <div class="sidebar-wrap">
         <app-sidebar
         [categories]="categories$ | async"
         [minPrice]="items?.maxPrice"
         [maxPrice]="items?.minPrice"
+        [activeCategory]="category$ | async"
         (changePrice)="priceRange($event)">
         </app-sidebar>
       </div>
       <div class="main-wrap">
-          <div class="products-wrapp">
-            <app-products-list
+        <h3 class="category-title" *ngIf="(category$ | async) as category">{{category}}</h3>
+          <app-products-list
             [products]="items?.products"
             [cartIds]="items?.cartIds"
             (addProduct)="addToCart($event)"
             (removeProduct)="removeFromCart($event)">
-            </app-products-list>
-          </div>
+          </app-products-list>
       </div>
     </div>
 

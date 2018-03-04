@@ -2,6 +2,8 @@ require('zone.js/dist/zone-node');
 require('reflect-metadata');
 
 import { enableProdMode } from '@angular/core';
+import { ngExpressEngine } from '@nguniversal/express-engine';
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 
 const express = require('express');
 const session = require('express-session');
@@ -19,7 +21,6 @@ const MongoStore = require('connect-mongo')(session);
 const DIST_FOLDER = path.join(process.cwd(), 'dist');
 const template = fs.readFileSync(path.join(DIST_FOLDER, 'browser', 'index.html')).toString();
 const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main.bundle');
-const factoryLoader = require('@nguniversal/module-map-ngfactory-loader');
 
 const PORT = process.env.PORT || 5000;
 
@@ -57,19 +58,13 @@ app.all('*', (req, res, next) => {
   next();
 });
 
-app.engine('html', (_, options, callback) => {
-  platformServer.renderModuleFactory(AppServerModuleNgFactory, {
-    // Our index.html
-    document: template,
-    url: options.req.url,
-    // DI so that we can get lazy-loading to work differently (since we need it to just instantly render it)
-    extraProviders: [
-      factoryLoader.provideModuleMap(LAZY_MODULE_MAP)
-    ]
-  }).then(html => {
-    callback(null, html);
-  });
-});
+
+app.engine('html', ngExpressEngine({
+  bootstrap: AppServerModuleNgFactory,
+  providers: [
+    provideModuleMap(LAZY_MODULE_MAP)
+  ]
+}));
 
 app.set('view engine', 'html');
 app.set('views', path.join(DIST_FOLDER, 'browser'));
@@ -112,7 +107,6 @@ app.use('/cartApi', cartRoutes);
 app.use('/admin', adminRoutes);
 
 
-
 app.get('*.*', express.static(path.join(DIST_FOLDER, 'browser')));
 
 // app.use(express.static(`${__dirname}/dist/browser`));
@@ -124,7 +118,7 @@ app.get('*', (req, res) => {
 // compress files
 app.use(compression());
 
-app.get('*', angularRouter);
+// app.get('*', angularRouter);
 
 app.listen(PORT, () => {
   console.log(`listening on http://localhost:${PORT}!`);

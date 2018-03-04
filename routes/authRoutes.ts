@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as passport  from 'passport';
+import * as passport from 'passport';
 
 
 const authRoutes = Router();
@@ -10,8 +10,8 @@ authRoutes.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
-authRoutes.get('/current_user',(req, res) => 
-    req.user ? res.send(req.user) : res.send({}) 
+authRoutes.get('/current_user', (req, res) =>
+    req.user ? res.send(req.user) : res.send({})
 );
 
 export {authRoutes};

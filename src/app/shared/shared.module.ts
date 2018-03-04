@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { HeaderComponent } from './header/header.component';
@@ -22,7 +21,6 @@ import { ProductsListComponent } from './products-list/products-list.component';
   ],
   imports: [
     ReactiveFormsModule,
-    HttpModule,
     CommonModule,
     RouterModule
   ],

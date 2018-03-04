@@ -45,7 +45,7 @@ adminRoutes.get('/removeproduct/:name', requireAdmin, (req, res) => {
     Product.findOneAndRemove({  titleUrl: productTitle },
       function(err) {
         if (!err) {
-          Product.find({}, function(err, products) {
+          Product.find({}, function(error, products) {
             res.status(200).send(products);
           });
         }
@@ -60,8 +60,10 @@ adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
       req.body,
       { upsert: true },
       function(err, doc) {
-        if (err) return res.send(500, { error: err });
-        Product.find({}, function(err, products) {
+        if (err) {
+          return res.send(500, { error: err });
+        }
+        Product.find({}, function(error, products) {
           return res.status(200).send(products);
         });
       }
@@ -84,11 +86,10 @@ adminRoutes.post( '/addimage', requireLogin, requireAdmin, upload.single('file')
 
 adminRoutes.post('/removeimage', requireLogin, requireAdmin, (req, res) => {
     const image = req.body.image;
-    const filterImages = req.user.images.filter(img => img != image);
+    const filterImages = req.user.images.filter(img => img !== image);
     req.user.images = filterImages;
     req.user.save();
     res.status(200).send(req.user);
   });
 
 export {adminRoutes};
-
