@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  readonly baseUrl = 'http://localhost:5000';
+  readonly baseUrl = '';
 
   constructor(private http: HttpClient) {}
 
