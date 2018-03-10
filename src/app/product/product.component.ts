@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
 import * as fromRoot from '../store/reducers';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product',
@@ -17,7 +18,7 @@ export class ProductComponent {
   productLoading$: Observable<any>;
   activeTab: String = 'first';
 
-  constructor(private _route: ActivatedRoute,  private store: Store<fromRoot.State>) {
+  constructor(private _route: ActivatedRoute,  private store: Store<fromRoot.State>, private location: Location) {
 
     Observable.combineLatest(
       _route.params.map(params => params['id']),
@@ -42,6 +43,10 @@ export class ProductComponent {
         }
       }
     )
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   addToCart(id) {

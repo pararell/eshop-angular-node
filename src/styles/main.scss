@@ -1,7 +1,21 @@
+body {
+  overflow: hidden;
+}
+
 .full-width {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+}
+
+.main-scroll-wrapp {
+  position: absolute;
+  scroll-behavior: smooth;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
 }
 
 .main {

@@ -1,8 +1,9 @@
-<div class="product-wrapp" *ngFor="let product of products">
+<ng-container *ngFor="let product of products">
   <div class="card scale-transition">
-    <a routerLink="/products/{{product?.titleUrl}}" class="card-image">
-          <img src="{{product?.mainImage?.url}}">
-        </a>
+    <a routerLink="/products/{{product?.titleUrl}}" class="card-image"
+    [ngStyle]="{background: 'url(' + product.mainImage.url + ')'}">
+      <!-- <img src="{{product?.mainImage?.url}}"> -->
+    </a>
     <div class="card-action">
       <h2> {{product?.title}} </h2>
       <div class="action-wrap">
@@ -19,4 +20,4 @@
       <p>{{product?.description}}</p>
     </div>
   </div>
-</div>
+</ng-container>

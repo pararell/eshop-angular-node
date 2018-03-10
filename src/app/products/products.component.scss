@@ -2,6 +2,7 @@
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+
   .container {
     padding: 20px 15px;
   }
@@ -17,8 +18,10 @@
   }
   .wrapper {
     display: grid;
-    grid-template-areas: "sidebar main main";
-    grid-template-columns: 200px auto;
+    display: -ms-grid;
+    grid-template-areas: "sidebar main";
+    grid-template-columns: 200px 1fr;
+    -ms-grid-columns: 200px 1fr;
     grid-column-gap: 15px;
 
     .main-wrap {

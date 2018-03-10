@@ -1,9 +1,7 @@
-<app-header></app-header>
-
 <div class="main">
   <div class="container">
 
-    <div routerLink="/products">
+    <div (click)="goBack()">
       <a class="waves-effect waves-light btn"><i class="material-icons left">arrow_back</i>BACK</a>
     </div>
 
@@ -21,7 +19,11 @@
               <div class="stock">{{items?.product?.stock}}</div>
               <div class="price">{{items?.product?.salePrice}}€</div>
               <div class="cart-wrap">
-                <app-cart-show [items]="items?.cartIds[items?.product._id]" (add)="addToCart(items?.product._id)" (remove)="removeFromCart(items?.product._id)"></app-cart-show>
+                <app-cart-show
+                  [items]="items?.cartIds[items?.product._id]"
+                  (add)="addToCart(items?.product._id)"
+                  (remove)="removeFromCart(items?.product._id)">
+                </app-cart-show>
               </div>
             </div>
             <div class="tags">
@@ -53,4 +55,4 @@
   </div>
 </div>
 
-<app-footer *ngIf="(items$ | async)"> </app-footer>
+<!-- <app-footer *ngIf="(items$ | async)"> </app-footer> -->

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ActivatedRoute } from '@angular/router';
@@ -20,7 +20,12 @@ export class ProductsComponent {
   category$: Observable<any>;
   filterPrice: BehaviorSubject<number> = new BehaviorSubject(Infinity);
 
-  constructor( private store: Store<fromRoot.State>, private route: ActivatedRoute ) {
+  readonly component = 'productsComponent';
+
+  constructor(
+    private store: Store<fromRoot.State>,
+    private route: ActivatedRoute,
+    private elRef: ElementRef ) {
 
     this.category$ = route.params.map(params => params['category']);
 

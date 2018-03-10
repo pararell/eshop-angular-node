@@ -1,30 +1,62 @@
 :host {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 15px;
+  // display: grid;
+  // display: -ms-grid;
+  // -ms-grid-columns: 1fr 1fr 1fr;
+  // grid-template-columns:  repeat( 3, 1fr );
+  // grid-gap: 15px; // edge - ie grid problem
 
-  @media(max-width: 1000px) {
-    grid-template-columns: 1fr 1fr;
-  }
+  display: flex;
+  flex-wrap: wrap;
 
-  @media(max-width: 650px) {
-    grid-template-columns: 1fr;
-  }
+  // @media(max-width: 1000px) {
+  //   -ms-grid-columns: 1fr 1fr;
+  //   grid-template-columns:  repeat( 2, 1fr );
+  // }
 
-  .product-wrapp {
+  // @media(max-width: 650px) {
+  //   -ms-grid-columns: 1fr;
+  //   grid-template-columns: 1fr;
+  // }
+
     .card {
+      flex-basis: 30%;
+      margin-right: 3%;
+      overflow: hidden;
+
+      @media(max-width: 1000px) {
+       flex-basis: 48%;
+       margin-right: 2%;
+      }
+
+      @media(max-width: 650px) {
+        flex-basis: 100%;
+      }
       &:hover {
         box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
       }
       .card-image {
+        background-repeat: no-repeat;
+        background-position: center !important;
+        min-height: 300px;
+        background-size: cover !important;
         cursor: pointer;
         overflow: hidden;
         display: block;
-        &:hover img {
+        transition: all .2s ease-in-out;
+        &:hover {
           transform: scale(1.1);
         }
         img {
           transition: all .2s ease-in-out;
+          max-height: 300px;
+
+          @media(max-width: 1000px) {
+            max-height: 250px;
+           }
+
+           @media(max-width: 650px) {
+             max-height: 400px;
+           }
         }
       }
     }
@@ -53,5 +85,4 @@
       font-weight: 600;
       font-size: 18px;
     }
-  }
 }
