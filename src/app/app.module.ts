@@ -34,6 +34,8 @@ import { AuthGuardAdmin } from './services/auth-admin.guard';
 import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
 import { BrowserHttpInterceptor } from './services/browser-http-interceptor';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 // external
 import { StoreModule, ActionReducer, combineReducers } from '@ngrx/store';
@@ -48,7 +50,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     ProductsComponent,
     ProductComponent,
     CartComponent,
-    OrdersComponent
+    OrdersComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'my-app'}),
