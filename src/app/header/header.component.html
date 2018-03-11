@@ -1,0 +1,23 @@
+<nav class="main-nav-header light-blue darken-2">
+  <div class="nav-wrapper light-blue darken-2">
+    <a href="" class="left brand-logo">Bluetooth eshop</a>
+
+    <ul class="right">
+      <li *ngIf="!(user$ | async)?._id">
+        <a href="/auth/google">Login with Google</a>
+      </li>
+      <li>
+        <a class="cart-wrap" [routerLink]="['/cart']"> {{(cart$ | async)?.totalQty}} items
+          <i class="material-icons">shopping_cart</i>
+        </a>
+      </li>
+      <li *ngIf="(user$ | async)?.admin">
+        <a [routerLink]="['/dashboard']"> Dashboard</a>
+      </li>
+      <li *ngIf="(user$ | async)?._id">
+        <a href="/auth/logout"> Logout</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>
