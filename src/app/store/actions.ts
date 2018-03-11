@@ -15,6 +15,9 @@ export const LOAD_PRODUCT_SUCESS = 'LOAD Product Sucess';
 export const LOAD_PRODUCTS = 'LOAD Products';
 export const LOAD_PRODUCTS_SUCESS = 'LOAD Products Sucess';
 
+export const LOAD_PRODUCTS_SEARCH = 'LOAD Products Search';
+export const LOAD_PRODUCTS_SEARCH_SUCESS = 'LOAD Products Search Sucess';
+
 export const LOADING_PRODUCT = 'Loading Product';
 export const GET_PRODUCT = 'GET Product';
 export const GET_PRODUCT_SUCESS = 'GET Product Sucess';
@@ -141,6 +144,20 @@ export class LoadProductsSuccess implements Action {
      constructor(public payload: any) {
     }
 }
+
+
+export class LoadProductsSearch implements Action {
+  readonly type = LOAD_PRODUCTS_SEARCH;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadProductsSearchSuccess implements Action {
+  readonly type = LOAD_PRODUCTS_SEARCH_SUCESS;
+   constructor(public payload: any) {
+  }
+}
+
 
 export class LoadingProduct implements Action {
     readonly type = LOADING_PRODUCT;

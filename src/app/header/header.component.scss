@@ -3,6 +3,10 @@
 
   .main-nav-header {
     padding: 0 15px;
+
+    @media screen and (max-width: 600px) {
+      padding: 0;
+    }
   }
 
   .cart-wrap {
@@ -13,10 +17,30 @@
     text-overflow: ellipsis;
     max-width: 40%;
 
+    @media screen and (max-width: 700px) {
+       max-width: 30%;
+       overflow: hidden;
+       max-height: 55px;
+    }
+
     @media screen and (max-width: 600px) {
-      max-width: 20%;
+      max-width: 10%;
       overflow: hidden;
       max-height: 55px;
+    }
+  }
+
+  .fake-form {
+    height: 100%;
+    width: 30%;
+    display: inline-block;
+
+    .input-field {
+      z-index: 20;
+
+      .autocomplete-content {
+        max-height: 200px;
+      }
     }
   }
 }

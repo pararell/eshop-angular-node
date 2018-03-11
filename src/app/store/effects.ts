@@ -38,6 +38,12 @@ export class AppEffects {
     .switchMap((action: actions.LoadProducts) => this.apiService.loadProducts())
     .map(res => new actions.LoadProductsSuccess(res));
 
+  @Effect() loadProductsSearch$: Observable<Action> = this._actions
+    .ofType(actions.LOAD_PRODUCTS_SEARCH)
+    .switchMap((action: actions.LoadProductsSearch) => this.apiService.loadProductsSearch(action.payload))
+    .map(res => new actions.LoadProductsSearchSuccess(res));
+
+
   @Effect() addProduct$: Observable<Action> = this._actions
     .ofType(actions.ADD_PRODUCT)
     .switchMap((action: actions.AddProduct) => this.apiService.addProduct(action.payload))

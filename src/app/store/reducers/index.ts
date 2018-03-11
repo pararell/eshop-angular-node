@@ -25,3 +25,4 @@ export const getProductLoading = createSelector(Products, fromProducts.productLo
 export const getCart = createSelector(Products, fromProducts.cart);
 export const getOrder = createSelector(Products, fromProducts.order);
 export const getProductImages = createSelector(Products, fromProducts.productImages);
+export const getProductTtitles = createSelector(Products, fromProducts.productsTitles);

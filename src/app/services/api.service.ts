@@ -44,6 +44,11 @@ export class ApiService {
       }))
   }
 
+  loadProductsSearch(query: string) {
+    const productUrl = this.baseUrl + '/prod/productQuery/' + query;
+    return this.http.get(productUrl);
+  }
+
   getProduct(name: string) {
     const productUrl = this.baseUrl + '/prod/productId/' + name;
     return this.http.get(productUrl);

@@ -10,6 +10,7 @@ export interface State {
   loadingProduct: boolean;
   order: any;
   productImages: Array<string>;
+  productsTitles: Array<string>;
 }
 
 export const initialState: State = {
@@ -19,7 +20,8 @@ export const initialState: State = {
   cart: null,
   loadingProduct: false,
   order: null,
-  productImages: []
+  productImages: [],
+  productsTitles: []
 };
 
 
@@ -47,6 +49,10 @@ export function productReducer(state = initialState, action): State {
                     loadingProduct: false  }
       }
 
+    case actions.LOAD_PRODUCTS_SEARCH_SUCESS: {
+        return { ...state, productsTitles: action.payload }
+      }
+
     case actions.GET_CART_SUCCESS:
     case actions.ADD_TO_CART_SUCCESS: {
         return { ...state,
@@ -71,3 +77,4 @@ export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;
 export const order = (state: State) => state.order;
 export const productImages = (state: State) => state.productImages;
+export const productsTitles = (state: State) => state.productsTitles;

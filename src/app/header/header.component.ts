@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl  } from '@angular/forms';
+
 
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from '../store/reducers';
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +17,10 @@ import * as actions from './../store/actions'
 export class HeaderComponent implements OnInit {
   user$: Observable<any>;
   cart$: Observable<any>;
+  productTitles$: Observable<any>;
+  showAutocomplete$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
+  readonly query: FormControl = new FormControl();
 
   constructor(private store: Store<fromRoot.State>) {}
 
@@ -21,6 +28,14 @@ export class HeaderComponent implements OnInit {
 
     this.user$ = this.store.select(fromRoot.getUser);
     this.cart$ = this.store.select(fromRoot.getCart);
+    this.productTitles$ = this.store.select(fromRoot.getProductTtitles);
+
+    this.query.valueChanges
+      .debounceTime(200)
+      .subscribe((value) => {
+        const sendQuery = value || 'EMPTY___QUERY';
+        this.store.dispatch(new actions.LoadProductsSearch(sendQuery));
+      });
 
     this.user$
       .first()
@@ -37,6 +52,19 @@ export class HeaderComponent implements OnInit {
           this.store.dispatch(new actions.GetCart());
         }
       });
+   }
+
+   onFocus() {
+    this.showAutocomplete$.next(true);
+   }
+
+   onBlur() {
+     setTimeout(() => this.showAutocomplete$.next(false), 300);
+   }
+
+   onTitleLink(productUrl) {
+      this.query.setValue('');
+
    }
 
 

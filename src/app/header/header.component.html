@@ -1,7 +1,7 @@
 <nav class="main-nav-header light-blue darken-2">
+
   <div class="nav-wrapper light-blue darken-2">
     <a href="" class="left brand-logo">Bluetooth eshop</a>
-
     <ul class="right">
       <li *ngIf="!(user$ | async)?._id">
         <a href="/auth/google">Login with Google</a>
@@ -18,6 +18,22 @@
         <a href="/auth/logout"> Logout</a>
       </li>
     </ul>
+
+    <div class="fake-form right">
+        <div class="input-field">
+          <input id="search" type="search" class="autocomplete"
+            [formControl]="query"
+            (focus)="onFocus()"
+            (blur)="onBlur()"
+          >
+          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <i class="material-icons">close</i>
+          <ul class="autocomplete-content dropdown-content" *ngIf="showAutocomplete$ | async">
+            <li *ngFor="let title of (productTitles$ | async)">
+              <a (click)="onTitleLink(title)" [routerLink]="['/products/' + title]">{{title}}</a> </li>
+          </ul>
+        </div>
+    </div>
 
   </div>
 </nav>

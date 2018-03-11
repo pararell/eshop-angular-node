@@ -11,6 +11,19 @@ productRoutes.get('/products', (req, res) => {
     });
   });
 
+productRoutes.get('/productQuery/:query', (req, res) => {
+    Product.find(
+      {
+        titleUrl:  new RegExp(req.params.query, 'i')
+      },
+      function(err, products) {
+        const updatedProducts = products
+          .map(product => product.titleUrl);
+        res.status(200).send(updatedProducts);
+      }
+    );
+  });
+
 productRoutes.get('/productId/:name', (req, res) => {
     Product.findOne(
       {
