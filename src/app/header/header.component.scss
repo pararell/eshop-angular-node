@@ -3,6 +3,8 @@
 
   .main-nav-header {
     padding: 0 15px;
+    height: 50px;
+    line-height: 50px;
 
     @media screen and (max-width: 600px) {
       padding: 0;
@@ -11,6 +13,11 @@
 
   .cart-wrap {
     display: flex;
+
+    i {
+      height: 50px;
+      line-height: 50px;
+    }
   }
 
   .brand-logo {
@@ -28,6 +35,10 @@
       overflow: hidden;
       max-height: 55px;
     }
+  }
+
+  .search-icon-position {
+    top: -15px;
   }
 
   .fake-form {

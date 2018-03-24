@@ -9,6 +9,7 @@
       <div class="sidebar-wrap">
         <app-sidebar
         [categories]="categories$ | async"
+        [price]="filterPrice$ | async"
         [minPrice]="items?.maxPrice"
         [maxPrice]="items?.minPrice"
         [activeCategory]="category$ | async"

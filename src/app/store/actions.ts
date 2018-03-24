@@ -37,6 +37,8 @@ export const ADD_PRODUCT = 'Add Product';
 export const REMOVE_PRODUCT = 'Remove Product';
 export const EDIT_PRODUCT = 'Edit Product';
 
+export const FILTER_PRICE = 'Filter Price';
+
 export class AddProduct implements Action {
     readonly type = ADD_PRODUCT;
     constructor(public payload: any ) {
@@ -188,5 +190,11 @@ export class LoadPaymentFail implements Action {
 export class StoreAction implements Action {
     readonly type = STORE_ACTION;
      constructor(public payload: any ) {
+    }
+  }
+
+export class FilterPrice implements Action {
+    readonly type = FILTER_PRICE;
+      constructor(public payload: any ) {
     }
 }

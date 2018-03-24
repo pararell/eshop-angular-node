@@ -10,6 +10,8 @@ export class SidebarComponent  {
   @Input() activeCategory?: string;
   @Input() minPrice: number;
   @Input() maxPrice: number;
+  @Input() price: number;
+
   @Output() changePrice: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }

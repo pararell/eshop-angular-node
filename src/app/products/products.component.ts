@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ActivatedRoute } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
 
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
@@ -18,16 +19,19 @@ export class ProductsComponent {
   items$: Observable<any>;
   categories$: Observable<any>;
   category$: Observable<any>;
-  filterPrice: BehaviorSubject<number> = new BehaviorSubject(Infinity);
+  filterPrice$: Observable<number>;
 
   readonly component = 'productsComponent';
 
   constructor(
     private store: Store<fromRoot.State>,
     private route: ActivatedRoute,
+    private _meta: Meta,
+    private _title: Title,
     private elRef: ElementRef ) {
 
     this.category$ = route.params.map(params => params['category']);
+    this.filterPrice$ = store.select(fromRoot.getPriceFilter);
 
     this.store.select(fromRoot.getProducts)
       .first()
@@ -43,7 +47,7 @@ export class ProductsComponent {
       this.store.select(fromRoot.getCart)
         .filter(Boolean)
         .map(cart => cart.items),
-      this.filterPrice,
+      this.filterPrice$,
       this.category$,
       (products, cartItems, filterPrice, category) => {
         const filteredProducts = category
@@ -57,6 +61,9 @@ export class ProductsComponent {
         }
       }
     )
+
+    this._title.setTitle('Products');
+    this._meta.updateTag({ name: 'description', content: 'Bluetooth Headphones for every ears' });
 
     this.categories$ = this.store.select(fromRoot.getCategories)
       .filter(Boolean)
@@ -74,7 +81,7 @@ export class ProductsComponent {
   }
 
   priceRange(price) {
-    this.filterPrice.next(price);
+    this.store.dispatch(new actions.FilterPrice(price));
   }
 
 }

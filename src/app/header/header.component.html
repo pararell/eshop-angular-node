@@ -1,4 +1,4 @@
-<nav class="main-nav-header light-blue darken-2">
+<nav class="main-nav-header light-blue darken-2 navbar-fixed">
 
   <div class="nav-wrapper light-blue darken-2">
     <a href="" class="left brand-logo">Bluetooth eshop</a>
@@ -26,7 +26,7 @@
             (focus)="onFocus()"
             (blur)="onBlur()"
           >
-          <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+          <label class="label-icon search-icon-position" for="search"><i class="material-icons">search</i></label>
           <i class="material-icons">close</i>
           <ul class="autocomplete-content dropdown-content" *ngIf="showAutocomplete$ | async">
             <li *ngFor="let title of (productTitles$ | async)">
