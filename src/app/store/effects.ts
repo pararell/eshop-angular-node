@@ -24,15 +24,6 @@ export class AppEffects {
     .switchMap((action: actions.LoadPayment) => this.apiService.handleToken(action.payload))
     .map(res => new actions.LoadPaymentSuccess(res));
 
-  @Effect() loadProduct$: Observable<Action> = this._actions
-    .ofType(actions.LOAD_PRODUCT)
-    .switchMap((action: actions.LoadProduct) => this.apiService.loadProduct(action.payload))
-    .map(res => new actions.LoadProductSuccess(res));
-
-  @Effect() loadProductLoader$: Observable<Action> = this._actions
-    .ofType(actions.GET_PRODUCT)
-    .map(res => new actions.LoadingProduct());
-
   @Effect() loadProducts$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PRODUCTS)
     .switchMap((action: actions.LoadProducts) => this.apiService.loadProducts())
@@ -93,6 +84,17 @@ export class AppEffects {
     .ofType(actions.LOAD_ORDER)
     .switchMap((action: actions.LoadOrder) => this.apiService.getOrder(action.payload))
     .map(res => new actions.LoadOrderSuccess(res));
+
+  @Effect() loadUserOrders$: Observable<Action> = this._actions
+    .ofType(actions.LOAD_USER_ORDERS)
+    .switchMap((action: actions.LoadUserOrders) => this.apiService.getUserOrders(action.payload))
+    .map(res => new actions.LoadUserOrdersSuccess(res));
+
+  @Effect() updateOrder$: Observable<Action> = this._actions
+    .ofType(actions.UPDATE_ORDER)
+    .switchMap((action: actions.UpdateOrder) => this.apiService.updateOrder(action.payload))
+    .map(res => new actions.LoadOrderSuccess(res));
+
 
   constructor(private _actions: Actions, private store: Store<State>, private apiService: ApiService) { }
 

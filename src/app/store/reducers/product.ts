@@ -9,6 +9,7 @@ export interface State {
   cart: any;
   loadingProduct: boolean;
   orders: null;
+  userOrders: null;
   order: any;
   orderId: any;
   productImages: Array<string>;
@@ -23,6 +24,7 @@ export const initialState: State = {
   cart: null,
   loadingProduct: false,
   orders: null,
+  userOrders: null,
   orderId: null,
   order: null,
   productImages: [],
@@ -39,10 +41,6 @@ export function productReducer(state = initialState, action): State {
       return { ...state,
                   products: action.payload.products,
                   categories: action.payload.categories }
-    }
-
-    case actions.LOADING_PRODUCT: {
-        return { ...state, loadingProduct: true }
     }
 
     case actions.ADD_PRODUCT_IMAGE: {
@@ -80,6 +78,10 @@ export function productReducer(state = initialState, action): State {
     case actions.LOAD_ORDER_SUCCESS: {
       return { ...state, orderId: action.payload }}
 
+    case actions.LOAD_USER_ORDERS_SUCCESS: {
+      return { ...state, userOrders: action.payload } }
+
+
     default: {
       return state;
     }
@@ -92,6 +94,7 @@ export const product = (state: State) => state.product;
 export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;
 export const orders = (state: State) => state.orders;
+export const userOrders = (state: State) => state.userOrders;
 export const orderId = (state: State) => state.orderId;
 export const order = (state: State) => state.order;
 export const productImages = (state: State) => state.productImages;

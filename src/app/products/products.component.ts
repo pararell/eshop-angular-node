@@ -55,9 +55,15 @@ export class ProductsComponent {
           : products;
         return {
           products: filteredProducts.filter(product => product.salePrice <= filterPrice),
-          minPrice: filteredProducts.map(product => product.salePrice).reduce((a, b) => Math.max(a, b), 0),
-          maxPrice: filteredProducts.map(product => product.salePrice).reduce((a, b) => Math.min(a, b), 0),
-          cartIds: cartItems.reduce((prev, curr) => ( {...prev, [curr.id] : curr.qty } ), {} )
+          minPrice: filteredProducts
+            .filter(product => product.salePrice)
+            .map(product => product.salePrice).reduce((a, b) => Math.max(a, b), 0),
+          maxPrice: filteredProducts
+            .filter(product => product.salePrice)
+            .map(product => product.salePrice).reduce((a, b) => Math.min(a, b), 0),
+          cartIds: (cartItems && cartItems.length)
+            ? cartItems.reduce((prev, curr) => ( {...prev, [curr.id] : curr.qty } ), {} )
+            : {}
         }
       }
     )

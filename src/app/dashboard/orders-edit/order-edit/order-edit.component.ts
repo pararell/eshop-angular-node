@@ -1,3 +1,4 @@
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
@@ -15,15 +16,41 @@ import * as actions from './../../../store/actions'
 export class OrderEditComponent {
 
   order$: Observable<any>;
+  statusForm: FormGroup;
+  orderId: string;
 
-  constructor(private store: Store<fromRoot.State>, private _route: ActivatedRoute, private location: Location ) {
+  showForm = false;
+
+  constructor(
+    private store: Store<fromRoot.State>,
+    private _route: ActivatedRoute,
+    private _fb: FormBuilder,
+    private location: Location ) {
+
+    this.statusForm = this._fb.group({
+      status: ['', Validators.required ]
+    });
 
     _route.params.map(params => params['id'])
       .subscribe(params => {
         this.store.dispatch(new actions.LoadOrder(params));
+        this.orderId = params;
     });
 
      this.order$ = this.store.select(fromRoot.getOrderId);
+   }
+
+   toggleForm() {
+    this.showForm = !this.showForm;
+   }
+
+   submit() {
+     this.showForm = false;
+     const status = this.statusForm.get('status').value;
+     this.store.dispatch(new actions.UpdateOrder({
+      orderId: this.orderId,
+      status
+     }));
    }
 
    goBack() {

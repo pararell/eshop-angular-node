@@ -2,6 +2,8 @@ import { Router } from 'express';
 
 const mongoose = require('mongoose');
 const Product = mongoose.model('products');
+const Order = mongoose.model('orders');
+const requireLogin = require('../middlewares/requireLogin');
 
 const productRoutes = Router();
 
@@ -35,13 +37,18 @@ productRoutes.get('/productId/:name', (req, res) => {
     );
   });
 
-productRoutes.post('/product', (req, res) => {
-    const newProduct = Object.assign(req.body, {_user: req.user.id, dateAdd: Date.now()});
-    const product = new Product(newProduct);
 
-    product.save();
+productRoutes.post('/orders', requireLogin, (req, res) => {
+  const token = req.body.token;
+    Order.find(
+      {
+        _user: token
+      },
+      function(err, orders) {
+        res.status(200).send(orders);
+      }
+    );
+});
 
-    res.status(200).send(product);
-  });
 
 export {productRoutes};

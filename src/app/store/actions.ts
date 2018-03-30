@@ -18,7 +18,6 @@ export const LOAD_PRODUCTS_SUCESS = 'LOAD Products Sucess';
 export const LOAD_PRODUCTS_SEARCH = 'LOAD Products Search';
 export const LOAD_PRODUCTS_SEARCH_SUCESS = 'LOAD Products Search Sucess';
 
-export const LOADING_PRODUCT = 'Loading Product';
 export const GET_PRODUCT = 'GET Product';
 export const GET_PRODUCT_SUCESS = 'GET Product Sucess';
 
@@ -44,6 +43,11 @@ export const LOAD_ORDERS_SUCCESS = 'Load Orders Success';
 
 export const LOAD_ORDER = 'Load Order';
 export const LOAD_ORDER_SUCCESS = 'Load Order Success';
+
+export const LOAD_USER_ORDERS = 'Load User Orders';
+export const LOAD_USER_ORDERS_SUCCESS = 'Load User Orders Success';
+
+export const UPDATE_ORDER = 'Update Order';
 
 
 export class AddProduct implements Action {
@@ -130,17 +134,6 @@ export class LoadPaymentSuccess implements Action {
     }
 }
 
-export class LoadProduct implements Action {
-    readonly type = LOAD_PRODUCT;
-     constructor(public payload: any) {
-    }
-}
-
-export class LoadProductSuccess implements Action {
-    readonly type = LOAD_PRODUCT_SUCESS;
-     constructor(public payload: any) {
-    }
-}
 
 export class LoadProducts implements Action {
     readonly type = LOAD_PRODUCTS;
@@ -165,13 +158,6 @@ export class LoadProductsSearchSuccess implements Action {
   readonly type = LOAD_PRODUCTS_SEARCH_SUCESS;
    constructor(public payload: any) {
   }
-}
-
-
-export class LoadingProduct implements Action {
-    readonly type = LOADING_PRODUCT;
-     constructor() {
-    }
 }
 
 
@@ -227,6 +213,24 @@ export class LoadOrder implements Action {
 
 export class LoadOrderSuccess implements Action {
   readonly type = LOAD_ORDER_SUCCESS;
+   constructor(public payload: any) {
+  }
+}
+
+export class UpdateOrder implements Action {
+  readonly type = UPDATE_ORDER;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadUserOrders implements Action {
+  readonly type = LOAD_USER_ORDERS;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadUserOrdersSuccess implements Action {
+  readonly type = LOAD_USER_ORDERS_SUCCESS;
    constructor(public payload: any) {
   }
 }

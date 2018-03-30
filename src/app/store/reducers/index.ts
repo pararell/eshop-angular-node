@@ -26,6 +26,7 @@ export const getCart = createSelector(Products, fromProducts.cart);
 export const getOrder = createSelector(Products, fromProducts.order);
 export const getOrderId = createSelector(Products, fromProducts.orderId);
 export const getOrders = createSelector(Products, fromProducts.orders);
+export const getUserOrders = createSelector(Products, fromProducts.userOrders);
 export const getProductImages = createSelector(Products, fromProducts.productImages);
 export const getProductTtitles = createSelector(Products, fromProducts.productsTitles);
 export const getPriceFilter = createSelector(Products, fromProducts.priceFilter);

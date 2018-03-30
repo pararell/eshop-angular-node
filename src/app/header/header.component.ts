@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
   user$: Observable<any>;
   cart$: Observable<any>;
   productTitles$: Observable<any>;
+  userOrders$: Observable<any>;
   showAutocomplete$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+
 
   readonly query: FormControl = new FormControl();
 
@@ -29,6 +31,7 @@ export class HeaderComponent implements OnInit {
     this.user$ = this.store.select(fromRoot.getUser);
     this.cart$ = this.store.select(fromRoot.getCart);
     this.productTitles$ = this.store.select(fromRoot.getProductTtitles);
+    this.userOrders$ = this.store.select(fromRoot.getUserOrders);
 
     this.query.valueChanges
       .debounceTime(200)
@@ -43,6 +46,14 @@ export class HeaderComponent implements OnInit {
         if (!user) {
           this.store.dispatch(new actions.LoadUserAction());
         }
+      });
+
+    this.user$
+      .filter(Boolean)
+      .filter(user => user._id)
+      .take(1)
+      .subscribe(user => {
+        this.store.dispatch(new actions.LoadUserOrders({token: user._id }));
       });
 
     this.cart$

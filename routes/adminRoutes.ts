@@ -108,4 +108,20 @@ adminRoutes.get('/orderId/:id', (req, res) => {
   );
 });
 
+
+adminRoutes.post('/updateOrder', requireAdmin, (req, res) => {
+  const orderId = req.body.orderId;
+
+  Order.findOneAndUpdate({ orderId: orderId },
+    req.body,
+    { new: true },
+    function(err, doc) {
+      if (err) {
+        return res.send(500, { error: err });
+      }
+      return res.status(200).send(doc);
+    }
+  );
+});
+
 export {adminRoutes};

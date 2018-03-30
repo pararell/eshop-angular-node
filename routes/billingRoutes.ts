@@ -42,7 +42,6 @@ billingRoutes.post('/stripe', (req, res, next) => {
           req.session.cart = cart;
           if (req.user) {
             req.user.cart = cart;
-            req.user.order = [...req.user.order, order];
             req.user.save();
           }
 

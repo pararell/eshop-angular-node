@@ -15,8 +15,15 @@
             <div>
               <h4>{{ order?.orderId }}</h4>
               <div class="product-info">
-                <div class="stock"> Status: {{ order?.status }}</div>
+                <div class="stock"> Status: {{ order?.status }} <div (click)="toggleForm()">EDIT</div> </div>
                 <div class="price">Amount: {{ order?.amount }}</div>
+              </div>
+              <div *ngIf="showForm">
+                <form [formGroup]="statusForm">
+                  <input type="text" name="status" class="input" formControlName="status">
+                  <button type="submit" class="btn waves-effect waves-light" [disabled]="statusForm.invalid"
+                    (click)="submit()"> OK </button>
+                </form>
               </div>
               <div class="tags">
                 <div class="chip">

@@ -5,9 +5,12 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  readonly baseUrl = 'http://localhost:5000';
+  // readonly baseUrl = 'http://localhost:5000';
+  readonly baseUrl = '';
 
   constructor(private http: HttpClient) {}
+
+  // auth
 
   getUser() {
     const userUrl = this.baseUrl + '/auth/current_user';
@@ -19,10 +22,7 @@ export class ApiService {
     return this.http.post(tokenUrl, token);
   };
 
-  loadProduct(data) {
-    const productUrl = this.baseUrl + '/prod/product';
-    return this.http.post(productUrl, data);
-  }
+  // products
 
   loadProducts() {
     const productsUrl = this.baseUrl + '/prod/products';
@@ -54,6 +54,13 @@ export class ApiService {
     return this.http.get(productUrl);
   }
 
+  getUserOrders(req) {
+    const userOrderUrl = this.baseUrl + '/prod/orders';
+    return this.http.post(userOrderUrl, req);
+  }
+
+  // cart
+
   getCart() {
     const cartUrl = this.baseUrl + '/cartApi/cart/';
     return this.http.get(cartUrl);
@@ -68,6 +75,8 @@ export class ApiService {
     const removeFromCartUrl = this.baseUrl + '/cartApi/removefromcart/' + id;
     return this.http.get(removeFromCartUrl);
   }
+
+  // dashboard
 
   removeImage(id: string) {
     const removeImage = this.baseUrl + '/admin/removeimage';
@@ -98,4 +107,11 @@ export class ApiService {
     const orderUrl = this.baseUrl + '/admin/orderId/' + id;
     return this.http.get(orderUrl);
   }
+
+  updateOrder(req) {
+    const orderUpdateUrl = this.baseUrl + '/admin/updateOrder';
+    return this.http.post(orderUpdateUrl, req);
+  }
+
+
 }
