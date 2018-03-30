@@ -10,11 +10,13 @@
   }
 
   .card-content {
-    display: flex;
-    justify-content: space-between;
+    &.top-content {
+      display: flex;
+      justify-content: space-between;
+    }
 
-    @media screen and (max-width: 600px) {
-      flex-flow: wrap;
+    .cart-img {
+      max-width: 100px;
     }
 
     h4 {
@@ -48,19 +50,5 @@
       margin: 20px 0;
       font-size: 16px;
     }
-
-    .image-wrap {
-      width: 50%;
-      background-size: contain !important;
-      min-height: 300px;
-    }
-  }
-
-  .tab {
-    cursor: pointer;
-  }
-
-  .cart-wrap {
-    padding-right: 10px;
   }
 }

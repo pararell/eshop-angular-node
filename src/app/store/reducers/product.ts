@@ -8,7 +8,9 @@ export interface State {
   product: any;
   cart: any;
   loadingProduct: boolean;
+  orders: null;
   order: any;
+  orderId: any;
   productImages: Array<string>;
   productsTitles: Array<string>;
   priceFilter: number;
@@ -20,6 +22,8 @@ export const initialState: State = {
   product: null,
   cart: null,
   loadingProduct: false,
+  orders: null,
+  orderId: null,
   order: null,
   productImages: [],
   productsTitles: [],
@@ -69,6 +73,13 @@ export function productReducer(state = initialState, action): State {
     case actions.FILTER_PRICE:
       return {...state, priceFilter: action.payload };
 
+
+    case actions.LOAD_ORDERS_SUCCESS: {
+        return { ...state, orders: action.payload } }
+
+    case actions.LOAD_ORDER_SUCCESS: {
+      return { ...state, orderId: action.payload }}
+
     default: {
       return state;
     }
@@ -80,6 +91,8 @@ export const categories = (state: State) => state.categories;
 export const product = (state: State) => state.product;
 export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;
+export const orders = (state: State) => state.orders;
+export const orderId = (state: State) => state.orderId;
 export const order = (state: State) => state.order;
 export const productImages = (state: State) => state.productImages;
 export const productsTitles = (state: State) => state.productsTitles;

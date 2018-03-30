@@ -12,7 +12,7 @@ const orderSchema = new Schema({
     outcome: {},
     source: {},
     _user: {type: Schema.Types.ObjectId, ref: 'User'},
-    dateAdded: Date
+    dateAdded: { type: Date, default: Date.now }
 });
 
 

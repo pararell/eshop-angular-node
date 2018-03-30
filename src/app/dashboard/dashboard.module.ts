@@ -3,6 +3,7 @@ import { Routes , RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { OrdersEditComponent } from './orders-edit/orders-edit.component';
+import { OrderEditComponent } from './orders-edit/order-edit/order-edit.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from './../shared/shared.module';
@@ -14,6 +15,14 @@ const DASHBOARD_ROUTER: Routes = [
   {
     path: '',
     component: DashboardComponent
+  },
+  {
+    path: 'orders',
+    component: OrdersEditComponent
+  },
+  {
+    path: 'orders/:id',
+    component: OrderEditComponent
   }
 ]
 
@@ -26,6 +35,6 @@ const DASHBOARD_ROUTER: Routes = [
     RouterModule.forChild(DASHBOARD_ROUTER),
     EditorModule
   ],
-  declarations: [ProductsEditComponent, OrdersEditComponent, DashboardComponent, TinyEditorComponent]
+  declarations: [ProductsEditComponent, OrdersEditComponent, OrderEditComponent, DashboardComponent, TinyEditorComponent]
 })
 export class DashboardModule { }

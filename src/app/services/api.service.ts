@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  readonly baseUrl = '';
+  readonly baseUrl = 'http://localhost:5000';
 
   constructor(private http: HttpClient) {}
 
@@ -87,5 +87,15 @@ export class ApiService {
   removeProduct(name: string) {
     const removeProduct = this.baseUrl + '/admin/removeproduct/' + name;
     return this.http.get(removeProduct);
+  }
+
+  getOrders() {
+    const ordersUrl = this.baseUrl + '/admin/orders';
+    return this.http.get(ordersUrl);
+  }
+
+  getOrder(id: string) {
+    const orderUrl = this.baseUrl + '/admin/orderId/' + id;
+    return this.http.get(orderUrl);
   }
 }

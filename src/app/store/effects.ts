@@ -80,9 +80,19 @@ export class AppEffects {
     .map(res => new actions.GetCartSuccess(res));
 
   @Effect() removeImage$: Observable<Action> = this._actions
-  .ofType(actions.REMOVE_PRODUCT_IMAGE)
-  .switchMap((action: actions.RemoveProductImage) => this.apiService.removeImage(action.payload))
-  .map(res => new actions.StoreUserAction(res));
+    .ofType(actions.REMOVE_PRODUCT_IMAGE)
+    .switchMap((action: actions.RemoveProductImage) => this.apiService.removeImage(action.payload))
+    .map(res => new actions.StoreUserAction(res));
+
+  @Effect() loadOrders$: Observable<Action> = this._actions
+    .ofType(actions.LOAD_ORDERS)
+    .switchMap((action: actions.LoadOrders) => this.apiService.getOrders())
+    .map(res => new actions.LoadOrdersSuccess(res));
+
+  @Effect() loadOrder$: Observable<Action> = this._actions
+    .ofType(actions.LOAD_ORDER)
+    .switchMap((action: actions.LoadOrder) => this.apiService.getOrder(action.payload))
+    .map(res => new actions.LoadOrderSuccess(res));
 
   constructor(private _actions: Actions, private store: Store<State>, private apiService: ApiService) { }
 

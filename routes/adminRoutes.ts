@@ -3,6 +3,7 @@ import { Router } from 'express';
 const mongoose = require('mongoose');
 
 const Product = mongoose.model('products');
+const Order = mongoose.model('orders');
 const requireAdmin = require('../middlewares/requireAdmin');
 const requireLogin = require('../middlewares/requireLogin');
 const cloudinary = require('cloudinary');
@@ -67,7 +68,7 @@ adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
     );
 });
 
-adminRoutes.post( '/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
+adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
 
   cloudinary.v2.uploader.upload_stream({resource_type: 'auto', use_filename: true},
     (error, result) => {
@@ -86,6 +87,25 @@ adminRoutes.post('/removeimage', requireLogin, requireAdmin, (req, res) => {
     req.user.images = filterImages;
     req.user.save();
     res.status(200).send(req.user);
-  });
+});
+
+
+adminRoutes.get('/orders', (req, res) => {
+    Order.find({}, function(err, orders) {
+      res.status(200).send(orders);
+    });
+});
+
+
+adminRoutes.get('/orderId/:id', (req, res) => {
+  Order.findOne(
+    {
+      orderId: req.params.id
+    },
+    function(err, order) {
+      res.status(200).send(order);
+    }
+  );
+});
 
 export {adminRoutes};

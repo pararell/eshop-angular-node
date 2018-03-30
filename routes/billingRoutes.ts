@@ -10,7 +10,7 @@ const Mailer = require('../services/mailer');
 
 const billingRoutes = Router();
 
-billingRoutes.post('/stripe',(req, res, next) => {
+billingRoutes.post('/stripe', (req, res, next) => {
     const charge = stripe.charges
       .create({
         amount: req.body.amount * 100,
@@ -21,11 +21,12 @@ billingRoutes.post('/stripe',(req, res, next) => {
         result => {
           const orderId = 'order' + new Date().getTime() + 't' +  Math.floor(Math.random() * 1000 + 1);
           const newOrder = Object.assign(result, {
+            orderId,
             customerEmail: req.body.token.email,
             status: 'NEW',
             cart: req.session.cart,
             _user: req.user.id,
-            dateAdd: Date.now()
+            dateAdded: Date.now()
           });
           const order = new Order(newOrder);
           order.save();

@@ -39,6 +39,13 @@ export const EDIT_PRODUCT = 'Edit Product';
 
 export const FILTER_PRICE = 'Filter Price';
 
+export const LOAD_ORDERS = 'Load Orders';
+export const LOAD_ORDERS_SUCCESS = 'Load Orders Success';
+
+export const LOAD_ORDER = 'Load Order';
+export const LOAD_ORDER_SUCCESS = 'Load Order Success';
+
+
 export class AddProduct implements Action {
     readonly type = ADD_PRODUCT;
     constructor(public payload: any ) {
@@ -197,4 +204,29 @@ export class FilterPrice implements Action {
     readonly type = FILTER_PRICE;
       constructor(public payload: any ) {
     }
+}
+
+
+export class LoadOrders implements Action {
+  readonly type = LOAD_ORDERS;
+   constructor() {
+  }
+}
+
+export class LoadOrdersSuccess implements Action {
+  readonly type = LOAD_ORDERS_SUCCESS;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadOrder implements Action {
+  readonly type = LOAD_ORDER;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadOrderSuccess implements Action {
+  readonly type = LOAD_ORDER_SUCCESS;
+   constructor(public payload: any) {
+  }
 }

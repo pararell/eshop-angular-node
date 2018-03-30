@@ -70,7 +70,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
       { path: 'products/:id', component: ProductComponent },
       { path: 'cart', component: CartComponent, pathMatch: 'full' },
       { path: 'category/:category', component: ProductsComponent, pathMatch: 'full' },
-      { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canLoad: [AuthGuardAdmin], pathMatch: 'full' },
+      { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canLoad: [AuthGuardAdmin] },
       { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
       { path: '**', redirectTo: 'products' }
     ]),
