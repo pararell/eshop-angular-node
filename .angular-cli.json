@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "ngrx"
+    "name": "eshop"
   },
   "apps": [{
       "root": "src",
@@ -12,7 +12,6 @@
       "index": "index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
-      "test": "test.ts",
       "tsconfig": "tsconfig.app.json",
       "prefix": "app",
       "styles": [
@@ -41,7 +40,6 @@
       ],
       "index": "index.html",
       "main": "main.server.ts",
-      "test": "test.ts",
       "tsconfig": "tsconfig.server.json",
       "prefix": "app",
       "styles": [
@@ -61,16 +59,8 @@
       }
     }
   ],
-  "e2e": {
-    "protractor": {
-      "config": "./protractor.conf.js"
-    }
-  },
   "lint": [{
       "project": "src/tsconfig.app.json"
-    },
-    {
-      "project": "e2e/tsconfig.e2e.json"
     }
   ],
   "defaults": {

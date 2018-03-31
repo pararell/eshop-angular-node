@@ -44,8 +44,14 @@
         </li>
       </ul>
 
-      <div class="card-pay-wrapp" *ngIf="!!cart?.items?.length">
+      <div class="pay-wrapp" *ngIf="!!cart?.items?.length">
+
+        <a (click)="onToggleForm()" class="waves-effect green lighten-1 btn-large delivery-button">
+            <i class="material-icons left">email</i>Payment on delivery
+        </a>
+
         <app-card [price]="cart?.totalPrice"> </app-card>
+
       </div>
 
     </ng-container>

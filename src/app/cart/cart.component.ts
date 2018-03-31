@@ -34,4 +34,8 @@ export class CartComponent  {
     this.store.dispatch(new actions.RemoveFromCart(id));
   }
 
+  onToggleForm() {
+
+  }
+
 }
