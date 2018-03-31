@@ -49,8 +49,7 @@ export class HeaderComponent implements OnInit {
       });
 
     this.user$
-      .filter(Boolean)
-      .filter(user => user._id)
+      .filter(user => user && user._id)
       .take(1)
       .subscribe(user => {
         this.store.dispatch(new actions.LoadUserOrders({token: user._id }));

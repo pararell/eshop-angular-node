@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {ServerModule, ServerTransferStateModule} from '@angular/platform-server';
 import {ModuleMapLoaderModule} from '@nguniversal/module-map-ngfactory-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { WindowService } from './services/window.service';
 import {AppModule} from './app.module';
 import {AppComponent} from './app.component';
 import { ServerHttpInterceptor } from './services/server-http-interceptor';
@@ -21,6 +21,10 @@ import { ServerHttpInterceptor } from './services/server-http-interceptor';
     provide: HTTP_INTERCEPTORS,
     useClass: ServerHttpInterceptor,
     multi: true
+    },
+    {
+      provide  : WindowService,
+      useClass : WindowService
     }
   ],
   // Since the bootstrapped component is not inherited from your

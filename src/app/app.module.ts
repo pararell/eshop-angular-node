@@ -28,12 +28,14 @@ import { ProductComponent } from './product/product.component';
 import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { SharedModule } from './shared/shared.module';
+import { LazyModule } from './utils/lazyLoadImg/lazy.module';
 import { ApiService } from './services/api.service';
 import { reducers } from './store/reducers/index';
 import { AppEffects } from './store/effects';
 import { AuthGuardAdmin } from './services/auth-admin.guard';
 import { AuthGuard } from './services/auth.guard';
 import { AuthService } from './services/auth.service';
+import { WindowService } from './services/window.service';
 import { BrowserHttpInterceptor } from './services/browser-http-interceptor';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -44,6 +46,9 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+export function WindowFactory() {
+  return typeof window !== 'undefined' ? window : {};
+}
 
 @NgModule({
   declarations: [
@@ -61,6 +66,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreModule.forRoot( reducers ),
     HttpClientModule,
     SharedModule,
+    LazyModule,
     ReactiveFormsModule,
     TransferHttpCacheModule,
     EffectsModule.forRoot([ AppEffects ]),
@@ -81,6 +87,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
         provide: HTTP_INTERCEPTORS,
         useClass: BrowserHttpInterceptor,
         multi: true,
+    },
+    {
+      provide    : WindowService,
+      useFactory : (WindowFactory)
     }
   ],
   bootstrap: [AppComponent]

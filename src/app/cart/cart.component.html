@@ -27,7 +27,7 @@
           <div>
             {{cartItem.price}} €
           </div>
-          <div class="remove-from-cart" (click)="removeFromCart(cartItem?.item._id)">
+          <div class="remove-from-cart" (click)="removeFromCart(cartItem?.item?._id)">
             <i class="material-icons cart-icon">remove</i>
           </div>
         </li>

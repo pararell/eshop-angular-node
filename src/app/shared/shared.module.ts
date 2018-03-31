@@ -1,3 +1,4 @@
+import { LazyModule } from './../utils/lazyLoadImg/lazy.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +20,8 @@ import { ProductsListComponent } from './products-list/products-list.component';
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    LazyModule
   ],
   providers: [],
   exports: [
