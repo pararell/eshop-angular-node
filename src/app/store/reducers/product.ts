@@ -43,10 +43,6 @@ export function productReducer(state = initialState, action): State {
                   categories: action.payload.categories }
     }
 
-    case actions.ADD_PRODUCT_IMAGE: {
-      return { ...state, productImages: action.payload }
-    }
-
     case actions.GET_PRODUCT_SUCESS: {
         return { ...state,
                     product: action.payload,
@@ -66,21 +62,32 @@ export function productReducer(state = initialState, action): State {
     case actions.LOAD_PAYMENT_SUCCESS:
       return {...state,
                  order: action.payload.order,
-                 cart: action.payload.cart }
+                 cart: action.payload.cart
+                }
+
+    case actions.MAKE_ORDER_SUCCESS:
+          return {...state,
+                    order: action.payload.order,
+                    cart: action.payload.cart
+                  }
 
     case actions.FILTER_PRICE:
       return {...state, priceFilter: action.payload };
 
+    case actions.LOAD_USER_ORDERS_SUCCESS: {
+      return { ...state, userOrders: action.payload } }
+
+
 
     case actions.LOAD_ORDERS_SUCCESS: {
-        return { ...state, orders: action.payload } }
+      return { ...state, orders: action.payload } }
 
     case actions.LOAD_ORDER_SUCCESS: {
       return { ...state, orderId: action.payload }}
 
-    case actions.LOAD_USER_ORDERS_SUCCESS: {
-      return { ...state, userOrders: action.payload } }
-
+    case actions.ADD_PRODUCT_IMAGE: {
+        return { ...state, productImages: action.payload }
+      }
 
     default: {
       return state;

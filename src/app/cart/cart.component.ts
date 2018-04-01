@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -16,14 +17,36 @@ import * as fromRoot from '../store/reducers';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent  {
+
   cart$: Observable<any>;
   order$: Observable<any>;
+  user$: Observable<any>;
+  orderForm: FormGroup;
 
-  constructor(private _route: ActivatedRoute,  private store: Store<fromRoot.State>, private location: Location) {
+  toggleOrderForm = false;
+
+  constructor(
+    private _route: ActivatedRoute,
+    private store: Store<fromRoot.State>,
+    private _fb: FormBuilder,
+    private location: Location) {
+
     this.cart$ = this.store.select(fromRoot.getCart);
     this.order$ = this.store.select(fromRoot.getOrder)
       .filter(Boolean)
       .map(order => order.outcome);
+
+    this.user$ = this.store.select(fromRoot.getUser);
+
+    this.orderForm = this._fb.group({
+      name: ['', Validators.required ],
+      email: ['', Validators.required ],
+      adress: ['', Validators.required ],
+      city: ['', Validators.required ],
+      country: ['', Validators.required ],
+      zip: ['', Validators.required ]
+    });
+
   }
 
   goBack() {
@@ -35,6 +58,27 @@ export class CartComponent  {
   }
 
   onToggleForm() {
+    this.toggleOrderForm = !this.toggleOrderForm;
+  }
+
+  closeToggleForm() {
+    this.toggleOrderForm = false;
+  }
+
+  submit() {
+
+    this.cart$
+      .first()
+      .subscribe(cart => {
+
+        const order = { ...this.orderForm.value,
+          amount: cart.totalPrice
+        };
+
+        this.store.dispatch(new actions.MakeOrder(order));
+        this.toggleOrderForm = false;
+      })
+
 
   }
 

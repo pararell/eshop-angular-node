@@ -9,6 +9,10 @@ export const LOAD_PAYMENT = 'LOAD_PAYMENT';
 export const LOAD_PAYMENT_SUCCESS = 'LOAD_PAYMENT Sucess';
 export const LOAD_PAYMENT_FAIL = 'LOAD_PAYMENT Fail';
 
+export const MAKE_ORDER = 'Make Order';
+export const MAKE_ORDER_SUCCESS = 'Make Order Success';
+export const MAKE_ORDER_FAIL = 'Make Order Fail';
+
 export const LOAD_PRODUCT = 'LOAD Product';
 export const LOAD_PRODUCT_SUCESS = 'LOAD Product Sucess';
 
@@ -132,6 +136,19 @@ export class LoadPaymentSuccess implements Action {
     readonly type = LOAD_PAYMENT_SUCCESS;
      constructor(public payload: any ) {
     }
+}
+
+
+export class MakeOrder implements Action {
+  readonly type = MAKE_ORDER;
+   constructor(public payload: any ) {
+  }
+}
+
+export class MakeOrderSuccess implements Action {
+  readonly type = MAKE_ORDER_SUCCESS;
+    constructor(public payload: any ) {
+  }
 }
 
 

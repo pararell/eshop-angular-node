@@ -17,10 +17,17 @@ export class ApiService {
     return this.http.get(userUrl);
   }
 
+  // orders
+
   handleToken(token) {
     const tokenUrl = this.baseUrl + '/api/stripe';
     return this.http.post(tokenUrl, token);
   };
+
+  makeOrder(req) {
+    const addOrder = this.baseUrl + '/api/order/add';
+    return this.http.post(addOrder, req);
+  }
 
   // products
 

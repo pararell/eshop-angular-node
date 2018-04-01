@@ -10,12 +10,60 @@ const Mailer = require('../services/mailer');
 
 const billingRoutes = Router();
 
+billingRoutes.post('/order/add' , (req, res, next) => {
+
+  const orderId = 'order' + new Date().getTime() + 't' +  Math.floor(Math.random() * 1000 + 1);
+
+  const newOrder = {
+    orderId,
+    amount: req.body.amount * 100,
+    _user: req.user.id,
+    dateAdded: Date.now(),
+    cart: req.session.cart,
+    status: 'NEW',
+    description: 'PAY_ON_DELIVERY',
+    customerEmail: req.body.email,
+    outcome: {
+      seller_message: 'Payment on delivery'
+    },
+    source: {
+      address_city: req.body.city,
+      address_country: req.body.country,
+      address_line1: req.body.adress,
+      address_zip: req.body.zip,
+      name: req.body.name,
+      object: 'deliver'
+    }
+  };
+
+  const mailer = new Mailer(
+    req.session.cart,
+    req.body.email,
+    orderId
+  );
+  mailer.send();
+
+  const cart = new Cart({});
+  req.session.cart = cart;
+  if (req.user) {
+    req.user.cart = cart;
+    req.user.save();
+  }
+
+  const order = new Order(newOrder);
+  order.save();
+
+  res.send({ order, cart });
+
+});
+
+
 billingRoutes.post('/stripe', (req, res, next) => {
     const charge = stripe.charges
       .create({
         amount: req.body.amount * 100,
         currency: 'eur',
-        description: 'New Order',
+        description: 'Credit Card Payment',
         source: req.body.token.id
       }).then(
         result => {

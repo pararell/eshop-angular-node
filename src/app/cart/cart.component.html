@@ -50,15 +50,49 @@
             <i class="material-icons left">email</i>Payment on delivery
         </a>
 
-        <app-card [price]="cart?.totalPrice"> </app-card>
+        <app-card [price]="cart?.totalPrice" (click)="closeToggleForm()"> </app-card>
 
       </div>
 
     </ng-container>
 
+    <div class="order-form-wrap" *ngIf="toggleOrderForm">
+        <form [formGroup]="orderForm">
+            <div class="full-input">
+                <input class="form-control" type="text" name="name" formControlName="name">
+                <label for="name">Firstname and Surname</label>
+            </div>
+            <div class="full-input">
+                <input class="form-control" type="email" name="email" formControlName="email">
+                <label for="email">Email</label>
+            </div>
+            <div class="full-input">
+                <input class="form-control" type="text" name="adress" formControlName="adress">
+                <label for="adress">Adress</label>
+            </div>
+            <div class="full-input">
+                <input class="form-control" type="text" name="city" formControlName="city">
+                <label for="city">City</label>
+            </div>
+            <div class="full-input">
+                <input class="form-control" type="text" name="zip" formControlName="zip">
+                <label for="zip">ZIP</label>
+            </div>
+            <div class="full-input">
+                <input class="form-control" type="text" name="country" formControlName="country">
+                <label for="zip">Country</label>
+            </div>
+            <button type="submit" class="btn waves-effect waves-light submit-order-button" [disabled]="orderForm.invalid"
+              (click)="submit()"> Order </button>
+        </form>
+    </div>
+
     <ng-container *ngIf="(order$ | async) as order">
       <div class="pay-success" *ngIf="order.type == 'authorized' && order.seller_message == 'Payment complete.'">
-        Your payment was successfull!
+        Your payment was successfull. Thank you.
+      </div>
+      <div class="pay-success" *ngIf="order.seller_message == 'Payment on delivery'">
+        Your Order was succesfull. Thank you.
       </div>
     </ng-container>
 

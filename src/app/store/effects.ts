@@ -24,6 +24,11 @@ export class AppEffects {
     .switchMap((action: actions.LoadPayment) => this.apiService.handleToken(action.payload))
     .map(res => new actions.LoadPaymentSuccess(res));
 
+  @Effect() makeOrder$: Observable<Action> = this._actions
+    .ofType(actions.MAKE_ORDER)
+    .switchMap((action: actions.MakeOrder) => this.apiService.makeOrder(action.payload))
+    .map(res => new actions.MakeOrderSuccess(res));
+
   @Effect() loadProducts$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PRODUCTS)
     .switchMap((action: actions.LoadProducts) => this.apiService.loadProducts())
