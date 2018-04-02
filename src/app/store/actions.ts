@@ -19,6 +19,12 @@ export const LOAD_PRODUCT_SUCESS = 'LOAD Product Sucess';
 export const LOAD_PRODUCTS = 'LOAD Products';
 export const LOAD_PRODUCTS_SUCESS = 'LOAD Products Sucess';
 
+export const LOAD_CATEGORY_PRODUCTS = 'LOAD Category Products';
+export const LOAD_CATEGORY_PRODUCTS_SUCESS = 'LOAD Category Products Sucess';
+
+export const LOAD_CATEGORIES = 'LOAD Categories';
+export const LOAD_CATEGORIES_SUCESS = 'LOAD Categories Sucess';
+
 export const LOAD_PRODUCTS_SEARCH = 'LOAD Products Search';
 export const LOAD_PRODUCTS_SEARCH_SUCESS = 'LOAD Products Search Sucess';
 
@@ -41,6 +47,8 @@ export const REMOVE_PRODUCT = 'Remove Product';
 export const EDIT_PRODUCT = 'Edit Product';
 
 export const FILTER_PRICE = 'Filter Price';
+
+export const UPDATE_POSITION = 'Update Position';
 
 export const LOAD_ORDERS = 'Load Orders';
 export const LOAD_ORDERS_SUCCESS = 'Load Orders Success';
@@ -154,7 +162,7 @@ export class MakeOrderSuccess implements Action {
 
 export class LoadProducts implements Action {
     readonly type = LOAD_PRODUCTS;
-     constructor() {
+     constructor(public payload: any) {
     }
 }
 
@@ -162,6 +170,31 @@ export class LoadProductsSuccess implements Action {
     readonly type = LOAD_PRODUCTS_SUCESS;
      constructor(public payload: any) {
     }
+}
+
+
+export class LoadCategoryProducts implements Action {
+  readonly type = LOAD_CATEGORY_PRODUCTS;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadCategoryProductsSuccess implements Action {
+  readonly type = LOAD_CATEGORY_PRODUCTS_SUCESS;
+   constructor(public payload: any) {
+  }
+}
+
+export class LoadCategories implements Action {
+  readonly type = LOAD_CATEGORIES;
+   constructor() {
+  }
+}
+
+export class LoadCategoriesSuccess implements Action {
+  readonly type = LOAD_CATEGORIES_SUCESS;
+   constructor(public payload: any) {
+  }
 }
 
 
@@ -209,6 +242,11 @@ export class FilterPrice implements Action {
     }
 }
 
+export class UpdatePosition implements Action {
+  readonly type = UPDATE_POSITION;
+    constructor(public payload: any ) {
+  }
+}
 
 export class LoadOrders implements Action {
   readonly type = LOAD_ORDERS;

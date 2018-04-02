@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  // readonly baseUrl = 'http://localhost:5000';
-  readonly baseUrl = '';
+  readonly baseUrl = 'http://localhost:5000';
+  // readonly baseUrl = '';
 
   constructor(private http: HttpClient) {}
 
@@ -31,24 +31,34 @@ export class ApiService {
 
   // products
 
-  loadProducts() {
-    const productsUrl = this.baseUrl + '/prod/products';
+  loadProducts(req) {
+    const productsUrl = this.baseUrl + '/prod/products/' + req.page;
     return this.http.get(productsUrl)
-      .map((products: any) => ({
-        products : products
-          .map(product => ({...product, tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
-        categories: {
-          categories: products
-            .map(product => product.category)
-            .filter(Boolean),
-          tags: products
-            .map(product => product.tags
-              .filter(Boolean))
-            .reduce((tagsArr, tags) => tagsArr.concat(
-              tags.reduce((tagArr, tag) => tagArr.concat(tag.split(',')), [] )),
-              [])
-            }
-      }))
+      .map((data: any) => ({
+        products : data.products
+          .map(product => ({...product,
+              categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
+              tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
+        pagination: data.pagination
+    }))
+  }
+
+  loadCategoryProducts(req) {
+    const productsUrl = this.baseUrl + '/prod/products/' + req.category + '/' + req.page;
+    return this.http.get(productsUrl)
+      .map((data: any) => ({
+        products : data.products
+          .map(product => ({...product,
+              categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
+              tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
+        pagination: data.pagination
+    }))
+  }
+
+
+  loadCategories() {
+    const categoriesUrl = this.baseUrl + '/prod/categories';
+    return this.http.get(categoriesUrl)
   }
 
   loadProductsSearch(query: string) {

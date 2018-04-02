@@ -24,6 +24,18 @@
             (addProduct)="addToCart($event)"
             (removeProduct)="removeFromCart($event)">
           </app-products-list>
+
+          <ul class="pagination" *ngIf="!(category$ | async) && (pagination$ | async) as pagination">
+            <ng-container *ngIf="(page$ | async) as page">
+                <li [class.disabled]="!page || page == 1"><a (click)="changePage(page - 1)"><i class="material-icons">chevron_left</i></a></li>
+            </ng-container>
+              <li class="waves-effect" *ngFor="let page of pagination.range"
+              [class.active]="pagination.page === page"><a (click)="changePage(page)">{{ page }}</a>
+              </li>
+            <ng-container *ngIf="(page$ | async) as page">
+              <li [class.disabled]="page == pagination.pages.length"><a (click)="changePage(page + 1)"><i class="material-icons">chevron_right</i></a></li>
+            </ng-container>
+            </ul>
       </div>
     </div>
 

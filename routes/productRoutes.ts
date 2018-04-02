@@ -7,11 +7,40 @@ const requireLogin = require('../middlewares/requireLogin');
 
 const productRoutes = Router();
 
-productRoutes.get('/products', (req, res) => {
-    Product.find({}, function(err, products) {
-      res.status(200).send(products);
-    });
+productRoutes.get('/products/:page', (req, res) => {
+  Product.paginate({}, { page: parseFloat(req.params.page), limit: 10 })
+    .then(response => {
+      const productsWithPagination = {
+        products: response.docs,
+        pagination: {
+          limit: response.limit,
+          page: response.page,
+          pages: response.pages,
+          total: response.total
+        }
+      };
+      res.status(200).send(productsWithPagination);
   });
+});
+
+productRoutes.get('/products/:category/:page', (req, res) => {
+  Product.find({ categories: req.params.category }, function(err, products) {
+    res.status(200).send(products);
+  });
+});
+
+productRoutes.get('/categories', (req, res) => {
+  Product.find({}, function(err, products) {
+    const categories = products
+      .filter(product => product.categories && product.categories.length)
+      .map(product => product.categories)
+      .reduce((catSet, allCategories) => catSet.concat(allCategories) , [])
+      .filter((cat, i, arr) => arr.indexOf(cat) === i)
+      .map(category => ({title: category , titleUrl: category.split(' ').join('_').toLowerCase() }));
+
+    res.status(200).send(categories);
+  });
+});
 
 productRoutes.get('/productQuery/:query', (req, res) => {
     Product.find(

@@ -1,4 +1,6 @@
 import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Store } from '@ngrx/store';
+import * as fromRoot from './store/reducers';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,15 @@ export class AppComponent {
   rememberScroll: any = {};
   position = 0;
 
-  constructor(private elRef: ElementRef, private renderer: Renderer2) {}
+  constructor(private elRef: ElementRef, private renderer: Renderer2,   private store: Store<fromRoot.State>) {
+
+    store.select(fromRoot.getPosition)
+      .filter(Boolean)
+      .subscribe(componentPosition => {
+        this.rememberScroll = {...this.rememberScroll, componentPosition};
+        this.renderer.setProperty(this.elRef.nativeElement.querySelector('.main-scroll-wrapp'), 'scrollTop', 0);
+    });
+  }
 
   onScrolling(event) {
     this.position = event['target']['scrollTop'];
