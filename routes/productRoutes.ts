@@ -8,7 +8,13 @@ const requireLogin = require('../middlewares/requireLogin');
 const productRoutes = Router();
 
 productRoutes.get('/products/:page', (req, res) => {
-  Product.paginate({}, { page: parseFloat(req.params.page), limit: 10 })
+  var query = {};
+  var options = {
+    page: parseFloat(req.params.page),
+    limit: 10,
+    sort: { dateAdded: -1 }
+  };
+  Product.paginate(query, options)
     .then(response => {
       const productsWithPagination = {
         products: response.docs,
@@ -24,8 +30,25 @@ productRoutes.get('/products/:page', (req, res) => {
 });
 
 productRoutes.get('/products/:category/:page', (req, res) => {
-  Product.find({ categories: req.params.category }, function(err, products) {
-    res.status(200).send(products);
+  var query = {categories: new RegExp(req.params.category, 'i' )};
+  var options = {
+    page: parseFloat(req.params.page),
+    limit: 100,
+    sort: { dateAdded: -1 }
+  };
+
+  Product.paginate(query, options)
+    .then(response => {
+      const productsWithPagination = {
+        products: response.docs,
+        pagination: {
+          limit: response.limit,
+          page: response.page,
+          pages: response.pages,
+          total: response.total
+        }
+      };
+      res.status(200).send(productsWithPagination);
   });
 });
 

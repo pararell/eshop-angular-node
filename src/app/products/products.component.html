@@ -27,15 +27,52 @@
 
           <ul class="pagination" *ngIf="!(category$ | async) && (pagination$ | async) as pagination">
             <ng-container *ngIf="(page$ | async) as page">
-                <li [class.disabled]="!page || page == 1"><a (click)="changePage(page - 1)"><i class="material-icons">chevron_left</i></a></li>
+                <li [class.disabled]="page == 1">
+                  <a class="clickable" (click)="changePage(page - 1)"><i class="material-icons">chevron_left</i></a>
+                </li>
+            </ng-container>
+            <ng-container *ngIf="!(page$ | async)">
+                <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
             </ng-container>
               <li class="waves-effect" *ngFor="let page of pagination.range"
               [class.active]="pagination.page === page"><a (click)="changePage(page)">{{ page }}</a>
               </li>
-            <ng-container *ngIf="(page$ | async) as page">
-              <li [class.disabled]="page == pagination.pages.length"><a (click)="changePage(page + 1)"><i class="material-icons">chevron_right</i></a></li>
-            </ng-container>
+              <li class="clickable" [class.disabled]="(page$ | async) == pagination.pages">
+                <ng-container *ngIf="(page$ | async) as page">
+                    <a (click)="changePage(page + 1)"><i class="material-icons">chevron_right</i></a>
+                </ng-container>
+                <ng-container *ngIf="!(page$ | async)">
+                    <a (click)="changePage(2)"><i class="material-icons">chevron_right</i></a>
+                </ng-container>
+              </li>
+          </ul>
+
+          <ng-container *ngIf="(category$ | async) as category">
+
+            <ul class="pagination" *ngIf="(categoriesPagination$ | async)?.category as pagination">
+              <ng-container *ngIf="(page$ | async) as page">
+                  <li [class.disabled]="page == 1">
+                    <a class="clickable" (click)="changePage(page - 1)"><i class="material-icons">chevron_left</i></a>
+                  </li>
+              </ng-container>
+              <ng-container *ngIf="!(page$ | async)">
+                  <li class="disabled"><a><i class="material-icons">chevron_left</i></a></li>
+              </ng-container>
+                <li class="waves-effect" *ngFor="let page of pagination.range"
+                [class.active]="pagination.page === page"><a (click)="changePage(page)">{{ page }}</a>
+                </li>
+                <li class="clickable" [class.disabled]="(page$ | async) == pagination.pages">
+                    <ng-container *ngIf="(page$ | async) as page">
+                        <a (click)="changePage(page + 1)"><i class="material-icons">chevron_right</i></a>
+                    </ng-container>
+                    <ng-container *ngIf="!(page$ | async)">
+                        <a (click)="changePage(2)"><i class="material-icons">chevron_right</i></a>
+                    </ng-container>
+                  </li>
             </ul>
+
+        </ng-container>
+
       </div>
     </div>
 

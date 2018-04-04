@@ -39,7 +39,7 @@ export class ApiService {
           .map(product => ({...product,
               categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
               tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
-        pagination: data.pagination
+        pagination: {...data.pagination, range: Array(data.pagination.pages).fill(0).map((v, i) => i + 1) },
     }))
   }
 
@@ -51,7 +51,8 @@ export class ApiService {
           .map(product => ({...product,
               categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
               tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
-        pagination: data.pagination
+        pagination: {...data.pagination, range: Array(data.pagination.pages).fill(0).map((v, i) => i + 1) },
+        category: req.category
     }))
   }
 

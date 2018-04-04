@@ -5,6 +5,7 @@ import * as actions from './../actions';
 export interface State {
   products: any;
   categories: Array<string>;
+  categoriesPagination: any;
   pagination: {
     page: number;
     pages: number;
@@ -24,6 +25,7 @@ export interface State {
 export const initialState: State = {
   products: null,
   categories: [],
+  categoriesPagination: {},
   pagination: {
     page: 1,
     pages: 1,
@@ -53,7 +55,8 @@ export function productReducer(state = initialState, action): State {
 
     case actions.LOAD_CATEGORY_PRODUCTS_SUCESS: {
       return { ...state,
-                  products: action.payload.products }
+                  products: action.payload.products,
+                  categoriesPagination : {...state.categoriesPagination, [action.payload.category] : action.payload.pagination} }
     }
 
     case actions.LOAD_CATEGORIES_SUCESS: {
@@ -114,6 +117,7 @@ export function productReducer(state = initialState, action): State {
 export const products = (state: State) => state.products;
 export const categories = (state: State) => state.categories;
 export const pagination = (state: State) => state.pagination;
+export const categoriesPagination = (state: State) => state.categoriesPagination;
 export const product = (state: State) => state.product;
 export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;

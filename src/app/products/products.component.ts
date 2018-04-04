@@ -19,6 +19,7 @@ export class ProductsComponent {
   items$: Observable<any>;
   categories$: Observable<any>;
   pagination$: Observable<any>;
+  paginationCategories$: Observable<any>;
   category$: Observable<any>;
   filterPrice$: Observable<number>;
   page$ : Observable<any>;
@@ -42,24 +43,19 @@ export class ProductsComponent {
       (products, page, category) => ({products, page, category}))
       .first()
       .subscribe(({products, page, category}) => {
-        if (!products && !category) {
-          this.store.dispatch(new actions.LoadProducts({page: page || 1}));
-          this.store.dispatch(new actions.LoadCategories());
-        } else if (!products && category) {
-          this.store.dispatch(new actions.LoadCategoryProducts({category, page: 1}));
+        if (!products) {
           this.store.dispatch(new actions.LoadCategories());
         }
       });
 
-    this.category$
-      .skip(1)
-      .subscribe(category => {
-        if (category) {
-        this.store.dispatch(new actions.LoadCategoryProducts({category, page: 1}));
-        } else {
-          this.store.dispatch(new actions.LoadProducts({page: 1}));
-        }
-      });
+      Observable.combineLatest(this.category$, this.page$, ( category, page) => ({category, page}))
+        .subscribe(({category, page}) => {
+          if (category) {
+            this.store.dispatch(new actions.LoadCategoryProducts({category, page: 1}));
+          } else if (!category) {
+            this.store.dispatch(new actions.LoadProducts({page: page || 1}));
+          }
+        });
 
 
     this.items$ = Observable.combineLatest(
@@ -85,11 +81,8 @@ export class ProductsComponent {
     this._meta.updateTag({ name: 'description', content: 'Bluetooth Headphones for every ears' });
 
     this.categories$ = this.store.select(fromRoot.getCategories).filter(Boolean);
-    this.pagination$ = this.store.select(fromRoot.getPagination)
-      .map(pagination => ({
-        ...pagination,
-        range: Array(pagination.pages).fill(0).map((v, i) => i + 1)
-      }))
+    this.pagination$ = this.store.select(fromRoot.getPagination);
+    this.paginationCategories$ = this.store.select(fromRoot.getCategoriesPagination);
   }
 
   addToCart(id) {
@@ -105,7 +98,6 @@ export class ProductsComponent {
   }
 
   changePage(page) {
-    this.store.dispatch(new actions.LoadProducts({page}));
     this.router.navigate(['/products'], { queryParams: { page } });
     this.store.dispatch(new actions.UpdatePosition({productsComponent: 0}));
   }

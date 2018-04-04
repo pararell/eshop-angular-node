@@ -26,6 +26,7 @@ export const getUser = createSelector(getAuth, fromAuth.user);
 export const getProducts = createSelector(Products, fromProducts.products);
 export const getCategories = createSelector(Products, fromProducts.categories);
 export const getPagination = createSelector(Products, fromProducts.pagination);
+export const getCategoriesPagination = createSelector(Products, fromProducts.categoriesPagination);
 export const getProduct = createSelector(Products, fromProducts.product);
 export const getProductLoading = createSelector(Products, fromProducts.productLoading);
 export const getCart = createSelector(Products, fromProducts.cart);
