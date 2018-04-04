@@ -24,6 +24,9 @@ export class ProductsComponent {
   filterPrice$: Observable<number>;
   page$ : Observable<any>;
 
+  sortOptions = ['Newest', 'Oldest', 'Price-asc', 'Price-decs'];
+  choosenSort = 'Oldest';
+
   readonly component = 'productsComponent';
 
   constructor(

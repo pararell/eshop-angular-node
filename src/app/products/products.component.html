@@ -13,6 +13,8 @@
         [minPrice]="items?.maxPrice"
         [maxPrice]="items?.minPrice"
         [activeCategory]="category$ | async"
+        [sortOptions]="sortOptions"
+        [choosenSort]="choosenSort"
         (changePrice)="priceRange($event)">
         </app-sidebar>
       </div>

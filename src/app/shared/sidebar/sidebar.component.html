@@ -1,7 +1,18 @@
 <div class="collection with-header">
   <div class="collection-header"><h4>Categories</h4></div>
   <a routerLink="/products" class="collection-item" [class.active]="!activeCategory">All products</a>
-  <a *ngFor="let category of categories" routerLink="/category/{{category.titleUrl}}" class="collection-item" [class.active]="activeCategory == (category.titleUrl)">{{category.title}}</a>
+  <a *ngFor="let category of categories"
+    routerLink="/category/{{category.titleUrl}}"
+    class="collection-item" [class.active]="activeCategory == (category.titleUrl)">
+    {{category.title}}
+  </a>
+  <div class="sort-wrap">
+      <div class="collection-header"><h4>Sorting</h4></div>
+      <select class="browser-default" [ngModel]="choosenSort" (ngModelChange)="onInputChange($event)">
+          <option *ngFor="let option of sortOptions;" [value]="option">{{option}}</option>
+      </select>
+  </div>
+  <div class="collection-header"><h4>Price Range</h4></div>
   <input type="range" max="{{maxPrice}}" min="{{minPrice}}" value="{{ (maxPrice < price) ? maxPrice : price }}" #ref (change)="changePrice.emit(ref.value)"/>
   Price to: {{ref.value}}€
 </div>
