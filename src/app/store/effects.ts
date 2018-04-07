@@ -31,8 +31,18 @@ export class AppEffects {
 
   @Effect() loadProducts$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PRODUCTS)
-    .switchMap((action: actions.LoadProducts) => this.apiService.loadProducts())
+    .switchMap((action: actions.LoadProducts) => this.apiService.loadProducts(action.payload))
     .map(res => new actions.LoadProductsSuccess(res));
+
+  @Effect() loadCategoryProducts$: Observable<Action> = this._actions
+    .ofType(actions.LOAD_CATEGORY_PRODUCTS)
+    .switchMap((action: actions.LoadCategoryProducts) => this.apiService.loadCategoryProducts(action.payload))
+    .map(res => new actions.LoadCategoryProductsSuccess(res));
+
+  @Effect() loadCategories$: Observable<Action> = this._actions
+    .ofType(actions.LOAD_CATEGORIES)
+    .switchMap((action: actions.LoadCategories) => this.apiService.loadCategories())
+    .map(res => new actions.LoadCategoriesSuccess(res));
 
   @Effect() loadProductsSearch$: Observable<Action> = this._actions
     .ofType(actions.LOAD_PRODUCTS_SEARCH)

@@ -26,3 +26,13 @@ body {
   width: 100% !important;
   padding: 20px;
 }
+
+.clickable {
+  cursor: pointer;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+}

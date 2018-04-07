@@ -3,4 +3,25 @@
     font-size: 20px;
     font-weight: 600;
   }
+
+  .input-field > select {
+    width: 100%;
+    pointer-events: initial;
+    height: initial;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .sort-wrap {
+    height: 120px;
+  }
+
+  .collection-item {
+    color: #1e88e5;
+
+    &.active {
+      background-color: #1e88e5;
+      color: #fff;
+    }
+  }
 }

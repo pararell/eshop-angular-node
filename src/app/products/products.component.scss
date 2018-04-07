@@ -51,5 +51,10 @@
         grid-area: sidebar;
       }
     }
+
+    .disabled {
+      cursor: not-allowed !important;
+      pointer-events: none !important;
+    }
   }
 }

@@ -4,32 +4,44 @@ import * as actions from './../actions';
 
 export interface State {
   products: any;
-  categories: { categories: Array<string>, tags: Array<string> };
+  loadingProducts: boolean;
+  categories: Array<string>;
+  categoriesPagination: any;
+  pagination: {
+    page: number;
+    pages: number;
+    limit: number;
+    total: number;
+  };
   product: any;
-  cart: any;
   loadingProduct: boolean;
-  orders: null;
+  cart: any;
   userOrders: null;
   order: any;
-  orderId: any;
-  productImages: Array<string>;
   productsTitles: Array<string>;
   priceFilter: number;
+  position: any;
 }
 
 export const initialState: State = {
   products: null,
-  categories: { categories: [], tags: [] },
+  loadingProducts: false,
+  categories: [],
+  categoriesPagination: {},
+  pagination: {
+    page: 1,
+    pages: 1,
+    limit: 10,
+    total: 0
+  },
   product: null,
-  cart: null,
   loadingProduct: false,
-  orders: null,
+  cart: null,
   userOrders: null,
-  orderId: null,
   order: null,
-  productImages: [],
   productsTitles: [],
-  priceFilter: Infinity
+  priceFilter: Infinity,
+  position: null
 };
 
 
@@ -37,10 +49,38 @@ export const initialState: State = {
 export function productReducer(state = initialState, action): State {
   switch (action.type) {
 
+    case actions.LOAD_PRODUCTS: {
+      return {...state, loadingProducts: true };
+    }
+
+    case actions.LOAD_CATEGORY_PRODUCTS: {
+      return {...state, loadingProducts: true };
+    }
+
+
     case actions.LOAD_PRODUCTS_SUCESS: {
       return { ...state,
                   products: action.payload.products,
-                  categories: action.payload.categories }
+                  pagination: action.payload.pagination,
+                  loadingProducts: false }
+    }
+
+    case actions.LOAD_CATEGORY_PRODUCTS_SUCESS: {
+      return { ...state,
+                  products: action.payload.products,
+                  categoriesPagination : {...state.categoriesPagination, [action.payload.category] : action.payload.pagination},
+                  loadingProducts: false }
+    }
+
+    case actions.LOAD_CATEGORIES_SUCESS: {
+      return { ...state,
+                  categories: action.payload }
+    }
+
+
+    case actions.GET_PRODUCT: {
+      return { ...state,
+                  loadingProduct: true  }
     }
 
     case actions.GET_PRODUCT_SUCESS: {
@@ -77,17 +117,9 @@ export function productReducer(state = initialState, action): State {
     case actions.LOAD_USER_ORDERS_SUCCESS: {
       return { ...state, userOrders: action.payload } }
 
+    case actions.UPDATE_POSITION: {
+      return { ...state, position: action.payload } }
 
-
-    case actions.LOAD_ORDERS_SUCCESS: {
-      return { ...state, orders: action.payload } }
-
-    case actions.LOAD_ORDER_SUCCESS: {
-      return { ...state, orderId: action.payload }}
-
-    case actions.ADD_PRODUCT_IMAGE: {
-        return { ...state, productImages: action.payload }
-      }
 
     default: {
       return state;
@@ -96,14 +128,16 @@ export function productReducer(state = initialState, action): State {
 }
 
 export const products = (state: State) => state.products;
+export const loadingProducts = (state: State) => state.loadingProducts;
 export const categories = (state: State) => state.categories;
+export const pagination = (state: State) => state.pagination;
+export const categoriesPagination = (state: State) => state.categoriesPagination;
 export const product = (state: State) => state.product;
 export const cart = (state: State) => state.cart;
 export const productLoading = (state: State) => state.loadingProduct;
-export const orders = (state: State) => state.orders;
 export const userOrders = (state: State) => state.userOrders;
-export const orderId = (state: State) => state.orderId;
 export const order = (state: State) => state.order;
-export const productImages = (state: State) => state.productImages;
 export const productsTitles = (state: State) => state.productsTitles;
 export const priceFilter = (state: State) => state.priceFilter;
+
+export const position = (state: State) => state.position;

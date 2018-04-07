@@ -8,22 +8,46 @@
     <div class="wrapper" *ngIf="(items$ | async) as items">
       <div class="sidebar-wrap">
         <app-sidebar
-        [categories]="categories$ | async"
-        [price]="filterPrice$ | async"
-        [minPrice]="items?.maxPrice"
-        [maxPrice]="items?.minPrice"
-        [activeCategory]="category$ | async"
-        (changePrice)="priceRange($event)">
+          [class.disabled]="loadingProducts$ | async"
+          [categories]="categories$ | async"
+          [price]="filterPrice$ | async"
+          [minPrice]="items?.maxPrice"
+          [maxPrice]="items?.minPrice"
+          [activeCategory]="category$ | async"
+          [sortOptions]="sortOptions"
+          [choosenSort]="sortBy$ | async"
+          (changePrice)="priceRange($event)"
+          (changeSort)="changeSort($event)"
+          (changeCategory)="changeCategory($event)">
         </app-sidebar>
       </div>
       <div class="main-wrap">
         <h3 class="category-title" *ngIf="(category$ | async) as category">{{category}}</h3>
           <app-products-list
+            [class.disabled]="loadingProducts$ | async"
             [products]="items?.products"
             [cartIds]="items?.cartIds"
             (addProduct)="addToCart($event)"
             (removeProduct)="removeFromCart($event)">
           </app-products-list>
+
+          <app-pagination
+            [class.disabled]="loadingProducts$ | async"
+            *ngIf="!(category$ | async) && (pagination$ | async) as pagination"
+            [pagination]="pagination"
+            [page]="page$ | async"
+            (changePage)="changePage($event)">
+          </app-pagination>
+
+          <app-pagination
+            [class.disabled]="loadingProducts$ | async"
+            *ngIf="(category$ | async) as category"
+            [pagination]="(categoriesPagination$ | async)?.category"
+            [page]="page$ | async"
+            [category]="category"
+            (changePage)="changePage($event)">
+          </app-pagination>
+
       </div>
     </div>
 

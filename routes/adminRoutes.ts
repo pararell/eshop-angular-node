@@ -21,6 +21,7 @@ cloudinary.config({
 const adminRoutes = Router();
 
 adminRoutes.post('/addproduct', requireLogin, requireAdmin, (req, res) => {
+
     const newProduct = Object.assign(req.body, {
       tags: req.body.tags ? req.body.tags.split(',') : [],
       categories: req.body.categories ? req.body.categories.split(',') : [],

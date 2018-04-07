@@ -7,11 +7,92 @@ const requireLogin = require('../middlewares/requireLogin');
 
 const productRoutes = Router();
 
-productRoutes.get('/products', (req, res) => {
-    Product.find({}, function(err, products) {
-      res.status(200).send(products);
-    });
+productRoutes.get('/products/:page/:sort', (req, res) => {
+  const prepareSort = (sortParams) => {
+    switch (req.params.sort) {
+      case 'newest':
+        return  { dateAdded: 1 }
+      case 'oldest':
+        return  { dateAdded: -1 };
+      case 'priceasc':
+        return  { salePrice: 1 }
+      case 'pricedesc':
+      return  { salePrice: -1 }
+      default:
+       return { dateAdded: -1 };
+    }
+  };
+
+  var query = {};
+  var options = {
+    page: parseFloat(req.params.page),
+    limit: 10,
+    sort: prepareSort(req.params.sort)
+  };
+  Product.paginate(query, options)
+    .then(response => {
+      const productsWithPagination = {
+        products: response.docs,
+        pagination: {
+          limit: response.limit,
+          page: response.page,
+          pages: response.pages,
+          total: response.total
+        }
+      };
+      res.status(200).send(productsWithPagination);
   });
+});
+
+productRoutes.get('/products/:category/:page/:sort', (req, res) => {
+  const prepareSort = (sortParams) => {
+    switch (req.params.sort) {
+      case 'newest':
+        return  { dateAdded: 1 }
+      case 'oldest':
+        return  { dateAdded: -1 };
+      case 'priceasc':
+        return  { salePrice: 1 }
+      case 'pricedesc':
+      return  { salePrice: -1 }
+      default:
+       return { dateAdded: -1 };
+    }
+  };
+  var query = {categories: new RegExp(req.params.category, 'i' )};
+  var options = {
+    page: parseFloat(req.params.page),
+    limit: 100,
+    sort: prepareSort(req.params.sort)
+  };
+
+  Product.paginate(query, options)
+    .then(response => {
+      const productsWithPagination = {
+        products: response.docs,
+        pagination: {
+          limit: response.limit,
+          page: response.page,
+          pages: response.pages,
+          total: response.total
+        }
+      };
+      res.status(200).send(productsWithPagination);
+  });
+});
+
+productRoutes.get('/categories', (req, res) => {
+  Product.find({}, function(err, products) {
+    const categories = products
+      .filter(product => product.categories && product.categories.length)
+      .map(product => product.categories)
+      .reduce((catSet, allCategories) => catSet.concat(allCategories) , [])
+      .filter((cat, i, arr) => arr.indexOf(cat) === i)
+      .map(category => ({title: category , titleUrl: category.split(' ').join('_').toLowerCase() }));
+
+    res.status(200).send(categories);
+  });
+});
 
 productRoutes.get('/productQuery/:query', (req, res) => {
     Product.find(
