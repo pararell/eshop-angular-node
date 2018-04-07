@@ -17,15 +17,31 @@ import * as fromRoot from '../store/reducers';
 export class ProductsComponent {
 
   items$: Observable<any>;
+  loadingProducts$: Observable<boolean>;
   categories$: Observable<any>;
   pagination$: Observable<any>;
   paginationCategories$: Observable<any>;
   category$: Observable<any>;
   filterPrice$: Observable<number>;
   page$ : Observable<any>;
+  sortBy$: Observable<any>;
 
-  sortOptions = ['Newest', 'Oldest', 'Price-asc', 'Price-decs'];
-  choosenSort = 'Oldest';
+  sortOptions = [{
+    name: 'Newest',
+    id: 'newest',
+  },
+  {
+    name: 'Oldest',
+    id: 'oldest',
+  },
+  {
+    name: 'Price-asc',
+    id: 'priceasc',
+  },
+  {
+    name: 'Price-decs',
+    id: 'pricedesc',
+  }];
 
   readonly component = 'productsComponent';
 
@@ -37,36 +53,33 @@ export class ProductsComponent {
     private _title: Title,
     private elRef: ElementRef ) {
 
-    this.category$ = route.params.map(params => params['category']);
+    this.category$ = route.params.map(params => params['category']).distinctUntilChanged();
     this.page$ = route.queryParams.map(params => params['page']).map(page => parseFloat(page));
+    this.sortBy$ = route.queryParams.map(params => params['sort']).map(sort => sort);
 
     this.filterPrice$ = store.select(fromRoot.getPriceFilter);
+    this.loadingProducts$ = store.select(fromRoot.getLoadingProducts);
 
-    Observable.combineLatest(this.store.select(fromRoot.getProducts), this.page$, this.category$,
-      (products, page, category) => ({products, page, category}))
-      .first()
-      .subscribe(({products, page, category}) => {
-        if (!products) {
-          this.store.dispatch(new actions.LoadCategories());
+    this.store.select(fromRoot.getCategories)
+      .filter(categories => !categories.length)
+      .take(1)
+      .subscribe(() => this.store.dispatch(new actions.LoadCategories()));
+
+    Observable.combineLatest(this.category$, route.queryParams.map(params => ({page: params['page'], sort: params['sort']})),
+      (category, {page, sort}) => ({category, page, sort}))
+      .subscribe(({category, page, sort}) => {
+        if (category) {
+          this.store.dispatch(new actions.LoadCategoryProducts({category, page: page || 1, sort: sort || 'newest' }));
+        } else {
+          this.store.dispatch(new actions.LoadProducts({page: page || 1, sort: sort || 'newest' }));
         }
       });
-
-      Observable.combineLatest(this.category$, this.page$, ( category, page) => ({category, page}))
-        .subscribe(({category, page}) => {
-          if (category) {
-            this.store.dispatch(new actions.LoadCategoryProducts({category, page: 1}));
-          } else if (!category) {
-            this.store.dispatch(new actions.LoadProducts({page: page || 1}));
-          }
-        });
-
 
     this.items$ = Observable.combineLatest(
       this.store.select(fromRoot.getProducts).filter(Boolean),
       this.store.select(fromRoot.getCart).filter(Boolean).map(cart => cart.items),
       this.filterPrice$,
-      this.category$,
-      (products, cartItems, filterPrice, category) => {
+      (products, cartItems, filterPrice) => {
         return {
           products: products.filter(product => product.salePrice <= filterPrice),
           minPrice: products.filter(product => product.salePrice)
@@ -100,9 +113,40 @@ export class ProductsComponent {
     this.store.dispatch(new actions.FilterPrice(price));
   }
 
+  changeCategory(category) {
+      this.store.dispatch(new actions.UpdatePosition({productsComponent: 0}));
+  }
+
   changePage(page) {
-    this.router.navigate(['/products'], { queryParams: { page } });
-    this.store.dispatch(new actions.UpdatePosition({productsComponent: 0}));
+    Observable.combineLatest(this.category$, this.sortBy$,
+      (category, sortBy) => ({category, sortBy}))
+      .first()
+      .subscribe(({category, sortBy}) => {
+        if (category) {
+          // this.store.dispatch(new actions.LoadCategoryProducts({category, page: page || 1, sort: sortBy || 'newest'}));
+          this.router.navigate(['/category/' + category], { queryParams: { sort: sortBy || 'newest', page: page || 1 } });
+        } else {
+          // this.store.dispatch(new actions.LoadProducts({page: page || 1, sort: sortBy || 'newest'}));
+          this.router.navigate(['/products'], { queryParams: { sort: sortBy || 'newest', page: page || 1 } });
+        }
+      });
+      this.store.dispatch(new actions.UpdatePosition({productsComponent: 0}));
+  }
+
+  changeSort(sort) {
+    Observable.combineLatest(this.category$, this.page$,
+      (category, page) => ({category, page}))
+      .first()
+      .subscribe(({category, page}) => {
+        if (category) {
+          // this.store.dispatch(new actions.LoadCategoryProducts({category, page: page || 1, sort}));
+          this.router.navigate(['/category/' + category], { queryParams: { sort, page: page || 1 } });
+        } else {
+          // this.store.dispatch(new actions.LoadProducts({page: page || 1, sort}));
+          this.router.navigate(['/products'], { queryParams: { sort, page: page || 1 } });
+        }
+      });
+      this.store.dispatch(new actions.UpdatePosition({productsComponent: 0}));
   }
 
 }

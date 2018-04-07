@@ -24,6 +24,7 @@ export const Dashboard = (state: State) => state.dashboard;
 export const getUser = createSelector(getAuth, fromAuth.user);
 
 export const getProducts = createSelector(Products, fromProducts.products);
+export const getLoadingProducts = createSelector(Products, fromProducts.loadingProducts);
 export const getCategories = createSelector(Products, fromProducts.categories);
 export const getPagination = createSelector(Products, fromProducts.pagination);
 export const getCategoriesPagination = createSelector(Products, fromProducts.categoriesPagination);

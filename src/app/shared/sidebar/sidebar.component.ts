@@ -15,11 +15,13 @@ export class SidebarComponent  {
   @Input() choosenSort: string;
 
   @Output() changePrice: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changeSort: EventEmitter<any> = new EventEmitter<any>();
+  @Output() changeCategory: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
   onInputChange($event: any): void {
-    console.log($event, 'event')
+    this.changeSort.emit($event);
   }
 
 

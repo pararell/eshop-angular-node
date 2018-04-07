@@ -4,6 +4,7 @@ import * as actions from './../actions';
 
 export interface State {
   products: any;
+  loadingProducts: boolean;
   categories: Array<string>;
   categoriesPagination: any;
   pagination: {
@@ -24,6 +25,7 @@ export interface State {
 
 export const initialState: State = {
   products: null,
+  loadingProducts: false,
   categories: [],
   categoriesPagination: {},
   pagination: {
@@ -47,16 +49,27 @@ export const initialState: State = {
 export function productReducer(state = initialState, action): State {
   switch (action.type) {
 
+    case actions.LOAD_PRODUCTS: {
+      return {...state, loadingProducts: true };
+    }
+
+    case actions.LOAD_CATEGORY_PRODUCTS: {
+      return {...state, loadingProducts: true };
+    }
+
+
     case actions.LOAD_PRODUCTS_SUCESS: {
       return { ...state,
                   products: action.payload.products,
-                  pagination: action.payload.pagination }
+                  pagination: action.payload.pagination,
+                  loadingProducts: false }
     }
 
     case actions.LOAD_CATEGORY_PRODUCTS_SUCESS: {
       return { ...state,
                   products: action.payload.products,
-                  categoriesPagination : {...state.categoriesPagination, [action.payload.category] : action.payload.pagination} }
+                  categoriesPagination : {...state.categoriesPagination, [action.payload.category] : action.payload.pagination},
+                  loadingProducts: false }
     }
 
     case actions.LOAD_CATEGORIES_SUCESS: {
@@ -115,6 +128,7 @@ export function productReducer(state = initialState, action): State {
 }
 
 export const products = (state: State) => state.products;
+export const loadingProducts = (state: State) => state.loadingProducts;
 export const categories = (state: State) => state.categories;
 export const pagination = (state: State) => state.pagination;
 export const categoriesPagination = (state: State) => state.categoriesPagination;

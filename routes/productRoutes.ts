@@ -7,12 +7,27 @@ const requireLogin = require('../middlewares/requireLogin');
 
 const productRoutes = Router();
 
-productRoutes.get('/products/:page', (req, res) => {
+productRoutes.get('/products/:page/:sort', (req, res) => {
+  const prepareSort = (sortParams) => {
+    switch (req.params.sort) {
+      case 'newest':
+        return  { dateAdded: 1 }
+      case 'oldest':
+        return  { dateAdded: -1 };
+      case 'priceasc':
+        return  { salePrice: 1 }
+      case 'pricedesc':
+      return  { salePrice: -1 }
+      default:
+       return { dateAdded: -1 };
+    }
+  };
+
   var query = {};
   var options = {
     page: parseFloat(req.params.page),
     limit: 10,
-    sort: { dateAdded: -1 }
+    sort: prepareSort(req.params.sort)
   };
   Product.paginate(query, options)
     .then(response => {
@@ -29,12 +44,26 @@ productRoutes.get('/products/:page', (req, res) => {
   });
 });
 
-productRoutes.get('/products/:category/:page', (req, res) => {
+productRoutes.get('/products/:category/:page/:sort', (req, res) => {
+  const prepareSort = (sortParams) => {
+    switch (req.params.sort) {
+      case 'newest':
+        return  { dateAdded: 1 }
+      case 'oldest':
+        return  { dateAdded: -1 };
+      case 'priceasc':
+        return  { salePrice: 1 }
+      case 'pricedesc':
+      return  { salePrice: -1 }
+      default:
+       return { dateAdded: -1 };
+    }
+  };
   var query = {categories: new RegExp(req.params.category, 'i' )};
   var options = {
     page: parseFloat(req.params.page),
     limit: 100,
-    sort: { dateAdded: -1 }
+    sort: prepareSort(req.params.sort)
   };
 
   Product.paginate(query, options)

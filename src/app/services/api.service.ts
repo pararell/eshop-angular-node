@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  readonly baseUrl = 'http://localhost:5000';
-  // readonly baseUrl = '';
+  // readonly baseUrl = 'http://localhost:5000';
+  readonly baseUrl = '';
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +32,7 @@ export class ApiService {
   // products
 
   loadProducts(req) {
-    const productsUrl = this.baseUrl + '/prod/products/' + req.page;
+    const productsUrl = this.baseUrl + '/prod/products/' + req.page + '/' + req.sort;
     return this.http.get(productsUrl)
       .map((data: any) => ({
         products : data.products
@@ -44,7 +44,7 @@ export class ApiService {
   }
 
   loadCategoryProducts(req) {
-    const productsUrl = this.baseUrl + '/prod/products/' + req.category + '/' + req.page;
+    const productsUrl = this.baseUrl + '/prod/products/' + req.category + '/' + req.page + '/' + req.sort;
     return this.http.get(productsUrl)
       .map((data: any) => ({
         products : data.products
