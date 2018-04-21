@@ -1,6 +1,6 @@
 <ng-container *ngFor="let product of products">
   <div class="card">
-    <a routerLink="/products/{{product?.titleUrl}}" class="card-image"
+    <a routerLink="/products/{{product?.titleUrl}}" class="card-image" [attr.aria-labelledby]="product?.titleUrl"
     lazySrc [lazyBackground]="'url(' + product.mainImage.url + ')'"  lazySrcVisible="visible">
       <!-- <img src="{{product?.mainImage?.url}}"> -->
     </a>

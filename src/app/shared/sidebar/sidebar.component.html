@@ -9,11 +9,11 @@
   </a>
   <div class="sort-wrap">
       <div class="collection-header"><h4>Sorting</h4></div>
-      <select class="browser-default" [ngModel]="choosenSort || 'newest'" (ngModelChange)="onInputChange($event)">
+      <select class="browser-default" aria-label="Sort" [ngModel]="choosenSort || 'newest'" (ngModelChange)="onInputChange($event)">
           <option *ngFor="let option of sortOptions;" [value]="option.id">{{option.name}}</option>
       </select>
   </div>
   <div class="collection-header"><h4>Price Range</h4></div>
-  <input type="range" max="{{maxPrice}}" min="{{minPrice}}" value="{{ (maxPrice < price) ? maxPrice : price }}" #ref (change)="changePrice.emit(ref.value)"/>
+  <input type="range" name="range" aria-label="Range" max="{{maxPrice}}" min="{{minPrice}}" value="{{ (maxPrice < price) ? maxPrice : price }}" #ref (change)="changePrice.emit(ref.value)"/>
   Price to: {{ref.value}}€
 </div>
