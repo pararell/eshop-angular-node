@@ -10,9 +10,10 @@
   "scripts": {
     "ng": "ng",
     "start": "node dist/server.js",
+    "ssr": "npm run build:ssr && npm run start",
     "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
     "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
-    "webpack:server": "webpack --config webpack.server.config.js --progress --colors",
+    "ssr:webpack": "webpack --config webpack.server.config.js --progress --colors",
     "lint": "ng lint",
     "heroku-postbuild": "npm run build:client-and-server-bundles && npm run webpack:server"
   },
@@ -48,6 +49,8 @@
     "core-js": "^2.5.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "material-design-icons": "^3.0.1",
+    "materialize-css": "^0.100.2",
     "mongoose": "^5.0.11",
     "mongoose-paginate": "^5.0.3",
     "multer": "^1.3.0",
@@ -56,6 +59,7 @@
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
     "passport-local": "^1.0.0",
+    "redis": "^2.8.0",
     "reselect": "^3.0.1",
     "rxjs": "^5.5.7",
     "sendgrid": "^5.2.3",
@@ -65,7 +69,6 @@
     "zone.js": "^0.8.25"
   },
   "devDependencies": {
-    "@types/node": "^9.6.0",
     "codelyzer": "^4.2.1",
     "stylelint": "^9.1.3",
     "stylelint-config-recommended": "^2.1.0",

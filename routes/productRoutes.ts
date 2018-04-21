@@ -107,16 +107,11 @@ productRoutes.get('/productQuery/:query', (req, res) => {
     );
   });
 
-productRoutes.get('/productId/:name', (req, res) => {
-    Product.findOne(
-      {
-        titleUrl: req.params.name
-      },
-      function(err, product) {
-        res.status(200).send(product);
-      }
-    );
-  });
+productRoutes.get('/productId/:name', async (req, res) => {
+  const product = await Product.findOne({ titleUrl: req.params.name }).cache();
+
+  res.send(product);
+});
 
 
 productRoutes.post('/orders', requireLogin, (req, res) => {

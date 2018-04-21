@@ -15,6 +15,7 @@
       "tsconfig": "tsconfig.app.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/material-design-icons/iconfont/material-icons.css",
         "styles/index.scss"
       ],
       "stylePreprocessorOptions": {
@@ -43,6 +44,7 @@
       "tsconfig": "tsconfig.server.json",
       "prefix": "app",
       "styles": [
+        "../node_modules/material-design-icons/iconfont/material-icons.css",
         "styles/index.scss"
       ],
       "stylePreprocessorOptions": {

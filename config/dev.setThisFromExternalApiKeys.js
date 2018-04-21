@@ -8,5 +8,6 @@ module.exports = {
     sendGridKey: '',
     cloudinaryName: '',
     cloudinaryKey: '',
-    cloudinarySecret: ''
+    cloudinarySecret: '',
+    redisUrl: 'redis://127.0.0.1:6379'
 }

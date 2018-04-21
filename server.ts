@@ -31,6 +31,7 @@ require('./models/Order');
 
 // services
 require('./services/passport');
+require('./services/cache');
 
 // connect mongoDB
 if (keys.mongoURI) {
@@ -48,6 +49,9 @@ function angularRouter(req, res) {
 
 // set Express
 const app = express();
+
+// compress files
+app.use(compression());
 
 // set CORS headers
 app.all('*', (req, res, next) => {
@@ -115,8 +119,6 @@ app.get('*', (req, res) => {
   res.render(path.join(DIST_FOLDER, 'browser', 'index.html'), { req });
 });
 
-// compress files
-app.use(compression());
 
 // app.get('*', angularRouter);
 
