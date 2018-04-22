@@ -1,13 +1,13 @@
-<ng-container *ngFor="let product of products">
+<ng-container *ngFor="let product of products; trackBy: trackById;">
   <div class="card">
-    <a routerLink="/products/{{product?.titleUrl}}" class="card-image" [attr.aria-labelledby]="product?.titleUrl"
+    <a routerLink="/product/{{product?.titleUrl}}" class="card-image" [attr.aria-labelledby]="product?.titleUrl"
     lazySrc [lazyBackground]="'url(' + product.mainImage.url + ')'"  lazySrcVisible="visible">
       <!-- <img src="{{product?.mainImage?.url}}"> -->
     </a>
     <div class="card-action">
       <h2> {{product?.title}} </h2>
       <div class="action-wrap">
-        <a routerLink="/products/{{product?.titleUrl}}">Detail</a>
+        <a routerLink="/product/{{product?.titleUrl}}">Detail</a>
         <p>{{product?.stock}}</p>
         <app-cart-show
           [items]="cartIds[product?._id]"

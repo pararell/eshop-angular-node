@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
-import * as actions from './../store/actions'
-import * as fromRoot from '../store/reducers';
+import * as actions from './../../store/actions'
+import * as fromRoot from '../../store/reducers';
 import { Location } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 

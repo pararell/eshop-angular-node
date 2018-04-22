@@ -101,15 +101,13 @@ app.use((req, res, next) => {
   next();
 });
 
-
-app.get('/', angularRouter);
-
 app.use('/auth', authRoutes);
 app.use('/api', billingRoutes);
 app.use('/prod', productRoutes);
 app.use('/cartApi', cartRoutes);
 app.use('/admin', adminRoutes);
 
+app.get('/', angularRouter);
 
 app.get('*.*', express.static(path.join(DIST_FOLDER, 'browser')));
 

@@ -20,4 +20,9 @@ export class ProductsListComponent {
   onRemoveProduct(id) {
     this.removeProduct.emit(id);
   }
+
+  trackById(index, item) {
+    return item._id;
+
+  }
 }

@@ -24,6 +24,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 // universal
 import { TransferHttpCacheModule } from '@nguniversal/common';
@@ -31,8 +32,6 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 // app imports
 import { AppComponent } from './app.component';
 import { ProductsComponent } from './products/products.component';
-import { ProductComponent } from './product/product.component';
-import { CartComponent } from './cart/cart.component';
 import { OrdersComponent } from './orders/orders.component';
 import { SharedModule } from './shared/shared.module';
 import { LazyModule } from './utils/lazyLoadImg/lazy.module';
@@ -52,6 +51,7 @@ import { StoreModule, ActionReducer, combineReducers } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 export function WindowFactory() {
   return typeof window !== 'undefined' ? window : {};
@@ -61,8 +61,6 @@ export function WindowFactory() {
   declarations: [
     AppComponent,
     ProductsComponent,
-    ProductComponent,
-    CartComponent,
     OrdersComponent,
     HeaderComponent,
     FooterComponent
@@ -80,13 +78,14 @@ export function WindowFactory() {
     RouterModule.forRoot([
       { path: '', redirectTo: 'products', pathMatch: 'full' },
       { path: 'products', component: ProductsComponent, pathMatch: 'full'  },
-      { path: 'products/:id', component: ProductComponent },
-      { path: 'cart', component: CartComponent, pathMatch: 'full' },
+      { path: 'product', loadChildren: 'app/product/product.module#ProductModule' },
+      { path: 'cart', loadChildren: 'app/cart/cart.module#CartModule' },
       { path: 'category/:category', component: ProductsComponent, pathMatch: 'full' },
       { path: 'dashboard', loadChildren: 'app/dashboard/dashboard.module#DashboardModule', canLoad: [AuthGuardAdmin] },
       { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard], pathMatch: 'full' },
       { path: '**', redirectTo: 'products' }
     ]),
+    environment.production ? ServiceWorkerModule.register('ngsw-worker.js') : [],
     StoreDevtoolsModule.instrument()
   ],
   providers: [ApiService, AuthService, AuthGuard, AuthGuardAdmin,

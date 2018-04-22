@@ -33,7 +33,7 @@
           <i class="material-icons">close</i>
           <ul class="autocomplete-content dropdown-content" *ngIf="showAutocomplete$ | async">
             <li *ngFor="let title of (productTitles$ | async)">
-              <a (click)="onTitleLink(title)" [routerLink]="['/products/' + title]">{{title}}</a> </li>
+              <a (click)="onTitleLink(title)" [routerLink]="['/product/' + title]">{{title}}</a> </li>
           </ul>
         </div>
     </div>

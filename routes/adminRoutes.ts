@@ -39,6 +39,33 @@ adminRoutes.post('/addproduct', requireLogin, requireAdmin, (req, res) => {
     });
 });
 
+adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
+  const productTitle = req.body.titleUrl;
+
+  if (req.body.tags) {
+    req.body.tags = req.body.tags.split(',');
+  }
+
+  if (req.body.categories) {
+    req.body.categories = req.body.categories.split(',');
+  }
+
+  if (req.body.mainImage) {
+    req.body.mainImage = { url: req.body.mainImage, name: req.body.titleUrl };
+  }
+
+  Product.findOneAndUpdate({ titleUrl: productTitle }, req.body, { upsert: true },
+    function(err, doc) {
+      if (err) {
+        return res.send(500, { error: err });
+      }
+      Product.find({}, function(error, products) {
+        return res.status(200).send(products);
+      });
+    }
+  );
+});
+
 adminRoutes.get('/removeproduct/:name', requireAdmin, (req, res) => {
     const productTitle = req.params.name;
     Product.findOneAndRemove({  titleUrl: productTitle },
@@ -52,22 +79,6 @@ adminRoutes.get('/removeproduct/:name', requireAdmin, (req, res) => {
     );
 });
 
-adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
-    const productTitle = req.body.titleUrl;
-
-    Product.findOneAndUpdate({ titleUrl: productTitle },
-      req.body,
-      { upsert: true },
-      function(err, doc) {
-        if (err) {
-          return res.send(500, { error: err });
-        }
-        Product.find({}, function(error, products) {
-          return res.status(200).send(products);
-        });
-      }
-    );
-});
 
 adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
 
