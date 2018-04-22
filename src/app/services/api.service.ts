@@ -30,28 +30,39 @@ export class ApiService {
   }
 
   // products
-
   loadProducts(req) {
     const productsUrl = this.baseUrl + '/prod/products/' + req.page + '/' + req.sort;
     return this.http.get(productsUrl)
       .map((data: any) => ({
-        products : data.products
+        products : data.docs
           .map(product => ({...product,
               categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
               tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
-        pagination: {...data.pagination, range: Array(data.pagination.pages).fill(0).map((v, i) => i + 1) },
+        pagination: {
+          limit: data.limit,
+          page: data.page,
+          pages: data.pages,
+          total: data.total,
+          range: Array(data.pages).fill(0).map((v, i) => i + 1)
+        },
     }))
   }
 
   loadCategoryProducts(req) {
-    const productsUrl = this.baseUrl + '/prod/products/' + req.category + '/' + req.page + '/' + req.sort;
+    const productsUrl = this.baseUrl + '/prod/categoryProducts/' + req.category + '/' + req.page + '/' + req.sort;
     return this.http.get(productsUrl)
       .map((data: any) => ({
-        products : data.products
+        products : data.docs
           .map(product => ({...product,
               categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
               tags: product.tags.map(tag => tag ? tag.toLowerCase() : '')})),
-        pagination: {...data.pagination, range: Array(data.pagination.pages).fill(0).map((v, i) => i + 1) },
+        pagination: {
+          limit: data.limit,
+          page: data.page,
+          pages: data.pages,
+          total: data.total,
+          range: Array(data.pages).fill(0).map((v, i) => i + 1)
+        },
         category: req.category
     }))
   }
