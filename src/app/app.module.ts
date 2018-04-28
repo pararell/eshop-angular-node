@@ -2,7 +2,6 @@ import 'rxjs/add/observable/combineLatest';
 import 'rxjs/add/observable/zip';
 import 'rxjs/add/operator/merge';
 import 'rxjs/add/operator/pairwise';
-import 'rxjs/add/operator/buffer';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/skip';
