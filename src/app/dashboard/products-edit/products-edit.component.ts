@@ -78,20 +78,27 @@ onRemoveImage(image: string) {
 
    switch (this.action) {
      case 'add':
-     this.images$.first().subscribe(images => {
-      this.productEditForm.patchValue( { images: images });
-      this.store.dispatch(new actions.AddProduct( this.productEditForm.value));
+     this.images$
+      .first()
+      .subscribe(images => {
+        if (images.length) {
+         this.productEditForm.patchValue( { images: images });
+        }
+        this.store.dispatch(new actions.AddProduct( this.productEditForm.value));
     })
      break;
 
      case 'edit':
-     this.images$.first().subscribe(images => {
-      this.productEditForm.patchValue( { images: images });
+     this.images$
+      .first()
+      .subscribe(images => {
+        if (images.length) {
+          this.productEditForm.patchValue( { images: images });
+        }
 
       const editProduct = Object.keys(this.productEditForm.value)
         .filter(key => !!this.productEditForm.value[key] )
         .reduce((prev, curr) =>  ({ ...prev, [curr] : this.productEditForm.value[curr] }) , {})
-
 
       this.store.dispatch(new actions.EditProduct( editProduct));
     });

@@ -43,7 +43,6 @@
         <div class="card-content grey lighten-4">
           <div *ngIf="activeTab == 'first'" [innerHTML]="items?.product?.descriptionFull"></div>
           <div *ngIf="activeTab == 'second'">
-            Images
             <ng-container *ngFor="let imageSrc of items?.product?.images">
               <img [lazySrc]="imageSrc" lazySrcVisible="visible">
             </ng-container>

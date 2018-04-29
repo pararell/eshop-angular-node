@@ -54,6 +54,7 @@ adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
     req.body.mainImage = { url: req.body.mainImage, name: req.body.titleUrl };
   }
 
+
   Product.findOneAndUpdate({ titleUrl: productTitle }, req.body, { upsert: true },
     function(err, doc) {
       if (err) {
@@ -84,7 +85,7 @@ adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'),
 
   cloudinary.v2.uploader.upload_stream({resource_type: 'auto', use_filename: true},
     (error, result) => {
-      req.user.images = [...req.user.images, result.url];
+      req.user.images = [...req.user.images, result.secure_url ? result.secure_url : result.url ];
       req.user.save();
       res.status(200).send(req.user.images);
     })
