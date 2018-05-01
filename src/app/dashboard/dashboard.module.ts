@@ -5,10 +5,10 @@ import { ProductsEditComponent } from './products-edit/products-edit.component';
 import { OrdersEditComponent } from './orders-edit/orders-edit.component';
 import { OrderEditComponent } from './orders-edit/order-edit/order-edit.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from './../shared/shared.module';
 import { TinyEditorComponent } from './tiny-editor.ts/tiny-editor.component';
-import {  FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { EditorModule } from '@tinymce/tinymce-angular';
 
 const DASHBOARD_ROUTER: Routes = [
@@ -30,6 +30,7 @@ const DASHBOARD_ROUTER: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    FormsModule,
     ReactiveFormsModule,
     FileUploadModule,
     RouterModule.forChild(DASHBOARD_ROUTER),

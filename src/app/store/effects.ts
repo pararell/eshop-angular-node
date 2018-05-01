@@ -85,10 +85,15 @@ export class AppEffects {
     .switchMap((action: actions.RemoveFromCart) => this.apiService.removeFromCart(action.payload))
     .map(res => new actions.GetCartSuccess(res));
 
+  @Effect() addProductImagesUrl$: Observable<Action> = this._actions
+    .ofType(actions.ADD_PRODUCT_IMAGES_URL)
+    .switchMap((action: actions.AddProductImagesUrl) => this.apiService.addProductImagesUrl(action.payload))
+    .map(res => new actions.AddProductImagesUrlSuccess(res));
+
   @Effect() removeImage$: Observable<Action> = this._actions
     .ofType(actions.REMOVE_PRODUCT_IMAGE)
     .switchMap((action: actions.RemoveProductImage) => this.apiService.removeImage(action.payload))
-    .map(res => new actions.StoreUserAction(res));
+    .map(res => new actions.RemoveProductImageSuccess(res));
 
   @Effect() loadOrders$: Observable<Action> = this._actions
     .ofType(actions.LOAD_ORDERS)

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-tiny-editor',
@@ -7,8 +7,14 @@ import { Component, Output, EventEmitter } from '@angular/core';
 })
 export class TinyEditorComponent {
 
+  @Input() description = '';
   @Output() onEditorContentChange = new EventEmitter();
 
   constructor() { }
+
+  onEditorChange(value) {
+    this.onEditorContentChange.emit(value);
+  }
+
 
 }

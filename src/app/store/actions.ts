@@ -41,6 +41,10 @@ export const REMOVE_FROM_CART = 'Remove from Cart';
 
 export const ADD_PRODUCT_IMAGE = 'Add Product Image';
 export const REMOVE_PRODUCT_IMAGE = 'Remove Product Image';
+export const REMOVE_PRODUCT_IMAGE_SUCCESS = 'Remove Product Image Success';
+export const ADD_PRODUCT_IMAGES_URL = 'Add Product Images Url';
+export const ADD_PRODUCT_IMAGES_URL_SUCCESS = 'Add Product Images Url Success';
+
 
 export const ADD_PRODUCT = 'Add Product';
 export const REMOVE_PRODUCT = 'Remove Product';
@@ -82,16 +86,39 @@ export class RemoveProduct implements Action {
 }
 
 
+
+
 export class AddProductImage implements Action {
     readonly type = ADD_PRODUCT_IMAGE;
     constructor(public payload: any ) {
     }
 }
 
+export class AddProductImagesUrl implements Action {
+  readonly type = ADD_PRODUCT_IMAGES_URL;
+  constructor(public payload: any ) {
+  }
+}
+
+
+export class AddProductImagesUrlSuccess implements Action {
+  readonly type = ADD_PRODUCT_IMAGES_URL_SUCCESS;
+  constructor(public payload: any ) {
+  }
+}
+
+
+
 export class RemoveProductImage implements Action {
     readonly type = REMOVE_PRODUCT_IMAGE;
     constructor(public payload: any ) {
     }
+}
+
+export class RemoveProductImageSuccess implements Action {
+  readonly type = REMOVE_PRODUCT_IMAGE_SUCCESS;
+  constructor(public payload: any ) {
+  }
 }
 
 

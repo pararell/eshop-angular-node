@@ -18,6 +18,14 @@ export function appReducer(state = initialState, action): State {
       return { ...state, user: action.payload };
     }
 
+    case actions.ADD_PRODUCT_IMAGES_URL_SUCCESS: {
+      return { ...state, user: action.payload.admin ? action.payload : state.user };
+    }
+
+    case actions.REMOVE_PRODUCT_IMAGE_SUCCESS: {
+      return { ...state, user: action.payload.admin ? action.payload : state.user };
+    }
+
     case actions.ADD_PRODUCT_IMAGE: {
       return {...state, user: { ...state.user, images: action.payload } };
     }

@@ -107,9 +107,14 @@ export class ApiService {
 
   // dashboard
 
-  removeImage(id: string) {
-    const removeImage = this.baseUrl + '/admin/removeimage';
-    return this.http.post(removeImage, { image: id });
+  addProductImagesUrl({imageUrl, titleUrl}) {
+    const addImageUrl = this.baseUrl + '/admin/addimageurl' + (titleUrl ? '/' + titleUrl : '');
+    return this.http.post(addImageUrl, { imageUrl });
+  }
+
+  removeImage({image, titleUrl}) {
+    const removeImage = this.baseUrl + '/admin/removeimage' + (titleUrl ? '/' + titleUrl : '');
+    return this.http.post(removeImage, { image });
   }
 
   addProduct(product) {

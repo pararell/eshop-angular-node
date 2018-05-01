@@ -11,6 +11,8 @@ const keys = require('../config/keys');
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const { clearHash } = require('../services/cache');
+
 
 cloudinary.config({
   cloud_name: keys.cloudinaryName,
@@ -54,12 +56,14 @@ adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
     req.body.mainImage = { url: req.body.mainImage, name: req.body.titleUrl };
   }
 
+  clearHash({titleUrl: productTitle, collection: 'products'});
 
   Product.findOneAndUpdate({ titleUrl: productTitle }, req.body, { upsert: true },
-    function(err, doc) {
+    (err, doc) => {
       if (err) {
         return res.send(500, { error: err });
       }
+
       Product.find({}, function(error, products) {
         return res.status(200).send(products);
       });
@@ -81,31 +85,100 @@ adminRoutes.get('/removeproduct/:name', requireAdmin, (req, res) => {
 });
 
 
-adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
-
+adminRoutes.post('/addimage/:titleUrl', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
+  clearHash({titleUrl: req.params.titleUrl, collection: 'products'});
   cloudinary.v2.uploader.upload_stream({resource_type: 'auto', use_filename: true},
     (error, result) => {
-      req.user.images = [...req.user.images, result.secure_url ? result.secure_url : result.url ];
-      req.user.save();
-      res.status(200).send(req.user.images);
+      if (req.params.titleUrl) {
+        Product.findOneAndUpdate({ titleUrl: req.params.titleUrl },
+          { '$push': { 'images': result.secure_url ? result.secure_url : result.url } },
+          (err, doc) => {
+            if (err) {
+              req.user.images = [...req.user.images, result.secure_url ? result.secure_url : result.url ];
+              req.user.save();
+             return res.status(200).send(req.user.images);
+            }
+            return res.status(200).send(doc);
+          }
+        )
+      }
+    })
+    .end(req.file.buffer);
+  }
+);
+
+adminRoutes.post('/addimageurl', requireLogin, requireAdmin, (req, res) => {
+  req.user.images = [...req.user.images, req.body.imageUrl ];
+  req.user.save();
+  return res.status(200).send(req.user.images);
+  }
+);
+
+adminRoutes.post('/addimageurl/:titleUrl', requireLogin, requireAdmin, (req, res) => {
+  clearHash({titleUrl: req.params.titleUrl, collection: 'products'});
+
+    Product.findOneAndUpdate({ titleUrl: req.params.titleUrl },
+      { '$push': { 'images': req.body.imageUrl } },
+          (err, doc) => {
+            if (err) {
+              req.user.images = [...req.user.images, req.body.imageUrl ];
+              req.user.save();
+             return res.status(200).send(req.user.images);
+            }
+            return res.status(200).send(doc);
+          }
+        )
+    }
+);
+
+adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
+  cloudinary.v2.uploader.upload_stream({resource_type: 'auto', use_filename: true},
+    (error, result) => {
+        req.user.images = [...req.user.images, result.secure_url ? result.secure_url : result.url ];
+        req.user.save();
+        return res.status(200).send(req.user.images);
     })
     .end(req.file.buffer);
   }
 );
 
 
+adminRoutes.post('/removeimage/:titleUrl', requireLogin, requireAdmin, (req, res) => {
+  clearHash({titleUrl: req.params.titleUrl, collection: 'products'});
+  Product.findOneAndUpdate({ titleUrl: req.params.titleUrl }, { '$pull': { 'images': req.body.image }},
+    (err, doc) => {
+      if (err) {
+        const image = req.body.image;
+        const filterImages = req.user.images.filter(img => img !== image);
+        req.user.images = filterImages;
+        req.user.save();
+
+        return res.status(200).send(req.user);
+      }
+
+      const updatedProduct = {...doc, images: doc.images.filter(img => img !== req.body.image)};
+
+      return res.status(200).send(updatedProduct);
+    }
+  );
+
+});
+
+
 adminRoutes.post('/removeimage', requireLogin, requireAdmin, (req, res) => {
-    const image = req.body.image;
-    const filterImages = req.user.images.filter(img => img !== image);
-    req.user.images = filterImages;
-    req.user.save();
-    res.status(200).send(req.user);
+  const image = req.body.image;
+  const filterImages = req.user.images.filter(img => img !== image);
+  req.user.images = filterImages;
+  req.user.save();
+
+  return res.status(200).send(req.user);
+
 });
 
 
 adminRoutes.get('/orders', (req, res) => {
     Order.find({}, function(err, orders) {
-      res.status(200).send(orders);
+      return res.status(200).send(orders);
     });
 });
 

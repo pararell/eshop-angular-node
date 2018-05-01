@@ -3,9 +3,9 @@
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    display: flex;
     flex-flow: wrap;
   }
+
   .full-check {
     margin-bottom: 5px;
     margin-top: 20px;
@@ -15,32 +15,43 @@
     padding: 10px 20px;
     justify-content: space-between;
   }
+
   .check-title {
     color: #9e9e9e;
-    font-size: .8rem;
-    padding: 5px 0px;
+    font-size: 0.8rem;
+    padding: 5px 0;
   }
+
   .file-field .btn {
     float: none !important;
   }
+
   .add-images {
-    margin: 25px 0px;
+    margin: 25px 0;
   }
+
   .image-dash-wrap {
     img {
       max-width: 100px;
       max-height: 100px;
     }
   }
+
   .images-wrapp {
     display: flex;
   }
+
   .remove-image {
     cursor: pointer;
   }
+
   .after-send {
     display: flex;
     align-items: center;
     padding: 50px;
+  }
+
+  .edit-find-button {
+    margin: 0 20px;
   }
 }
