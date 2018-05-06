@@ -33,10 +33,10 @@
     "@angular/platform-server": "^6.0.0",
     "@angular/router": "^6.0.0",
     "@angular/service-worker": "^6.0.0",
-    "@ngrx/effects": "^5.2.0",
-    "@ngrx/router-store": "^5.2.0",
-    "@ngrx/store": "^5.2.0",
-    "@ngrx/store-devtools": "^5.2.0",
+    "@ngrx/effects": "^6.0.0-beta.1",
+    "@ngrx/router-store": "^6.0.0-beta.1",
+    "@ngrx/store": "^6.0.0-beta.1",
+    "@ngrx/store-devtools": "^6.0.0-beta.1",
     "@nguniversal/common": "^6.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
@@ -66,7 +66,7 @@
     "sendgrid": "^5.2.3",
     "stripe": "^5.8.0",
     "ts-loader": "^4.2.0",
-    "typescript": "^2.8.3",
+    "typescript": "2.7.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

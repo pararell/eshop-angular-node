@@ -1,5 +1,7 @@
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromRoot from './store/reducers';
 
 @Component({
@@ -11,11 +13,12 @@ export class AppComponent {
 
   rememberScroll: any = {};
   position = 0;
+  position$: Observable<any>;
 
   constructor(private elRef: ElementRef, private renderer: Renderer2,   private store: Store<fromRoot.State>) {
 
-    store.select(fromRoot.getPosition)
-      .filter(Boolean)
+    this.position$ = store.pipe(select(fromRoot.getPosition));
+    this.position$.pipe(filter(Boolean))
       .subscribe(componentPosition => {
         this.rememberScroll = {...this.rememberScroll, componentPosition};
         this.renderer.setProperty(this.elRef.nativeElement.querySelector('.main-scroll-wrapp'), 'scrollTop', 0);
