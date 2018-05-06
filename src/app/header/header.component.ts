@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl  } from '@angular/forms';
 
 
-import { Observable } from 'rxjs/Observable';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../store/reducers';
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions'
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
 
 @Component({
   selector: 'app-header',

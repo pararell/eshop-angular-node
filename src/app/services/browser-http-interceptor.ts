@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { catchError } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
@@ -14,9 +14,9 @@ export class BrowserHttpInterceptor implements HttpInterceptor {
 
     if (request.method !== 'GET') {
       return next.handle(request)
-      .catch((error: HttpResponse<any>) => {
+      .catchError((error: HttpResponse<any>) => {
         this._handleError(error.url, error.status);
-        return Observable.throw(error);
+        return Observable.throwError(error);
       })
     }
 
@@ -28,9 +28,9 @@ export class BrowserHttpInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request)
-      .catch((error: HttpResponse<any>) => {
+      .catchError((error: HttpResponse<any>) => {
         this._handleError(error.url, error.status);
-        return Observable.throw(error);
+        return Observable.throwError(error);
       });
   }
 

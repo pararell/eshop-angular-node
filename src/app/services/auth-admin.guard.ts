@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanLoad, CanActivate, Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as fromRoot from '../store/reducers';
 import 'rxjs/add/operator/first';
 

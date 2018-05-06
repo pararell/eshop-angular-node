@@ -1,14 +1,13 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl  } from '@angular/forms';
 import {FileUploader, FileItem, ParsedResponseHeaders} from 'ng2-file-upload';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscription, BehaviorSubject } from 'rxjs';
 
 import * as fromRoot from '../../store/reducers';
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
-import { Subscription } from 'rxjs/Subscription';
+
 
 @Component({
   selector: 'app-products-edit',

@@ -1,7 +1,7 @@
 declare const StripeCheckout: any;
 
 import { Component, Input, HostListener, Inject, PLATFORM_ID  } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { isPlatformServer, DOCUMENT } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
