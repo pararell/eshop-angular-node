@@ -4,6 +4,7 @@ require('reflect-metadata');
 import { enableProdMode } from '@angular/core';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+import { renderModuleFactory } from '@angular/platform-server';
 
 const express = require('express');
 const session = require('express-session');
@@ -20,7 +21,7 @@ const MongoStore = require('connect-mongo')(session);
 
 const DIST_FOLDER = path.join(process.cwd(), 'dist');
 const template = fs.readFileSync(path.join(DIST_FOLDER, 'browser', 'index.html')).toString();
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main.bundle');
+const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('./dist/server/main');
 
 const PORT = process.env.PORT || 5000;
 
@@ -63,12 +64,20 @@ app.all('*', (req, res, next) => {
 });
 
 
-app.engine('html', ngExpressEngine({
-  bootstrap: AppServerModuleNgFactory,
-  providers: [
-    provideModuleMap(LAZY_MODULE_MAP)
-  ]
-}));
+app.engine('html', (_, options, callback) => {
+  renderModuleFactory(AppServerModuleNgFactory, {
+    // Our index.html
+    document: template,
+    url: options.req.url,
+    // DI so that we can get lazy-loading to work differently (since we need it to just instantly render it)
+    extraProviders: [
+      provideModuleMap(LAZY_MODULE_MAP)
+    ]
+  }).then(html => {
+    callback(null, html);
+  });
+});
+
 
 app.set('view engine', 'html');
 app.set('views', path.join(DIST_FOLDER, 'browser'));

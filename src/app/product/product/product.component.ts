@@ -1,6 +1,7 @@
+import { filter, map, take } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 import * as actions from './../../store/actions'
@@ -27,14 +28,14 @@ export class ProductComponent {
     private _title: Title
   ) {
 
-    _route.params.map(params => params['id'])
+    _route.params.pipe(map(params => params['id']))
     .subscribe(params => {
       this.store.dispatch(new actions.GetProduct(params));
     });
 
-    this.store.select(fromRoot.getProduct)
-    .filter(product => product && product.title)
-    .take(1)
+    this.store.select(fromRoot.getProduct).pipe(
+      filter(product => product && product.title),
+      take(1))
     .subscribe((product) => {
       this._title.setTitle(product.title);
       this._meta.updateTag({ name: 'description', content: product.description });
@@ -42,9 +43,9 @@ export class ProductComponent {
 
     this.productLoading$ = this.store.select(fromRoot.getProductLoading);
 
-    this.items$ = Observable.combineLatest(
+    this.items$ = combineLatest(
       this.store.select(fromRoot.getProduct),
-      this.store.select(fromRoot.getCart).filter(Boolean).map(cart => cart.items),
+      this.store.select(fromRoot.getCart).pipe(filter(Boolean), map(cart => cart.items)),
       (product, cartItems) => {
         return {
           product: product,

@@ -3,7 +3,6 @@ export interface LazyTarget {
   updateVisibility: ( isVisible: boolean, ratio: number ) => void;
 }
 
-declare const global: any;
 export declare const window: Window;
 
 export class LazyViewport {
@@ -56,7 +55,7 @@ export class LazyViewport {
       // never be added to Internet Explorer (IE) and is not in my version of Safari
       // (at the time of this post). As such, we'll only use it if it's available.
       // And, if it's not, we'll fall-back to non-lazy behaviors.
-      if (!global[ 'IntersectionObserver' ] && (!window || (window && !window[ 'IntersectionObserver' ] ))) {
+      if (!window || (window && !window[ 'IntersectionObserver' ] )) {
           return;
       }
 

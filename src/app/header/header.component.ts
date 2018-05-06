@@ -1,3 +1,4 @@
+import { debounceTime, first, filter, take } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl  } from '@angular/forms';
 
@@ -33,30 +34,27 @@ export class HeaderComponent implements OnInit {
     this.productTitles$ = this.store.select(fromRoot.getProductTtitles);
     this.userOrders$ = this.store.select(fromRoot.getUserOrders);
 
-    this.query.valueChanges
-      .debounceTime(200)
+    this.query.valueChanges.pipe(debounceTime(200))
       .subscribe((value) => {
         const sendQuery = value || 'EMPTY___QUERY';
         this.store.dispatch(new actions.LoadProductsSearch(sendQuery));
       });
 
-    this.user$
-      .first()
+    this.user$.pipe(first())
       .subscribe((user) => {
         if (!user) {
           this.store.dispatch(new actions.LoadUserAction());
         }
       });
 
-    this.user$
-      .filter(user => user && user._id)
-      .take(1)
+    this.user$.pipe(
+        filter(user => user && user._id),
+        take(1))
       .subscribe(user => {
         this.store.dispatch(new actions.LoadUserOrders({token: user._id }));
       });
 
-    this.cart$
-      .first()
+    this.cart$.pipe(first())
       .subscribe(cart => {
         if (!cart) {
           this.store.dispatch(new actions.GetCart());

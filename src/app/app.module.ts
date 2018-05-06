@@ -1,7 +1,3 @@
-import { Observable, Subject, pipe, combineLatest, zip, of, from, interval, fromEvent, empty, throwError } from 'rxjs';
-
-import { map, switchMap, mergeMap, filter, scan, merge, pairwise, take, delay, skip, withLatestFrom, debounceTime, distinctUntilChanged, catchError } from 'rxjs/operators';
-
 // angular
 import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';

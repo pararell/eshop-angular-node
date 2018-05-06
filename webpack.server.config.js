@@ -23,6 +23,9 @@ module.exports = {
   stats: {
     warnings: false,
   },
+  optimization: {
+    minimize: false
+  },
   plugins: [
     // Temporary Fix for issue: https://github.com/angular/angular/issues/11580
     // for "WARNING Critical dependency: the request of a dependency is an expression"

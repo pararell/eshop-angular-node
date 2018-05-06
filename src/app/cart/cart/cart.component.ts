@@ -1,3 +1,4 @@
+import { map, filter, first } from 'rxjs/operators';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -32,9 +33,9 @@ export class CartComponent  {
     private location: Location) {
 
     this.cart$ = this.store.select(fromRoot.getCart);
-    this.order$ = this.store.select(fromRoot.getOrder)
-      .filter(Boolean)
-      .map(order => order.outcome);
+    this.order$ = this.store.select(fromRoot.getOrder).pipe(
+      filter(Boolean),
+      map(order => order.outcome));
 
     this.user$ = this.store.select(fromRoot.getUser);
 
@@ -66,9 +67,7 @@ export class CartComponent  {
   }
 
   submit() {
-
-    this.cart$
-      .first()
+    this.cart$.pipe(first())
       .subscribe(cart => {
 
         const order = { ...this.orderForm.value,

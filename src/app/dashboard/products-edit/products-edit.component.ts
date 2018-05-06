@@ -1,3 +1,4 @@
+import { filter, map, first } from 'rxjs/operators';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl  } from '@angular/forms';
 import {FileUploader, FileItem, ParsedResponseHeaders} from 'ng2-file-upload';
@@ -31,9 +32,9 @@ export class ProductsEditComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit() {
-    this.images$ = this.store.select(fromRoot.getUser)
-      .filter(Boolean)
-      .map(user => user.images);
+    this.images$ = this.store.select(fromRoot.getUser).pipe(
+      filter(Boolean),
+      map(user => user.images));
 
     this.uploader = new FileUploader({
       url: '/admin/addimage',
@@ -93,8 +94,7 @@ export class ProductsEditComponent implements OnInit, OnDestroy {
 
    switch (this.action) {
      case 'add':
-     this.images$
-      .first()
+     this.images$.pipe(first())
       .subscribe(images => {
         if (images.length) {
          this.productEditForm.patchValue( { images: images });
@@ -104,8 +104,7 @@ export class ProductsEditComponent implements OnInit, OnDestroy {
      break;
 
      case 'edit':
-     this.images$
-      .first()
+     this.images$.pipe(first())
       .subscribe(images => {
         if (images.length) {
           this.productEditForm.patchValue( { images: images });
@@ -141,8 +140,8 @@ export class ProductsEditComponent implements OnInit, OnDestroy {
    if (titleUrl) {
     this.store.dispatch(new actions.GetProduct(titleUrl));
 
-    this.productSub = this.product$
-    .filter(product => product && product.titleUrl)
+    this.productSub = this.product$.pipe(
+      filter(product => product && product.titleUrl))
     .subscribe((product) => {
 
       const newForm = {

@@ -13,11 +13,11 @@ export class BrowserHttpInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (request.method !== 'GET') {
-      return next.handle(request)
-      .catchError((error: HttpResponse<any>) => {
-        this._handleError(error.url, error.status);
-        return Observable.throwError(error);
-      })
+      return next.handle(request).pipe(
+        catchError((error: HttpResponse<any>) => {
+          this._handleError(error.url, error.status);
+          return throwError(error);
+        }));
     }
 
     const storedResponse: string = this._transferState.get(makeStateKey(request.url), null);
@@ -27,11 +27,11 @@ export class BrowserHttpInterceptor implements HttpInterceptor {
       return of(response);
     }
 
-    return next.handle(request)
-      .catchError((error: HttpResponse<any>) => {
+    return next.handle(request).pipe(
+      catchError((error: HttpResponse<any>) => {
         this._handleError(error.url, error.status);
-        return Observable.throwError(error);
-      });
+        return throwError(error);
+      }));
   }
 
 

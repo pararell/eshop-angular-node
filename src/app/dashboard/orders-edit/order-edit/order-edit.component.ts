@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
@@ -31,7 +32,7 @@ export class OrderEditComponent {
       status: ['', Validators.required ]
     });
 
-    _route.params.map(params => params['id'])
+    _route.params.pipe(map(params => params['id']))
       .subscribe(params => {
         this.store.dispatch(new actions.LoadOrder(params));
         this.orderId = params;

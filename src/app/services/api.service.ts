@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -5,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class ApiService {
 
-  readonly baseUrl = 'http://localhost:5000';
-  // readonly baseUrl = '';
+  // readonly baseUrl = 'http://localhost:5000';
+  readonly baseUrl = '';
 
   constructor(private http: HttpClient) {}
 
@@ -32,8 +33,7 @@ export class ApiService {
   // products
   loadProducts(req) {
     const productsUrl = this.baseUrl + '/prod/products/' + req.page + '/' + req.sort;
-    return this.http.get(productsUrl)
-      .map((data: any) => ({
+    return this.http.get(productsUrl).pipe(map((data: any) => ({
         products : data.docs
           .map(product => ({...product,
               categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
@@ -45,13 +45,12 @@ export class ApiService {
           total: data.total,
           range: Array(data.pages).fill(0).map((v, i) => i + 1)
         },
-    }))
+    })))
   }
 
   loadCategoryProducts(req) {
     const productsUrl = this.baseUrl + '/prod/categoryProducts/' + req.category + '/' + req.page + '/' + req.sort;
-    return this.http.get(productsUrl)
-      .map((data: any) => ({
+    return this.http.get(productsUrl).pipe(map((data: any) => ({
         products : data.docs
           .map(product => ({...product,
               categories: product.categories.filter(Boolean).map(category => category.toLowerCase()),
@@ -64,7 +63,7 @@ export class ApiService {
           range: Array(data.pages).fill(0).map((v, i) => i + 1)
         },
         category: req.category
-    }))
+    })))
   }
 
 
