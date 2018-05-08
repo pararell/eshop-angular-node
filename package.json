@@ -41,7 +41,7 @@
     "@nguniversal/common": "^6.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
-    "@tinymce/tinymce-angular": "^1.0.9",
+    "@tinymce/tinymce-angular": "^2.0.0",
     "@types/node": "^10.0.4",
     "body-parser": "^1.18.2",
     "cloudinary": "^1.11.0",
