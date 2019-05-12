@@ -1,0 +1,32 @@
+{
+  "[scss]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+  "css.validate": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": false,
+  "editor.formatOnType": false,
+  "editor.tabSize": 2,
+  "extensions.ignoreRecommendations": false,
+  "files.encoding": "utf8",
+  "files.eol": "\r\n",
+  "html.format.enable": false,
+  "json.format.enable": false,
+  "typescript.format.enable": false,
+  "less.validate": false,
+  "prettier.stylelintIntegration": true,
+  "scss.validate": false,
+  "stylelint.additionalDocumentSelectors": [],
+  "stylelint.config": null,
+  "stylelint.configOverrides": null,
+  "stylelint.enable": true,
+  "telemetry.enableCrashReporter": false,
+  "telemetry.enableTelemetry": false,
+  "tslint.enable": true,
+  "tslint.run": "onType",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.jsxSingleQuote": true,
+  "prettier.singleQuote": true,
+  "prettier.tslintIntegration": true
+}
