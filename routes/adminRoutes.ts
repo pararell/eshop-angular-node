@@ -1,9 +1,8 @@
 import { Router } from 'express';
 
-const mongoose      = require('mongoose');
-const Product       = mongoose.model('products');
-const Order         = mongoose.model('orders');
-const Translation   = mongoose.model('translations');
+const Product       = require('../models/Product');;
+const Order         = require('../models/Order');;
+const Translation   = require('../models/Translation');;
 const requireAdmin  = require('../middlewares/requireAdmin');
 const requireLogin  = require('../middlewares/requireLogin');
 const cloudinary    = require('cloudinary');

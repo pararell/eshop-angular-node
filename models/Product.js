@@ -14,7 +14,7 @@ const productSchema = new Schema({
     visibility: String,
     shipping: String,
     images: [],
-    _user: {type: Schema.Types.ObjectId, ref: 'User'},
+    _user: {type: Schema.Types.ObjectId, ref: 'user'},
     dateAdded: Date,
 
     title: String,
@@ -56,4 +56,5 @@ const productSchema = new Schema({
 
 productSchema.plugin(paginate);
 
-mongoose.model('products', productSchema);
+const Product = mongoose.model('products', productSchema);
+module.exports = Product;

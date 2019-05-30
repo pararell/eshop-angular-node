@@ -11,9 +11,9 @@ const orderSchema = new Schema({
     cart: {},
     outcome: {},
     source: {},
-    _user: {type: Schema.Types.ObjectId, ref: 'User'},
+    _user: {type: Schema.Types.ObjectId, ref: 'user'},
     dateAdded: { type: Date, default: Date.now }
 });
 
-
-mongoose.model('orders', orderSchema);
+const Order = mongoose.model('orders', orderSchema);
+module.exports = Order;

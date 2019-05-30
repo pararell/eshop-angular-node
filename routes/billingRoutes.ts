@@ -1,8 +1,8 @@
 import { Router } from 'express';
-const mongoose  = require('mongoose');
+
 const keys      = require('../config/keys');
 const stripe    = require('stripe')(keys.stripeSecretKey);
-const Order     = mongoose.model('orders');
+const Order     = require('../models/Order');
 const Cart      = require('../models/Cart');
 const Mailer    = require('../services/mailer');
 

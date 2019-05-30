@@ -10,5 +10,5 @@ const userSchema = new Schema({
     admin: Boolean
 });
 
-
-mongoose.model('users', userSchema);
+const User = mongoose.model('users', userSchema);
+module.exports = User;

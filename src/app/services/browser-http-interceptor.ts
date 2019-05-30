@@ -1,18 +1,17 @@
 import { catchError } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { TransferState, makeStateKey, StateKey } from '@angular/platform-browser';
 
 @Injectable()
 export class BrowserHttpInterceptor implements HttpInterceptor {
-  key           : StateKey<string>;
+  key  : StateKey<string>;
 
-  constructor(private _transferState: TransferState) {}
+  constructor(private _transferState: TransferState) {
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.key = makeStateKey<HttpResponse<object>>(request.url);
 
     if (request.method !== 'GET') {
       return next.handle(request).pipe(
@@ -22,7 +21,8 @@ export class BrowserHttpInterceptor implements HttpInterceptor {
         }));
     }
 
-    const storedResponse: string = this._transferState.get(this.key, null);
+    this.key = makeStateKey<HttpResponse<object>>(request.url);
+    const storedResponse: any = this._transferState.get(this.key, null);
 
     if (storedResponse) {
       const response = new HttpResponse({ body: storedResponse, status: 200 });

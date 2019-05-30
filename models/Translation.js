@@ -6,5 +6,5 @@ const translationSchema = new Schema({
   keys : {type: Schema.Types.Mixed, default: { } }
 });
 
-
-mongoose.model('translations', translationSchema);
+const Translation = mongoose.model('translations', translationSchema);
+module.exports = Translation;

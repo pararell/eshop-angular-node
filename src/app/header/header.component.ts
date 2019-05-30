@@ -1,5 +1,5 @@
 import { debounceTime, first, filter, take } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -8,6 +8,8 @@ import * as fromRoot from '../store/reducers';
 import { Store } from '@ngrx/store';
 import * as actions from './../store/actions';
 import { TranslateService } from '../services/translate.service';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Component({
   selector: 'app-header',
@@ -30,7 +32,10 @@ export class HeaderComponent implements OnInit {
   readonly query: FormControl = new FormControl();
 
 
-  constructor(private store: Store<fromRoot.State>, private translate: TranslateService) {
+  constructor(
+    @Inject(PLATFORM_ID)
+    private _platformId : Object,
+    private store: Store<fromRoot.State>, private translate: TranslateService) {
     this.store
       .select(fromRoot.getLang)
       .pipe(filter(Boolean))
@@ -57,7 +62,7 @@ export class HeaderComponent implements OnInit {
       this.store.dispatch(new actions.LoadProductsSearch(sendQuery));
     });
 
-    this.user$.pipe(first()).subscribe(user => {
+    this.user$.pipe(filter(() => isPlatformBrowser(this._platformId)), take(1)).subscribe(user => {
       if (!user) {
         this.store.dispatch(new actions.LoadUserAction());
       }
@@ -72,7 +77,7 @@ export class HeaderComponent implements OnInit {
         this.store.dispatch(new actions.LoadUserOrders({ token: user._id }));
       });
 
-    this.cart$.pipe(first()).subscribe(cart => {
+    this.cart$.pipe(filter(() => isPlatformBrowser(this._platformId)), take(1)).subscribe(cart => {
       if (!cart) {
         this.store.dispatch(new actions.GetCart());
       }
