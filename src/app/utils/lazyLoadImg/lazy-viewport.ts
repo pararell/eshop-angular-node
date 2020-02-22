@@ -1,3 +1,4 @@
+import { Injectable } from "@angular/core";
 export interface LazyTarget {
   element: Element;
   updateVisibility: ( isVisible: boolean, ratio: number ) => void;
@@ -5,6 +6,7 @@ export interface LazyTarget {
 
 export declare const window: Window;
 
+@Injectable()
 export class LazyViewport {
 
   private observer: IntersectionObserver;
