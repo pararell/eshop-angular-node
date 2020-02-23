@@ -65,7 +65,7 @@ const routes: Routes = routesAll;
     FormsModule,
     TransferHttpCacheModule,
     EffectsModule.forRoot([ AppEffects ]),
-    RouterModule.forRoot(routes, { initialNavigation: 'enabled'} ),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     environment.production ? ServiceWorkerModule.register('ngsw-worker.js') : [],
     StoreDevtoolsModule.instrument()
   ],

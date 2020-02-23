@@ -11,7 +11,7 @@ export class TranslatePipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
   transform(key: any): any {
     return this.translate.translationsSub$
-    .pipe(take(1), map(translations => translations[key] || key));
+    .pipe(take(1), map(translations => translations ? translations[key] : key));
   }
 
 }

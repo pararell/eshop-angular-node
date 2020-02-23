@@ -32,8 +32,9 @@ export class TranslateService {
   getTranslationsData(lang: string) {
     return this._apiService.getLangTranslations(lang).subscribe(
       (translation: any) => {
-        this.translationsSub$.next(translation.keys || {});
-        return Object.assign({}, translation.keys || {});
+        const translationKeys = translation && translation['keys'] ? translation['keys'] : {};
+        this.translationsSub$.next(translationKeys);
+        return Object.assign({}, translationKeys);
       },
       error => {
         return {};

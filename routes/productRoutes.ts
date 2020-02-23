@@ -45,7 +45,7 @@ productRoutes.get('/categoryProducts/:lang/:category/:page/:sort', (req, res) =>
 
 productRoutes.get('/productId/:name/:lang*?', async (req, res) => {
   const lang = req.params.lang;
-  Product.findOne({ titleUrl: req.params.name }).cache()
+  Product.findOne({ titleUrl: req.params.name })
     .then(productFind => {
       const updatedProduct = req.params.lang
         ? prepareProduct(productFind, lang)

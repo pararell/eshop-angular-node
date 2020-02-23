@@ -20,7 +20,7 @@ cloudinary.config({
 
 const adminRoutes = Router();
 
-adminRoutes.post('/addproduct', requireLogin, requireAdmin, (req, res) => {
+adminRoutes.post('/addproduct', requireLogin, requireAdmin, (req:any, res) => {
   const newProduct = Object.assign(req.body, {
     _user     : req.user.id,
     dateAdded : Date.now()
@@ -41,7 +41,7 @@ adminRoutes.post('/udpateproduct', requireAdmin, (req, res) => {
 
   Product.findOneAndUpdate({ titleUrl: productTitle }, req.body, { upsert: true }, (err, doc) => {
     if (err) {
-      return res.send(500, { error: err });
+      return res.status(500).send({ error: err });
     }
 
     Product.find({}, function(error, products) {
@@ -61,7 +61,7 @@ adminRoutes.get('/removeproduct/:name', requireAdmin, (req, res) => {
   });
 });
 
-adminRoutes.post('/addimage/:titleUrl', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
+adminRoutes.post('/addimage/:titleUrl', requireLogin, requireAdmin, upload.single('file'), (req: any, res) => {
   clearHash({ titleUrl: req.params.titleUrl, collection: 'products' });
   cloudinary.v2.uploader
     .upload_stream({ resource_type: 'auto', use_filename: true }, (error, result) => {
@@ -79,13 +79,13 @@ adminRoutes.post('/addimage/:titleUrl', requireLogin, requireAdmin, upload.singl
     .end(req.file.buffer);
 });
 
-adminRoutes.post('/addimageurl', requireLogin, requireAdmin, (req, res) => {
+adminRoutes.post('/addimageurl', requireLogin, requireAdmin, (req:any, res) => {
   req.user.images = [...req.user.images, req.body.imageUrl];
   req.user.save();
   return res.status(200).send(req.user.images);
 });
 
-adminRoutes.post('/addimageurl/:titleUrl', requireLogin, requireAdmin, (req, res) => {
+adminRoutes.post('/addimageurl/:titleUrl', requireLogin, requireAdmin, (req:any, res) => {
   clearHash({ titleUrl: req.params.titleUrl, collection: 'products' });
 
   Product.findOneAndUpdate({ titleUrl: req.params.titleUrl }, { $push: { images: req.body.imageUrl } }, (err, doc) => {
@@ -98,7 +98,7 @@ adminRoutes.post('/addimageurl/:titleUrl', requireLogin, requireAdmin, (req, res
   });
 });
 
-adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'), (req, res) => {
+adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'), (req:any, res) => {
   cloudinary.v2.uploader
     .upload_stream({ resource_type: 'auto', use_filename: true }, (error, result) => {
       req.user.images = [...req.user.images, result.secure_url ? result.secure_url : result.url];
@@ -108,7 +108,7 @@ adminRoutes.post('/addimage', requireLogin, requireAdmin, upload.single('file'),
     .end(req.file.buffer);
 });
 
-adminRoutes.post('/removeimage/:titleUrl', requireLogin, requireAdmin, (req, res) => {
+adminRoutes.post('/removeimage/:titleUrl', requireLogin, requireAdmin, (req:any, res) => {
   clearHash({ titleUrl: req.params.titleUrl, collection: 'products' });
   Product.findOneAndUpdate({ titleUrl: req.params.titleUrl }, { $pull: { images: req.body.image } }, (err, doc) => {
     if (err) {
@@ -126,7 +126,7 @@ adminRoutes.post('/removeimage/:titleUrl', requireLogin, requireAdmin, (req, res
   });
 });
 
-adminRoutes.post('/removeimage', requireLogin, requireAdmin, (req, res) => {
+adminRoutes.post('/removeimage', requireLogin, requireAdmin, (req:any, res) => {
   const image = req.body.image;
   const filterImages = req.user.images.filter(img => img !== image);
   req.user.images = filterImages;
@@ -157,7 +157,7 @@ adminRoutes.post('/updateOrder', requireAdmin, (req, res) => {
 
   Order.findOneAndUpdate({ orderId: orderId }, req.body, { new: true }, function(err, doc) {
     if (err) {
-      return res.send(500, { error: err });
+      return res.status(500).send({ error: err });
     }
     return res.status(200).send(doc);
   });
@@ -166,7 +166,7 @@ adminRoutes.post('/updateOrder', requireAdmin, (req, res) => {
 adminRoutes.get('/translations', (req, res) => {
   Translation.find({}, function(err, translations) {
     if (err) {
-      return res.send(500, { error: err });
+      return res.status(500).send({ error: err });
     }
     return res.status(200).send(translations);
   });
@@ -177,7 +177,7 @@ adminRoutes.get('/translations/:lang', (req, res) => {
 
   Translation.findOne({ lang: lang }, function(err, translations) {
     if (err) {
-      return res.send(500, { error: err });
+      return res.status(500).send({ error: err });
     }
     return res.status(200).send(translations);
   });
@@ -188,7 +188,7 @@ adminRoutes.post('/updateTranslation/:lang', requireAdmin, (req, res) => {
 
   Translation.findOneAndUpdate({ lang: lang }, req.body, { new: true }, function(err, translation) {
     if (err) {
-      return res.send(500, { error: err });
+      return res.status(500).send({ error: err });
     }
     Translation.find({}, function(error, translations) {
       res.status(200).send(translations);

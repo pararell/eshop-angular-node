@@ -42,7 +42,7 @@ export class CartComponent {
     this.cart$ = this.store.select(fromRoot.getCart);
     this.order$ = this.store.select(fromRoot.getOrder).pipe(
       filter(Boolean),
-      map(order => order.outcome)
+      map((order:any) => order.outcome)
     );
 
     this.user$ = this.store.select(fromRoot.getUser);

@@ -8,7 +8,7 @@ const Mailer    = require('../services/mailer');
 
 const billingRoutes = Router();
 
-billingRoutes.post('/order/add', (req, res, next) => {
+billingRoutes.post('/order/add', (req:any, res, next) => {
   const orderId = 'order' + new Date().getTime() + 't' + Math.floor(Math.random() * 1000 + 1);
   const date = Date.now();
 
@@ -76,7 +76,7 @@ billingRoutes.post('/order/add', (req, res, next) => {
   res.send({ order, cart });
 });
 
-billingRoutes.post('/stripe', (req, res, next) => {
+billingRoutes.post('/stripe', (req:any, res, next) => {
   const charge = stripe.charges
     .create({
       amount: req.body.amount * 100,
@@ -170,7 +170,7 @@ billingRoutes.post('/stripe', (req, res, next) => {
     );
 });
 
-billingRoutes.post('/contact', (req, res, next) => {
+billingRoutes.post('/contact', (req:any, res, next) => {
   const emailType = {
     subject: 'Contact',
     cart: req.session.cart,

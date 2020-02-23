@@ -20,7 +20,7 @@ export class ProductComponent {
   productLoading$ : Observable<any>;
   convertVal$     : Observable<number>;
   currency$       : Observable<string>;
-  lang$           : Observable<string>;
+  lang$           : Observable<any>;
   activeTab  = 'first';
   openImages = {};
 
@@ -51,7 +51,7 @@ export class ProductComponent {
       this.store.select(fromRoot.getProduct),
       this.store.select(fromRoot.getCart).pipe(
         filter(Boolean),
-        map(cart => cart.items)
+        map((cart:any) => cart.items)
       ),
       (product, cartItems) => {
         return {

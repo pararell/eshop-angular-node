@@ -36,7 +36,7 @@ export class ProductsEditComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.images$ = this.store.select(fromRoot.getUser).pipe(
       filter(Boolean),
-      map(user => user.images));
+      map((user:any) => user.images));
 
     this.uploader = new FileUploader({
       url: '/admin/addimage',

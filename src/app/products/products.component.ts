@@ -31,7 +31,7 @@ export class ProductsComponent {
   sortBy$               : Observable<any>;
   convertVal$           : Observable<number>;
   currency$             : Observable<string>;
-  lang$                 : Observable<string>;
+  lang$                 : Observable<any>;
 
   sortOptions = [{
     name: 'Newest',
@@ -78,9 +78,9 @@ export class ProductsComponent {
 
     this.items$ = combineLatest(
       this.store.select(fromRoot.getProducts).pipe(filter(Boolean)),
-      this.store.select(fromRoot.getCart).pipe(filter(Boolean), map(cart => cart.items)),
+      this.store.select(fromRoot.getCart).pipe(filter(Boolean), map((cart: any) => cart.items)),
       this.filterPrice$,
-      (products, cartItems, filterPrice) => {
+      (products:Array<any>, cartItems, filterPrice) => {
         return {
           products: products
             .filter(product => product.salePrice <= filterPrice),

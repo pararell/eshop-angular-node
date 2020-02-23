@@ -5,7 +5,7 @@ const Cart = require('../models/Cart');
 
 const cartRoutes = Router();
 
-cartRoutes.get('/addcart/:id/:lang', (req, res) => {
+cartRoutes.get('/addcart/:id/:lang', (req:any, res) => {
   const productId = req.params.id;
   const cart = new Cart(req.session.cart ? req.session.cart : {});
 
@@ -26,7 +26,7 @@ cartRoutes.get('/addcart/:id/:lang', (req, res) => {
   });
 });
 
-cartRoutes.get('/removefromcart/:id/:lang', (req, res) => {
+cartRoutes.get('/removefromcart/:id/:lang', (req:any, res) => {
   const productId = req.params.id;
   const storeCart = req.session.cart ? req.session.cart : new Cart({});
   const cart = new Cart(storeCart);
@@ -48,7 +48,7 @@ cartRoutes.get('/removefromcart/:id/:lang', (req, res) => {
   });
 });
 
-cartRoutes.get('/cart', (req, res) => {
+cartRoutes.get('/cart', (req:any, res) => {
   const cart = req.user ? req.user.cart : req.session.cart ? req.session.cart : new Cart({});
   req.session.cart = cart;
   res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0').send(cart);

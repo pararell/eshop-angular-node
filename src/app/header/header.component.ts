@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     this.store
       .select(fromRoot.getLang)
       .pipe(filter(Boolean))
-      .subscribe(lang => {
+      .subscribe((lang:string) => {
         this.choosenLanguage = lang;
         translate.use(this.choosenLanguage);
       });
